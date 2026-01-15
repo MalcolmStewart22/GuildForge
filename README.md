@@ -4,6 +4,9 @@ GuildForge is a systems-driven fantasy management game focused on running an adv
 Rather than controlling heroes directly, the player operates at the organizational level—recruiting characters, forming parties, assigning missions, and dealing with the long-term consequences of those decisions. The game emphasizes emergent storytelling, where narrative arises from interacting systems instead of scripted events.
 This project is currently in active development and should be considered an evolving prototype. Systems, scope, and structure are subject to change as the design is refined.
 
+For a deeper look at the current design goals, system priorities, and planned expansions,
+see [CurrentDesignGoals.md](CurrentDesignGoals.md).
+
 ## Project Focus
 - Simulation-first design
 - Emergent narrative through systems
