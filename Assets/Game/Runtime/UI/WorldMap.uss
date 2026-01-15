@@ -1,0 +1,124 @@
+:root {
+}
+
+.MenuButton {
+    position: absolute;
+    top: 30%;
+    left: 10%;
+    width: 20%;
+    height: 10%;
+    background-color: rgba(188, 188, 188, 0);
+    background-image: url("project://database/Assets/Game/Art/TEMPASSETS/MenuButtonTexture.png?fileID=2800000&guid=4c3c34db881fdda4c855a17e3e7e635f&type=3#MenuButtonTexture");
+    background-size: 100% 300%;
+    background-position-y: top 45%;
+    -unity-font-style: bold;
+    font-size: 30px;
+    -unity-font-definition: url("project://database/Library/unity%20default%20resources?fileID=10102&guid=0000000000000000e000000000000000&type=0#LegacyRuntime");
+}
+
+.MapButton {
+    top: 500px;
+    left: 932px;
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    background-color: rgba(188, 188, 188, 0);
+    background-image: url("project://database/Assets/Game/Art/TEMPASSETS/TempMapButton.png?fileID=2800000&guid=5827b6fbfff0a7a48a0d5f32180d5ce7&type=3#TempMapButton");
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    background-size: 200% 200%;
+}
+
+.MapButton:hover {
+    -unity-background-image-tint-color: rgb(255, 235, 114);
+}
+
+.MenuButton:hover {
+    -unity-background-image-tint-color: rgb(255, 235, 114);
+}
+
+.unity-label {
+    -unity-font-style: bold;
+    color: rgb(0, 0, 0);
+}
+
+.HasToolTip {
+    -unity-font-style: bold;
+    color: rgb(0, 67, 130);
+    -unity-text-outline-width: 0;
+    -unity-text-outline-color: rgb(38, 38, 38);
+    -unity-text-align: upper-center;
+}
+
+.StatNumber {
+    -unity-text-align: middle-center;
+}
+
+.RosterRow {
+    flex-direction: row;
+    align-items: center;
+    border-top-width: 1px;
+    border-bottom-width: 1px;
+    border-left-color: rgb(0, 0, 0);
+    border-right-color: rgb(0, 0, 0);
+    border-top-color: rgb(0, 0, 0);
+    border-bottom-color: rgb(0, 0, 0);
+    width: 100%;
+    height: 10%;
+}
+
+.DungeonRow {
+    width: 100%;
+    flex-direction: row;
+    align-items: center;
+    border-top-width: 1px;
+    border-bottom-width: 1px;
+    height: 10%;
+}
+
+.DungeonTitle {
+    color: rgb(0, 0, 0);
+    -unity-font-style: bold;
+    font-size: 25px;
+    -unity-text-auto-size: best-fit 10px 250px;
+}
+
+.CharacterButton {
+}
+
+.ExitButton {
+}
+
+.DialogButtons {
+    width: 30%;
+    background-color: rgb(55, 64, 72);
+    border-left-color: rgb(0, 0, 0);
+    border-right-color: rgb(0, 0, 0);
+    border-top-color: rgb(0, 0, 0);
+    border-bottom-color: rgb(0, 0, 0);
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
+    border-bottom-right-radius: 30px;
+    border-bottom-left-radius: 30px;
+    color: rgb(0, 0, 0);
+}
+
+.DialogButtons:hover {
+    -unity-background-image-tint-color: rgb(97, 112, 126);
+}
+
+.AfterAction {
+    -unity-font-style: bold;
+    font-size: 28px;
+    -unity-text-align: middle-left;
+}

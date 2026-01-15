@@ -1,0 +1,205 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/Game/Runtime/UI/WorldMap.uss?fileID=7433441132597879392&amp;guid=04482aca510e4e046b1606850f15f22d&amp;type=3#WorldMap"/>
+    <ui:VisualElement name="ScreenPanel" class="panel" style="flex-grow: 1; background-image: none; -unity-background-scale-mode: stretch-to-fill; align-items: auto; align-content: auto; position: absolute; width: 100%; height: 100%; align-self: auto; visibility: visible; display: flex; flex-basis: 100%; aspect-ratio: 1.777778;">
+        <ui:Image source="project://database/Assets/Game/Art/TEMPASSETS/Maptemp.png?fileID=2800000&amp;guid=b69d933ac10105c479be4f897a14f959&amp;type=3#Maptemp" scale-mode="StretchToFill" name="WorldMap" style="width: 100%; height: 100%; -unity-background-scale-mode: scale-and-crop; display: flex;"/>
+        <ui:VisualElement name="MapLayer" style="flex-grow: 1; position: absolute; top: 0; right: 0; left: 0; bottom: 0; display: flex; visibility: visible;">
+            <ui:VisualElement name="MapButtonLayer" style="flex-grow: 1; position: absolute; top: 0; left: 0; right: 0; bottom: 0; display: flex;">
+                <ui:Button text="" parse-escape-sequences="true" name="CityButton" class="MapButton" style="top: 495px; left: 973px; border-top-left-radius: 0; border-top-right-radius: 0; border-bottom-right-radius: 0; border-bottom-left-radius: 0;"/>
+                <ui:Button text="" parse-escape-sequences="true" name="DesertButton" class="MapButton" style="top: 559px; left: 1517px; position: absolute; display: none;"/>
+                <ui:Button text="" parse-escape-sequences="true" name="PlainsButton" class="MapButton" style="top: 760px; left: 1004px; position: absolute; display: none;"/>
+                <ui:Button text="" parse-escape-sequences="true" name="MountainButton" class="MapButton" style="top: 279px; left: 1293px; position: absolute; display: none;"/>
+                <ui:Button text="" parse-escape-sequences="true" name="FrozenWastesButton" class="MapButton" style="top: 85px; left: 1008px; position: absolute; display: none;"/>
+                <ui:Button text="" parse-escape-sequences="true" name="ForestButton" class="unity-button MapButton" style="top: 209px; left: 845px; position: absolute; display: none;"/>
+                <ui:Button text="" parse-escape-sequences="true" name="SwampButton" class="MapButton" style="top: 452px; left: 516px; position: absolute; display: none;"/>
+                <ui:Button text="" name="SubterraneanButton" class="MapButton" style="top: 864px; left: 1570px; display: none;"/>
+                <ui:Button text="" parse-escape-sequences="true" name="VolcanicButton" class="MapButton" style="top: 618px; left: 48px; position: absolute; display: none;"/>
+            </ui:VisualElement>
+            <ui:VisualElement name="Sideboard" style="flex-grow: 1; flex-basis: auto; position: absolute; height: 96%; width: 20%; top: 4%; left: auto; bottom: auto; right: 0; background-color: rgb(58, 45, 38); border-bottom-width: 5px; border-top-width: 5px; border-left-width: 5px; border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-top-left-radius: 25px; border-bottom-left-radius: 25px; transition-property: all; transition-duration: 0s; transition-timing-function: ease; transition-delay: 0s; display: none;">
+                <ui:VisualElement name="DungeonLayer" style="flex-grow: 1; position: absolute; top: 0; left: 0; right: 0; bottom: 0; display: none;">
+                    <ui:Label text="Biome Dungeons" name="BiomeName" style="-unity-font-style: bold; -unity-text-align: middle-center; font-size: 50px; color: rgb(0, 0, 0); -unity-text-outline-color: rgb(54, 54, 54); -unity-text-outline-width: 1px; -unity-text-auto-size: best-fit 36px 50px; border-top-left-radius: 12px; height: 153px; white-space: normal; border-bottom-width: 4px; border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;"/>
+                    <ui:ListView name="DungeonsListView" virtualization-method="FixedHeight" fixed-item-height="60" style="height: 100%; width: 100%;"/>
+                </ui:VisualElement>
+                <ui:VisualElement name="GuildLayer" style="flex-grow: 1; position: absolute; top: 0; right: 0; bottom: 0; left: 0; display: none;">
+                    <ui:Label text="Current Guild Members" style="-unity-font-style: bold; -unity-text-align: middle-center; font-size: 50px; color: rgb(0, 0, 0); -unity-text-outline-color: rgb(54, 54, 54); -unity-text-outline-width: 1px; -unity-text-auto-size: best-fit 36px 50px; border-top-left-radius: 12px; height: 153px; white-space: normal; border-bottom-width: 4px; border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;"/>
+                    <ui:VisualElement style="flex-grow: 1; width: 100%; height: 3%; align-content: auto; flex-direction: row; align-items: center; justify-content: space-around;">
+                        <ui:Label text="Name"/>
+                        <ui:Label text="Rank&#10;"/>
+                        <ui:Label text="Class"/>
+                        <ui:Label text="Status"/>
+                    </ui:VisualElement>
+                    <ui:ListView name="GuildRosterListView" fixed-item-height="50" style="height: 100%; width: 100%;"/>
+                </ui:VisualElement>
+                <ui:Button text="X" name="SideboardExitButton" class="ExitButtons" style="width: 10%; flex-direction: row; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; background-color: rgba(188, 188, 188, 0); border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0; height: 4%;"/>
+            </ui:VisualElement>
+            <ui:VisualElement name="InfoHeader" style="flex-grow: 1; position: absolute; top: 0; left: 65%; right: 0; bottom: 96%; background-color: rgb(78, 92, 101); border-top-width: 5px; border-right-width: 5px; border-bottom-width: 5px; border-left-width: 5px; border-bottom-color: rgb(73, 86, 94); border-left-color: rgb(73, 86, 94); border-right-color: rgb(73, 86, 94); border-top-color: rgb(73, 86, 94); border-bottom-right-radius: 5px; border-bottom-left-radius: 12px; border-top-left-radius: 0; flex-direction: row; justify-content: flex-end;">
+                <ui:VisualElement name="Gold" style="flex-grow: 0; position: relative; top: auto; left: auto; right: auto; bottom: auto; border-right-width: 5px; border-left-color: rgb(73, 86, 94); border-right-color: rgb(73, 86, 94); border-top-color: rgb(73, 86, 94); border-bottom-color: rgb(73, 86, 94); flex-direction: row; height: 100%; width: 20%; align-items: auto; justify-content: flex-end;">
+                    <ui:Image source="project://database/Assets/Game/Art/TEMPASSETS/GoldTemp.png?fileID=2800000&amp;guid=845fb088bce888e49bb69143cd598267&amp;type=3#GoldTemp" name="GoldIcon" style="flex-shrink: 0; height: 36px; width: 36px; background-size: 100% 100%; -unity-text-align: middle-left; justify-content: space-between; align-self: center; align-content: center; align-items: center;"/>
+                    <ui:Label text="1" data-source-path="" name="GoldNumber" style="height: 100%; width: 47%; -unity-text-align: middle-center; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;"/>
+                </ui:VisualElement>
+                <ui:VisualElement name="Calendar" style="flex-grow: 0; position: relative; top: auto; left: auto; right: auto; bottom: auto; border-right-width: 5px; border-left-color: rgb(73, 86, 94); border-right-color: rgb(73, 86, 94); border-top-color: rgb(73, 86, 94); border-bottom-color: rgb(73, 86, 94); flex-direction: row; height: 100%; width: 20%; align-items: auto; justify-content: flex-end; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;">
+                    <ui:Label text="Day #" name="Label" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; -unity-text-align: middle-center; justify-content: center; align-self: stretch; align-items: center; align-content: center; width: 50%;"/>
+                    <ui:Label text="" data-source-path="" name="DayNumber" style="height: 100%; width: 47%; -unity-text-align: middle-center; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0;"/>
+                </ui:VisualElement>
+                <ui:VisualElement name="Calendar" style="flex-grow: 0; position: relative; top: auto; left: auto; right: auto; bottom: auto; border-right-width: 5px; border-left-color: rgb(73, 86, 94); border-right-color: rgb(73, 86, 94); border-top-color: rgb(73, 86, 94); border-bottom-color: rgb(73, 86, 94); flex-direction: row; height: 100%; width: 44%; align-items: auto; justify-content: flex-end;"/>
+                <ui:Button text="Next Day" name="NextButton" class="MenuButton" style="position: relative; top: auto; left: auto; right: auto; bottom: auto; border-top-left-radius: 0; border-top-right-radius: 0; border-bottom-right-radius: 0; border-bottom-left-radius: 0; border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; background-image: url(&quot;project://database/Assets/Game/Art/TEMPASSETS/MenuButtonTexture.png?fileID=2800000&amp;guid=4c3c34db881fdda4c855a17e3e7e635f&amp;type=3#MenuButtonTexture&quot;); background-color: rgba(188, 188, 188, 0); background-size: 106% 353%; background-position-y: bottom 55%; width: 20%; height: 100%; -unity-font-style: bold; font-size: 16px;"/>
+            </ui:VisualElement>
+            <ui:VisualElement name="DetailsBoard" style="flex-grow: 1; position: absolute; top: 68px; right: 20%; left: 50%; bottom: 55%; background-color: rgb(58, 45, 38); border-top-width: 5px; border-right-width: 0; border-bottom-width: 5px; border-left-width: 5px; border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-top-left-radius: 20px; border-top-right-radius: 0; border-bottom-right-radius: 0; border-bottom-left-radius: 20px; align-items: auto; display: none;">
+                <ui:VisualElement name="DungeonDetails" style="flex-grow: 1; position: absolute; top: 0; left: 0; bottom: 0; right: 0; align-items: center; display: flex;">
+                    <ui:Label text="Label" name="DungeonName" style="-unity-text-align: middle-center; font-size: 25px; -unity-font-style: bold; color: rgb(0, 0, 0); -unity-text-outline-color: rgb(149, 149, 149); background-color: rgb(55, 64, 72); margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; border-top-left-radius: 13px; height: 49px; position: relative; left: 0; width: 100%; border-bottom-width: 2px; border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0);"/>
+                    <ui:VisualElement name="Rank" style="flex-grow: 1; flex-direction: row;">
+                        <ui:Label text="Rank" name="" style="-unity-font-style: bold; color: rgb(0, 0, 0);"/>
+                        <ui:Label text="E" name="DungeonRank"/>
+                    </ui:VisualElement>
+                    <ui:VisualElement name="Biome" style="flex-grow: 1; flex-direction: row;">
+                        <ui:Label text="Biome" name="" style="-unity-font-style: bold; color: rgb(0, 0, 0);"/>
+                        <ui:Label text="Label" name="DungeonBiome" class="HasToolTip"/>
+                    </ui:VisualElement>
+                    <ui:VisualElement name="Location" style="flex-grow: 1; flex-direction: row;">
+                        <ui:Label text="Location:" name=""/>
+                        <ui:Label text="Label" name="DungeonLocation" class="HasToolTip"/>
+                    </ui:VisualElement>
+                    <ui:VisualElement name="Enemies" style="flex-grow: 1; flex-direction: row;">
+                        <ui:Label text="Enemies:" name=""/>
+                        <ui:Label text="Label" name="EnemyTag1" class="HasToolTip"/>
+                        <ui:Label text="Label" name="EnemyTag2" class="HasToolTip"/>
+                    </ui:VisualElement>
+                    <ui:VisualElement name="SafetyRating" style="flex-grow: 1; flex-direction: row;">
+                        <ui:Label text="Safety Rating:" name="" double-click-selects-word="false"/>
+                        <ui:Label text="Label" name="DungeonSafety" class="HasToolTip"/>
+                    </ui:VisualElement>
+                    <ui:Button text="Send Party" name="SendPartyButton" class="MenuButton" style="position: relative; top: auto; left: auto; bottom: 10px; font-size: 20px; background-size: 100% 335%; width: 37%;"/>
+                </ui:VisualElement>
+                <ui:VisualElement name="CharacterDetails" style="flex-grow: 1; position: absolute; top: 0; left: 0; bottom: 0; right: 0; align-items: center; display: none;">
+                    <ui:Label text="Name" name="CharacterName" style="-unity-text-align: middle-center; font-size: 25px; -unity-font-style: bold; color: rgb(0, 0, 0); -unity-text-outline-color: rgb(149, 149, 149); background-color: rgb(55, 64, 72); margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; border-top-left-radius: 13px; height: 15%; position: relative; left: 0; width: 100%; border-bottom-width: 2px; border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); flex-grow: initial; flex-shrink: initial; max-height: 100%; flex-direction: row; justify-content: flex-start;"/>
+                    <ui:VisualElement name="BaseInfo" style="flex-grow: 0; flex-direction: row; width: 100%; height: 10%; flex-basis: initial; flex-shrink: 0;">
+                        <ui:VisualElement name="Rank" style="flex-grow: 1; flex-direction: row;">
+                            <ui:Label text="Rank" name="" parse-escape-sequences="true" style="-unity-font-style: bold; color: rgb(0, 0, 0);"/>
+                            <ui:Label text="E" name="CharacterRank"/>
+                        </ui:VisualElement>
+                        <ui:VisualElement name="Level" style="flex-grow: 1; flex-direction: row;">
+                            <ui:Label text="Level" name=""/>
+                            <ui:Label text="Label" name="CharacterLevel"/>
+                        </ui:VisualElement>
+                        <ui:VisualElement name="Class" style="flex-grow: 1; flex-direction: row;">
+                            <ui:Label text="Class" name="CharacterClass" class="HasToolTip"/>
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                    <ui:VisualElement name="Stats" style="flex-grow: 0; flex-direction: row; width: 100%; height: 20%; flex-shrink: 0; border-top-width: 1px; border-right-width: 0; border-bottom-width: 1px; border-left-width: 0; border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0);">
+                        <ui:VisualElement name="Might" style="flex-grow: 1;">
+                            <ui:Label text="Might" name="" class="HasToolTip"/>
+                            <ui:Label text="Label" name="MightNumber" class="StatNumber"/>
+                        </ui:VisualElement>
+                        <ui:VisualElement name="Finesse" style="flex-grow: 1;">
+                            <ui:Label text="Finesse" name="" class="HasToolTip"/>
+                            <ui:Label text="Label" name="FinesseNumber" class="StatNumber"/>
+                        </ui:VisualElement>
+                        <ui:VisualElement name="Endurance" style="flex-grow: 1;">
+                            <ui:Label text="Endurance" name="" class="HasToolTip"/>
+                            <ui:Label text="Label" name="EnduranceNumber" class="StatNumber"/>
+                        </ui:VisualElement>
+                        <ui:VisualElement name="Healing" style="flex-grow: 1;">
+                            <ui:Label text="Healing" name="" emoji-fallback-support="false" class="HasToolTip"/>
+                            <ui:Label text="Label" name="HealingNumber" class="StatNumber"/>
+                        </ui:VisualElement>
+                        <ui:VisualElement name="Arcana" style="flex-grow: 1;">
+                            <ui:Label text="Arcana" name="" class="HasToolTip"/>
+                            <ui:Label text="Label" name="ArcanaNumber" class="StatNumber"/>
+                        </ui:VisualElement>
+                        <ui:VisualElement name="Control" style="flex-grow: 1;">
+                            <ui:Label text="Control" name="" class="HasToolTip"/>
+                            <ui:Label text="Label" name="ControlNumber" class="StatNumber"/>
+                        </ui:VisualElement>
+                        <ui:VisualElement name="Resolve" style="flex-grow: 1;">
+                            <ui:Label text="Resolve" name="" class="HasToolTip"/>
+                            <ui:Label text="Label" name="ResolveNumber" class="StatNumber"/>
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                    <ui:VisualElement name="Traits" style="flex-grow: 1; width: 100%;">
+                        <ui:ListView name="TraitListView" fixed-item-height="40" selection-type="None" focusable="false" style="top: 0; right: 0; bottom: 0; left: 0; position: absolute;"/>
+                    </ui:VisualElement>
+                    <ui:VisualElement name="CharacterButtons" style="flex-grow: 1; width: 100%; flex-direction: row; height: auto; max-height: 15%;">
+                        <ui:Button text="" name="RankUpButton" class="CharacterButton" style="width: 100%; flex-shrink: initial; flex-grow: initial; border-bottom-left-radius: 14px; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; background-color: rgb(55, 64, 72);">
+                            <ui:Label text="Rank Up"/>
+                            <ui:Label text="Label" name="RankUpCost"/>
+                        </ui:Button>
+                        <ui:Button text="" name="HealButton" double-click-selects-word="false" triple-click-selects-line="false" class="CharacterButton" style="width: 100%; flex-shrink: initial; flex-grow: initial; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; border-bottom-right-radius: 0; background-color: rgb(55, 64, 72);">
+                            <ui:Label text="Heal"/>
+                            <ui:Label text="Label" name="HealCost"/>
+                        </ui:Button>
+                    </ui:VisualElement>
+                </ui:VisualElement>
+                <ui:Button text="X" name="DetailsExitButton" class="ExitButtons" style="width: 6%; flex-direction: row; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; background-color: rgba(188, 188, 188, 0); border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0; position: absolute; height: 11%;"/>
+            </ui:VisualElement>
+            <ui:VisualElement name="DialogBox" style="flex-grow: 1; position: absolute; width: 40%; height: 30%; top: 374px; left: 576px; right: 576px; bottom: 383px; background-color: rgb(58, 45, 38); border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-top-width: 4px; border-right-width: 4px; border-bottom-width: 4px; border-left-width: 4px; border-top-left-radius: 42px; border-top-right-radius: 42px; border-bottom-right-radius: 42px; border-bottom-left-radius: 42px; display: none;">
+                <ui:VisualElement name="TextBox" style="flex-grow: 1; width: 100%; height: 67%;">
+                    <ui:Label text="Label" name="DialogText" style="position: absolute; top: 0%; left: 0; right: 0; bottom: 0; align-items: center; align-self: center; justify-content: space-between; -unity-text-align: middle-center; font-size: 20px; -unity-text-auto-size: best-fit 16px 30px;"/>
+                </ui:VisualElement>
+                <ui:VisualElement name="DialogButtons" style="flex-grow: 1; width: 100%; flex-direction: row; align-items: stretch; justify-content: space-evenly; align-content: center; margin-bottom: 10px; margin-top: 10px;">
+                    <ui:Button text="Confirm" name="DialogConfirm" class="DialogButtons"/>
+                    <ui:Button text="Cancel" name="DialogCancel" class="DialogButtons" style="width: 30%; height: auto; background-color: rgb(55, 64, 72); border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-top-left-radius: 30px; border-top-right-radius: 30px; border-bottom-right-radius: 30px; border-bottom-left-radius: 30px; display: flex;"/>
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:VisualElement name="AfterAction" style="flex-grow: 1; position: absolute; width: 40%; height: 70%; top: 15%; left: 10%; right: 0%; bottom: 0%; background-color: rgb(58, 45, 38); border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-top-width: 4px; border-right-width: 4px; border-bottom-width: 4px; border-left-width: 4px; border-top-left-radius: 42px; border-top-right-radius: 42px; border-bottom-right-radius: 42px; border-bottom-left-radius: 42px; display: none;">
+                <ui:VisualElement name="TextBox" style="flex-grow: 1; width: 100%; height: 67%; border-top-left-radius: 42px; border-top-right-radius: 42px;">
+                    <ui:Label text="Mission Report" name="Label" style="-unity-text-align: upper-center; font-size: 30px; border-bottom-width: 1px; border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: -20px; padding-right: 0; padding-bottom: 0; padding-left: 0; border-top-left-radius: 42px; border-top-right-radius: 42px; border-bottom-left-radius: 0;"/>
+                    <ui:VisualElement name="Summary" style="flex-grow: 1; height: 6%; max-height: 16%; border-bottom-width: 2px; border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0);">
+                        <ui:VisualElement name="Row1" style="flex-grow: 1; flex-direction: row; justify-content: space-between; align-items: flex-start; width: 100%; height: 6%; max-height: 44%; border-bottom-width: 1px; border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0);">
+                            <ui:VisualElement style="flex-grow: 1; flex-direction: row; height: 100%; width: 22%; max-width: 28%; justify-content: center;">
+                                <ui:Label text="Day:" class="AfterAction"/>
+                                <ui:Label text="Label" name="DayCount" class="AfterAction" style="-unity-font-style: normal;"/>
+                            </ui:VisualElement>
+                            <ui:VisualElement style="flex-grow: 1; flex-direction: row; height: 100%; align-items: center; justify-content: center;">
+                                <ui:Label text="Label" name="DungeonName" class="AfterAction" style="-unity-font-style: normal; width: auto; height: auto; align-items: center; align-self: center; -unity-text-align: middle-center;"/>
+                            </ui:VisualElement>
+                        </ui:VisualElement>
+                        <ui:VisualElement name="Row2" style="flex-grow: 1; flex-direction: row; justify-content: flex-start; align-items: center; width: 100%; height: 6%; max-height: 66%; border-bottom-width: 0;">
+                            <ui:Label text="Label" name="Outcome" class="AfterAction" style="-unity-font-style: normal; -unity-text-align: middle-center; height: 100%; width: 100%;"/>
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                    <ui:VisualElement name="Events" style="flex-grow: 1; padding-bottom: 0; border-bottom-width: 2px; border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0);">
+                        <ui:Label text="Events:" class="AfterAction" style="font-size: 20px;"/>
+                        <ui:ListView name="EventsListView" fixed-item-height="50"/>
+                    </ui:VisualElement>
+                    <ui:VisualElement name="PartyStatus" style="flex-grow: 1; border-bottom-width: 2px; border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0);">
+                        <ui:Label text="Party:&#10;" class="AfterAction" style="font-size: 20px;"/>
+                        <ui:ListView name="PartyListView" fixed-item-height="50"/>
+                    </ui:VisualElement>
+                    <ui:VisualElement name="Gold" style="flex-grow: 1; flex-direction: row; max-height: 10%; justify-content: center;">
+                        <ui:Label text="Gold Gained:" class="AfterAction"/>
+                        <ui:Label text="Label" name="GoldGained" class="AfterAction" style="-unity-font-style: normal;"/>
+                    </ui:VisualElement>
+                </ui:VisualElement>
+                <ui:VisualElement name="DialogButtons" style="flex-grow: 1; width: 100%; flex-direction: row; align-items: auto; justify-content: center; align-content: center; margin-bottom: 10px; margin-top: 10px; height: 0%; align-self: center; left: auto; max-height: 8%;">
+                    <ui:Button text="Confirm" name="ConfirmButton" class="MenuButton" style="height: auto; width: 40%; left: 30%; top: auto; align-items: auto; align-self: center; align-content: auto; justify-content: flex-start;"/>
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="MainMenuLayer" style="flex-grow: 1; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: url(&quot;project://database/Assets/Game/Art/TEMPASSETS/TitleScreen.png?fileID=2800000&amp;guid=36d2fd195b55c1c4a98b0b7b97dede48&amp;type=3#TitleScreen&quot;); display: none; visibility: visible; opacity: 1;">
+            <ui:Button text="Play" parse-escape-sequences="false" name="PlayButton" class="MenuButton" style="border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0;"/>
+            <ui:Button text="Options" selectable="false" focusable="false" name="OptionsButton" class="MenuButton" style="position: absolute; top: 45%; left: 10%; height: 10%; width: 20%; border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0;"/>
+            <ui:Button text="Quit" name="QuitButton" class="MenuButton" style="position: absolute; top: 60%; left: 10%; border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0;"/>
+        </ui:VisualElement>
+        <ui:VisualElement name="PauseMenuLayer" style="flex-grow: 1; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: none; display: none; visibility: visible; opacity: 1; -unity-background-image-tint-color: rgb(18, 18, 58); background-color: rgba(21, 21, 63, 0.55);">
+            <ui:Image name="Image" source="" style="position: absolute; width: 30%; height: 20%; top: 108px; left: 102px; background-image: url(&quot;project://database/Assets/Game/Art/TEMPASSETS/TempLogo.png?fileID=2800000&amp;guid=b04f9ab91cacc7045947ad016b3a42c0&amp;type=3#TempLogo&quot;); background-size: 128% 198%; background-position-y: top 40%;"/>
+            <ui:Button text="Resume" parse-escape-sequences="false" name="ResumeButton" class="MenuButton" style="border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0;"/>
+            <ui:Button text="Options" selectable="false" focusable="false" name="OptionsButton" class="MenuButton" style="position: absolute; top: 45%; left: 10%; height: 10%; width: 20%; border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0;"/>
+            <ui:Button text="Retire Guild" name="RetireButton" class="MenuButton" style="position: absolute; top: 60%; left: 10%; border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0;"/>
+            <ui:Button text="Quit" name="QuitButton" class="MenuButton" style="position: absolute; top: 75%; left: 10%; border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0;"/>
+            <ui:VisualElement name="DialogBox" style="flex-grow: 1; position: absolute; width: 40%; height: 30%; top: 374px; left: 576px; right: 576px; bottom: 383px; background-color: rgb(58, 45, 38); border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-top-width: 4px; border-right-width: 4px; border-bottom-width: 4px; border-left-width: 4px; border-top-left-radius: 42px; border-top-right-radius: 42px; border-bottom-right-radius: 42px; border-bottom-left-radius: 42px; display: none;">
+                <ui:VisualElement name="TextBox" style="flex-grow: 1; width: 100%; height: 67%;">
+                    <ui:Label text="Label" name="DialogText" style="position: absolute; top: 0%; left: 0; right: 0; bottom: 0; align-items: center; align-self: center; justify-content: space-between; -unity-text-align: middle-center; font-size: 20px; -unity-text-auto-size: best-fit 16px 30px;"/>
+                </ui:VisualElement>
+                <ui:VisualElement name="DialogButtons" style="flex-grow: 1; width: 100%; flex-direction: row; align-items: stretch; justify-content: space-evenly; align-content: center; margin-bottom: 10px; margin-top: 10px;">
+                    <ui:Button text="Confirm" name="DialogConfirm" class="DialogButtons"/>
+                    <ui:Button text="Cancel" name="DialogCancel" class="DialogButtons" style="width: 30%; height: auto; background-color: rgb(55, 64, 72); border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-top-left-radius: 30px; border-top-right-radius: 30px; border-bottom-right-radius: 30px; border-bottom-left-radius: 30px; display: flex;"/>
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="GameOverMenuLayer" style="flex-grow: 1; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: none; display: none; visibility: visible; opacity: 1; -unity-background-image-tint-color: rgb(18, 18, 58); background-color: rgba(21, 21, 63, 0.55);">
+            <ui:Image name="Image" source="" style="position: absolute; width: 30%; height: 20%; top: 108px; left: 102px; background-image: url(&quot;project://database/Assets/Game/Art/TEMPASSETS/TempLogo.png?fileID=2800000&amp;guid=b04f9ab91cacc7045947ad016b3a42c0&amp;type=3#TempLogo&quot;); background-size: 128% 198%; background-position-y: top 40%;"/>
+            <ui:Button text="Start Over" parse-escape-sequences="false" name="StartOverButton" class="MenuButton" style="border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0;"/>
+            <ui:Button text="Options" selectable="false" focusable="false" name="OptionsButton" class="MenuButton" style="position: absolute; top: 45%; left: 10%; height: 10%; width: 20%; border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0;"/>
+            <ui:Button text="Quit" name="QuitButton" class="MenuButton" style="position: absolute; top: 60%; left: 10%; border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0;"/>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

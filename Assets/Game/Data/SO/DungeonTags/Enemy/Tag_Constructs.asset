@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c394fa26028abf142b200b68c5676182, type: 3}
+  m_Name: Tag_Constructs
+  m_EditorClassIdentifier: Assembly-CSharp::SO_DungeonTag
+  id: 84d4ca90-3833-4f7e-8229-dcbea01203d7
+  Name: Constructs
+  Category: 2
+  Weight: 2
+  Tooltip: 
+  DefaultEnemy: {fileID: 0}
+  Effects:
+    MightWeight: 1
+    FinesseWeight: 1
+    EnduranceWeight: 1
+    HealingWeight: 1
+    ArcanaWeight: 1
+    ControlWeight: 1
+    ResolveWeight: 1
+    CombatWeight: 1
+    TrapWeight: 1.5
+    HazardWeight: 1
+    TreasureWeight: 1.5
+    PhysicalMultiplier: 1
+    MagicMultiplier: 1

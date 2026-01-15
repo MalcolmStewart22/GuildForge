@@ -1,0 +1,7 @@
+## Variable Naming
+Public Variables > Capitlize first letter camelcase
+private Variables > lowercase first letter camelcase
+local variables > leading _ lowercase first letter camelcase
+
+
+GC - Orchestrates > Does nothing directly

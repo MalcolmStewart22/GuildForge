@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c394fa26028abf142b200b68c5676182, type: 3}
+  m_Name: Tag_Mountains
+  m_EditorClassIdentifier: Assembly-CSharp::SO_DungeonTag
+  id: 86728f7f-5d5a-4c18-bc7c-308aac4e5ae7
+  Name: Mountains
+  Category: 0
+  Weight: 3
+  Tooltip: 
+  DefaultEnemy: {fileID: 11400000, guid: 1bb6b4df875fd114fadbbd9477f246c9, type: 2}
+  Effects:
+    MightWeight: 1.25
+    FinesseWeight: 1.25
+    EnduranceWeight: 1.5
+    HealingWeight: 1
+    ArcanaWeight: 1
+    ControlWeight: 1
+    ResolveWeight: 1
+    CombatWeight: 1.25
+    TrapWeight: 1
+    HazardWeight: 1.5
+    TreasureWeight: 1.25
+    PhysicalMultiplier: 1
+    MagicMultiplier: 1

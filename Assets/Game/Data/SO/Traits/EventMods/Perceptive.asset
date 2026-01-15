@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bdf8de7fee6b3ad4a811e5aaa650d823, type: 3}
+  m_Name: Perceptive
+  m_EditorClassIdentifier: Assembly-CSharp::SO_Trait
+  id: 0
+  DisplayName: Perceptive
+  TextInfo: This character is more likely to find secret doors and treasure.
+  Effects:
+    MightBonus: 0
+    FinesseBonus: 0
+    EnduranceBonus: 0
+    HealingBonus: 0
+    AracanaBonus: 0
+    ControlBonus: 0
+    ResolveBonus: 0
+    CombatBonus: 0
+    TrapBonus: 0
+    HazardBonus: 0
+    TreasureBonus: 5
+    GoldModifier: 1
+    DamageModifier: 1
+    EXPModifier: 1
