@@ -27,3 +27,10 @@ GuildForge exists as:
 
 The source code and assets are not licensed for redistribution, modification, or commercial use.
 This repository is publicly visible for educational purposes and professional portfolio review, offering insight into the project’s evolving architecture and systems design.
+
+
+## Project Lineage
+
+An earlier version of this concept was explored as an idle-game capstone project.
+That project is preserved here for reference:
+[GuildForge-Capstone](https://github.com/MalcolmStewart22/GuildForge-Capstone)
