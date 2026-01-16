@@ -31,8 +31,10 @@ The MVP represents a minimal but complete vertical slice demonstrating how emerg
 - Functional character roles defining baseline capabilities and mission participation
 
 ### In Progress
-- Finalizing after-action report generation and debugging outcome summaries
+- Finalizing after-action report generation
 - Implementing end-of-game statistics and summary views
+- Party recruitment and mission assignment logic
+- Character and Guild Rank progression systems
 - Adjusting systems to add:
     - Dungeon Fleeing
     - Selective Event Resolution 
@@ -44,8 +46,7 @@ Once MVP systems are stable, the next milestone focuses on increasing narrative 
 
 ### Planned Expansions
 - Event-driven dungeon evolution where locations change in response to narrative and simulation events
-- Character recruitment systems integrated into the simulation state
-- Support for multiple concurrent parties operating independently within the simulation
+- Player-directed party composition
 - Dynamic character traits that evolve over time based on mission outcomes and character experiences
 - Distinct character classes that define capabilities and influence mission outcomes within the simulation
 
