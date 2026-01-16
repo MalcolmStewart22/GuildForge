@@ -39,21 +39,6 @@ public class EventActionListView : MonoBehaviour
             var e = currentEvents[index];
             element.Q<Label>("Title").text = e.DungeonEvent.Name;
             element.Q<Label>("Outcome").text = e.Outcome.ToString();
-            switch (e.Outcome)
-            {
-                case OutcomeTypes.Triumph:
-                     element.Q<Label>("Outcome").style.color = Color.green;
-                    break;
-                case OutcomeTypes.Success:
-                     element.Q<Label>("Outcome").style.color = Color.yellow;
-                    break;
-                case OutcomeTypes.Failure:
-                     element.Q<Label>("Outcome").style.color = Color.orange;
-                    break;
-                case OutcomeTypes.Catastrophe:
-                     element.Q<Label>("Outcome").style.color = Color.red;
-                    break;
-            }
         };
 
     }

@@ -38,19 +38,11 @@ public class PartyListView : MonoBehaviour
         {
             var c = currentLevelUps[index];
             element.Q<Label>("Name").text = c.Character.Name;
-            element.Q<Label>("CurrentHP").text = c.Character.CurrentHP.ToString() + "/" + c.Character.HPMax.ToString();
-            if(c.Character.CurrentHP < c.Character.HPMax* .3f)
-            {
-                element.Q<Label>("CurrentHP").style.color = Color.red;
-            }
-            else
-            {
-                element.Q<Label>("CurrentHP").style.color = Color.green;
-            }
+            element.Q<Label>("CurrentHP").text = "Current HP: " + c.Character.CurrentHP.ToString() + "/" + c.Character.HPMax.ToString();
+
             if(c.LeveledUp)
             {
                 element.Q<Label>("LeveldUp").text = "LEVELED UP!";
-                element.Q<Label>("LeveldUp").style.color = Color.green;
             }
             else
             {
