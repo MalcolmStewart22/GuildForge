@@ -1,12 +1,14 @@
+using System.Collections.Generic;
 using System.Diagnostics.Tracing;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "SO_GameConfig", menuName = "Scriptable Objects/SO_GameConfig")]
 public class SO_GameConfig : ScriptableObject
 {
-    [Header("Game Start Levers")] 
+    [Header("Game")] 
     public int NumberOfCharacters = 4;
     public int NumberOfDungeons = 10;
+    public List<JobStatFocus> JobStatMap = new();
 
     [Header("Game Length Levers")] 
     public bool MissionCapActive = false;
@@ -38,8 +40,18 @@ public class SO_GameConfig : ScriptableObject
 [System.Serializable]
 public class RankBalanceLevers
 {
-    public int LevelCap;
-    public int PromotionCost;
-    public int Wage;
-    public int RequiredLevel; //Should always be less than Level Cap
+    public int LevelCap; //top of current rank
+    public int PromotionCost; //cost to go to next
+    public int Wage; // paid to current rank
+    public int RequiredLevel; //Should always be less than Level Cap - needed to go to next
+    public int MainStatRequirement; //needed to go to next
+    public int SecondaryStatRequirement; //needed to go to next
+}
+
+[System.Serializable]
+public class JobStatFocus
+{
+    public CharacterJob Job;
+    public StatType Primary;
+    public StatType Secondary;
 }

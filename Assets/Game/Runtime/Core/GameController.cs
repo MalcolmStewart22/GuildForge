@@ -24,6 +24,7 @@ public class GameController : MonoBehaviour
     public void Start()
     {
         gameState = new GameState();
+        GameStateQueries.Setup(Config);
         ui.Setup();
     }
 
