@@ -26,7 +26,6 @@ public class UIController : MonoBehaviour
     private DungeonInstance currentDungeon;
     private Character currentCharacter;
     private System.Action onConfirm;
-    private System.Action onCancel;
     
     public void Setup()
     {
@@ -106,7 +105,7 @@ public class UIController : MonoBehaviour
         var _dialogConfirm = root.Q<Button>("DialogConfirm");
         var _dialogCancel = root.Q<Button>("DialogCancel");
         _dialogConfirm.clicked += OnConfirmClicked;
-        _dialogCancel.clicked += OnCancelClicked;
+        _dialogCancel.clicked += () =>  CloseFocusedElement();
     }
     private void SetupUIEvents()
     {
@@ -210,13 +209,9 @@ public class UIController : MonoBehaviour
     }
     private void OnConfirmClicked()
     {
+        CloseFocusedElement();
         onConfirm?.Invoke();
-        CloseFocusedElement();
-    }
-    private void OnCancelClicked()
-    {
-        onCancel?.Invoke();
-        CloseFocusedElement();
+
     }
     public void EscapePressed()
     {
@@ -386,13 +381,12 @@ public class UIController : MonoBehaviour
         EndGameScreen.style.display = DisplayStyle.Flex;
     }
 
-    public void ShowDialogBox(string text, System.Action confirm, System.Action cancel)
+    public void ShowDialogBox(string text, System.Action confirm)
     {
         VisualElement _dialogBox = mapScreen.Q<VisualElement>("DialogBox");
         _dialogBox.style.display = DisplayStyle.Flex;
 
         onConfirm = confirm;
-        onCancel = cancel;
 
         FocusedElements.Push(_dialogBox);
         _dialogBox.Q<Label>("DialogText").text = text;
@@ -402,8 +396,7 @@ public class UIController : MonoBehaviour
     {
         ShowDialogBox(
             "The party has not been assigned a mission! Are you sure you want to proceed?",
-            confirm: () => master.EndDay(),
-            cancel: () => CloseFocusedElement()
+            confirm: () => master.EndDay()
         );
     }
 
@@ -413,8 +406,7 @@ public class UIController : MonoBehaviour
     {
         ShowDialogBox(
             "All Parties have been assigned Missions. Would you like to end the day now?",
-            confirm: () => master.EndDay(),
-            cancel: () => CloseFocusedElement()
+            confirm: () => master.EndDay()
         );
     }
 }
