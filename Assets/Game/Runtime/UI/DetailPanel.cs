@@ -46,10 +46,20 @@ public class DetailPanel : MonoBehaviour
         _rank.text = character.Rank.ToString();
 
         var _level = container.Q<Label>("CharacterLevel");
-        _level.text = character.Level.ToString();
-
+        if(character.Level < GameStateQueries.GetLevelCap(character.Rank))
+        {
+            _level.text = character.Level.ToString() + "/" + GameStateQueries.GetLevelCap(character.Rank).ToString();
+        }
+        else
+        {
+            _level.text = character.Level.ToString() + "/" + GameStateQueries.GetLevelCap(character.Rank).ToString() + "(MAX LEVEL)";
+        }
+        
         var _class = container.Q<Label>("CharacterClass");
         _class.text = character.Job.ToString();
+
+        var _wage = container.Q<Label>("CurrentWage");
+        _wage.text = GameStateQueries.GetWage(character.Rank).ToString();
 
         //stats
         var _might = container.Q<Label>("MightNumber");
