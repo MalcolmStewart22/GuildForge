@@ -14,14 +14,71 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SO_GameConfig
   NumberOfCharacters: 4
   NumberOfDungeons: 10
+  JobStatMap:
+  - Job: 0
+    Primary: 0
+    Secondary: 1
+  - Job: 2
+    Primary: 2
+    Secondary: 6
+  - Job: 1
+    Primary: 3
+    Secondary: 4
+  - Job: 3
+    Primary: 5
+    Secondary: 1
   MissionCapActive: 0
   MissionCap: 10
-  startingGold: 20
-  wagePerCharacter: 2
+  startingGold: 0
+  IncomeModifier: 1
+  ExpenseModifier: 1
+  RestingCost: 1
   HPRefusalThreshold: 0.3
   HPReadyForActionThreshold: 0.7
   BaseRestHeal: 0.2
   retreatHpThreshold: 0
+  RankE:
+    LevelCap: 0
+    PromotionCost: 0
+    Wage: 0
+    RequiredLevel: 1
+    PrimaryStatRequirement: 0
+    SecondaryStatRequirement: 0
+  RankD:
+    LevelCap: 0
+    PromotionCost: 0
+    Wage: 0
+    RequiredLevel: 0
+    PrimaryStatRequirement: 0
+    SecondaryStatRequirement: 0
+  RankC:
+    LevelCap: 0
+    PromotionCost: 0
+    Wage: 0
+    RequiredLevel: 0
+    PrimaryStatRequirement: 0
+    SecondaryStatRequirement: 0
+  RankB:
+    LevelCap: 0
+    PromotionCost: 0
+    Wage: 0
+    RequiredLevel: 0
+    PrimaryStatRequirement: 0
+    SecondaryStatRequirement: 0
+  RankA:
+    LevelCap: 0
+    PromotionCost: 0
+    Wage: 0
+    RequiredLevel: 0
+    PrimaryStatRequirement: 0
+    SecondaryStatRequirement: 0
+  RankS:
+    LevelCap: 0
+    PromotionCost: 0
+    Wage: 0
+    RequiredLevel: 0
+    PrimaryStatRequirement: 0
+    SecondaryStatRequirement: 0
   SyllableSet: {fileID: 11400000, guid: f6604fd868b51a144aa0b48be4488cb5, type: 2}
   OutcomeOptions:
     Triumph:

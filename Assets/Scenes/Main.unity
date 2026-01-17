@@ -510,6 +510,7 @@ GameObject:
   - component: {fileID: 959317429}
   - component: {fileID: 959317430}
   - component: {fileID: 959317431}
+  - component: {fileID: 959317432}
   m_Layer: 5
   m_Name: UI
   m_TagString: Untagged
@@ -572,6 +573,7 @@ MonoBehaviour:
   guildListView: {fileID: 959317426}
   detailPanel: {fileID: 959317427}
   afterActionReport: {fileID: 959317429}
+  rankEvaluationPanel: {fileID: 959317432}
 --- !u!114 &959317425
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -608,7 +610,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa54a461b1eca044595e240e7ff8924a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DetailPanel
-  traitsListView: {fileID: 0}
+  traitsListView: {fileID: 959317428}
 --- !u!114 &959317428
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -659,6 +661,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea61d4554e322764795d22717e6d2703, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PartyListView
+--- !u!114 &959317432
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 959317421}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5c14ca6f2e25ab4990141bb7faf5fbf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RankEvaluationPanel
 --- !u!1 &1025785454
 GameObject:
   m_ObjectHideFlags: 0

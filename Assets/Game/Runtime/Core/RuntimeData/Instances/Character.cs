@@ -70,7 +70,7 @@ public class Character
 
     public void RankUp()
     {
-                switch (Rank)
+        switch (Rank)
         {
             case CharacterRank.E:
                 Rank = CharacterRank.D;

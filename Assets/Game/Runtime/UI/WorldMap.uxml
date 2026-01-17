@@ -43,7 +43,7 @@
                 <ui:VisualElement name="Calendar" style="flex-grow: 0; position: relative; top: auto; left: auto; right: auto; bottom: auto; border-right-width: 5px; border-left-color: rgb(73, 86, 94); border-right-color: rgb(73, 86, 94); border-top-color: rgb(73, 86, 94); border-bottom-color: rgb(73, 86, 94); flex-direction: row; height: 100%; width: 44%; align-items: auto; justify-content: flex-end;"/>
                 <ui:Button text="Next Day" name="NextButton" class="MenuButton" style="position: relative; top: auto; left: auto; right: auto; bottom: auto; border-top-left-radius: 0; border-top-right-radius: 0; border-bottom-right-radius: 0; border-bottom-left-radius: 0; border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; background-image: url(&quot;project://database/Assets/Game/Art/TEMPASSETS/MenuButtonTexture.png?fileID=2800000&amp;guid=4c3c34db881fdda4c855a17e3e7e635f&amp;type=3#MenuButtonTexture&quot;); background-color: rgba(188, 188, 188, 0); background-size: 106% 353%; background-position-y: bottom 55%; width: 20%; height: 100%; -unity-font-style: bold; font-size: 16px;"/>
             </ui:VisualElement>
-            <ui:VisualElement name="DetailsBoard" style="flex-grow: 1; position: absolute; top: 68px; right: 20%; left: 50%; bottom: 55%; background-color: rgb(79, 62, 52); border-top-width: 5px; border-right-width: 0; border-bottom-width: 5px; border-left-width: 5px; border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-top-left-radius: 20px; border-top-right-radius: 0; border-bottom-right-radius: 0; border-bottom-left-radius: 20px; align-items: auto; display: flex;">
+            <ui:VisualElement name="DetailsBoard" style="flex-grow: 1; position: absolute; top: 68px; right: 20%; left: 50%; bottom: 55%; background-color: rgb(79, 62, 52); border-top-width: 5px; border-right-width: 0; border-bottom-width: 5px; border-left-width: 5px; border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-top-left-radius: 20px; border-top-right-radius: 0; border-bottom-right-radius: 0; border-bottom-left-radius: 20px; align-items: auto; display: none;">
                 <ui:VisualElement name="DungeonDetails" style="flex-grow: 1; position: absolute; top: 0; left: 0; bottom: 0; right: 0; align-items: center; display: none;">
                     <ui:Label text="Label" name="DungeonName" style="-unity-text-align: middle-center; font-size: 25px; -unity-font-style: bold; color: rgb(0, 0, 0); -unity-text-outline-color: rgb(149, 149, 149); background-color: rgb(55, 64, 72); margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; border-top-left-radius: 13px; height: 49px; position: relative; left: 0; width: 100%; border-bottom-width: 2px; border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0);"/>
                     <ui:VisualElement name="Rank" style="flex-grow: 1; flex-direction: row;">
@@ -187,24 +187,24 @@
                 <ui:VisualElement name="RequirementsBox" style="flex-grow: 1; width: 50%; height: auto; align-items: flex-start;">
                     <ui:Label text="Requirements:" style="font-size: 20px; border-bottom-width: 1px; border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); -unity-text-align: middle-center; width: 100%;"/>
                     <ui:VisualElement name="Levels" style="flex-grow: 1; flex-direction: row; justify-content: center;">
-                        <ui:Toggle label="" enabled="false"/>
-                        <ui:Label text="Required Level:" class="RankUpLabel"/>
+                        <ui:Toggle label="" enabled="false" name="LevelToggle"/>
+                        <ui:Label text="Required Level:" name="LevelText" class="RankUpLabel"/>
                         <ui:Label text="Label" name="ReqLevel" class="RankUpLabel"/>
-                        <ui:Label text="Current:" class="RankUpLabel"/>
+                        <ui:Label text="Current:" name="LevelText1" class="RankUpLabel"/>
                         <ui:Label text="Label" name="CurLevel" class="RankUpLabel"/>
                     </ui:VisualElement>
                     <ui:VisualElement name="PrimaryStat" style="flex-grow: 1; flex-direction: row; justify-content: center;">
-                        <ui:Toggle label="" enabled="false" class="RankUpLabel"/>
+                        <ui:Toggle label="" enabled="false" name="PrimaryToggle" class="RankUpLabel"/>
                         <ui:Label text="Primary Stat Requirement:" name="PrimaryStat" class="RankUpLabel"/>
                         <ui:Label text="Label" name="ReqPrimaryStat" class="RankUpLabel"/>
-                        <ui:Label text="Current:" class="RankUpLabel"/>
+                        <ui:Label text="Current:" name="PrimaryText" class="RankUpLabel"/>
                         <ui:Label text="Label" name="CurPrimaryStat" class="RankUpLabel"/>
                     </ui:VisualElement>
                     <ui:VisualElement name="SecondaryStat" style="flex-grow: 1; align-items: auto; flex-direction: row; justify-content: center;">
-                        <ui:Toggle label="" enabled="false"/>
+                        <ui:Toggle label="" enabled="false" name="SecondaryToggle"/>
                         <ui:Label text="Secondary Stat Requirement:" name="SecondaryStat" class="RankUpLabel"/>
                         <ui:Label text="Label" name="ReqSecondaryStat" class="RankUpLabel"/>
-                        <ui:Label text="Current:" class="RankUpLabel"/>
+                        <ui:Label text="Current:" name="SecondaryText" class="RankUpLabel"/>
                         <ui:Label text="Label" name="CurSecondaryStat" class="RankUpLabel"/>
                     </ui:VisualElement>
                 </ui:VisualElement>

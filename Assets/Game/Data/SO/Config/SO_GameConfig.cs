@@ -16,7 +16,9 @@ public class SO_GameConfig : ScriptableObject
 
     [Header("Game Economy Levers")] 
     public int startingGold = 20;
-    public int wagePerCharacter = 2;
+    public float IncomeModifier = 1f;
+    public float ExpenseModifier = 1f;
+    public int RestingCost = 1;
 
     [Header("HP Levers")] 
     public float HPRefusalThreshold = 0.3f;

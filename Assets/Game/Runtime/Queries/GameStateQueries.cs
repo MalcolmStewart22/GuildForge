@@ -8,7 +8,7 @@ public static class GameStateQueries
 
     public static void Setup(SO_GameConfig config)
     {
-        config = config;
+        Config = config;
     }
     public static List<Character> GetRoster(GameState gameState)
     {
@@ -54,7 +54,7 @@ public static class GameStateQueries
         JobStatFocus _focus = Config.JobStatMap.First(x => x.Job == character.Job);
         _result.PrimaryStat = _focus.Primary;
         _result.SecondaryStat = _focus.Secondary;
-        
+
         switch(character.Rank)
         {
             case CharacterRank.E:

@@ -249,7 +249,10 @@ public class UIController : MonoBehaviour
                 currentCharacter.MagicHeal();
                 break;
             case "RankUpButton":
-                OpenRankUpModal();
+                if(currentCharacter.Rank != CharacterRank.S)
+                {
+                    OpenRankUpModal();
+                }
                 break;
         }
     }
@@ -359,6 +362,14 @@ public class UIController : MonoBehaviour
         {
             FocusedElements.Push(_detailsBoard);
         }   
+        if(currentCharacter.Rank == CharacterRank.S)
+        {
+            _detailsBoard.Q<Button>("RankUpButton").SetEnabled(false);
+        }
+        else
+        {
+            _detailsBoard.Q<Button>("RankUpButton").SetEnabled(true);
+        }
     }
 
     //will need to pass lists of missions in the future when multiple parties is implemented.

@@ -87,8 +87,6 @@ public class DetailPanel : MonoBehaviour
 
         //button costs
         //perhaps remove the text if number is 0? decide later
-        var _rankUpCost = container.Q<Label>("RankUpCost");
-        _rankUpCost.text = character.GetRankUpCost().ToString();
 
         var _healCost = container.Q<Label>("HealCost");
         _healCost.text = character.GetHealingCost().ToString();

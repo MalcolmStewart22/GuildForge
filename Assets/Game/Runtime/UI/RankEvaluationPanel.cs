@@ -12,7 +12,7 @@ public class RankEvaluationPanel : MonoBehaviour
         //Level
         Label _reqlevel = container.Q<Label>("ReqLevel");
         _reqlevel.text = rankEval.RequiredLevel.ToString();
-        Label _curlevel = container.Q<Label>("curLevel");
+        Label _curlevel = container.Q<Label>("CurLevel");
         _curlevel.text = character.Level.ToString();
         //Primary
         Label _primaryStat = container.Q<Label>("PrimaryStat");
@@ -40,8 +40,8 @@ public class RankEvaluationPanel : MonoBehaviour
         Label _wage = container.Q<Label>("NewWage");
         _wage.text = rankEval.RequiredLevel.ToString();
         //LevelCap
-        Label _levelCap = container.Q<Label>("NewLevelCap");
-        _levelCap.text = rankEval.RequiredLevel.ToString();
+        Label _levelCap = container.Q<Label>("LevelCap");
+        _levelCap.text = GameStateQueries.GetLevelCap(character.Rank).ToString();
 
 
         //add in conditionals
@@ -53,6 +53,8 @@ public class RankEvaluationPanel : MonoBehaviour
 
             _reqlevel.style.color = Color.gray;
             _curlevel.style.color = Color.gray;
+            container.Q<Label>("LevelText").style.color = Color.gray;
+            container.Q<Label>("LevelText1").style.color = Color.gray;
         }
         if(rankEval.MeetsRequiredPrimaryStat)
         {
@@ -62,6 +64,7 @@ public class RankEvaluationPanel : MonoBehaviour
             _primaryStat.style.color = Color.gray;
             _reqPrimary.style.color = Color.gray;
             _curPrimary.style.color = Color.gray;
+            container.Q<Label>("PrimaryText").style.color = Color.gray;
         }
         if(rankEval.MeetsRequiredSecondaryStat)
         {
@@ -71,6 +74,7 @@ public class RankEvaluationPanel : MonoBehaviour
             _secondaryStat.style.color = Color.gray;
             _reqSecondary.style.color = Color.gray;
             _curSecondary.style.color = Color.gray;
+            container.Q<Label>("SecondaryText").style.color = Color.gray;
         }
         if(rankEval.CanPromote)
         {

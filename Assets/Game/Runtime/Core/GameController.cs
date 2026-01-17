@@ -7,6 +7,7 @@ public class GameController : MonoBehaviour
 {
     [SerializeField]
     private GameState gameState;
+    [SerializeField]
     public SO_GameConfig Config;
     public SO_TagLibrary TagLibrary;
     public SO_EventLibrary EventLibrary;
@@ -149,12 +150,12 @@ public class GameController : MonoBehaviour
             {
                 if(character.IsResting)
                 {                
-                    gameState.CurrentGold -= 3;
+                    gameState.CurrentGold -= GameStateQueries.GetWage(character.Rank) + Config.RestingCost;
                     character.HealthCheck(Config.HPRefusalThreshold, Config.HPReadyForActionThreshold, Config.BaseRestHeal);
                 }
                 else
                 {
-                    gameState.CurrentGold -= 2;
+                    gameState.CurrentGold -= GameStateQueries.GetWage(character.Rank);
                     character.HealthCheck(Config.HPRefusalThreshold, Config.HPReadyForActionThreshold, Config.BaseRestHeal);
                 }
             }
