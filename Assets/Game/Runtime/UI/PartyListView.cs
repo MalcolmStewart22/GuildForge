@@ -42,7 +42,15 @@ public class PartyListView : MonoBehaviour
 
             if(c.LeveledUp)
             {
-                element.Q<Label>("LeveldUp").text = "LEVELED UP!";
+                element.Q<Label>("LeveldUp").text = "LEVELED UP! Reached level " + c.Character.Level;
+            }
+            else if(c.Character.Level == GameStateQueries.GetLevelCap(c.Character.Rank))
+            {
+                if(c.LeveledUp)
+                {
+                    element.Q<Label>("LeveldUp").text = "LEVELED UP! Now at Max Level!";
+                }
+                element.Q<Label>("LeveldUp").text = "AT MAAX LEVEL!";
             }
             else
             {
