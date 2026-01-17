@@ -97,23 +97,31 @@ public class Character
 
     public bool GainExp(int exp)
     {
-        float _mod = 1f;
-        foreach(var t in Traits)
+        if(Level < GameStateQueries.GetLevelCap(Rank))
         {
-            _mod *= t.Effects.EXPModifier;
-        }
+            float _mod = 1f;
+            foreach(var t in Traits)
+            {
+                _mod *= t.Effects.EXPModifier;
+            }
 
-        EXP += (int)(exp * _mod);
+            EXP += (int)(exp * _mod);
 
-        if(EXP >= 100)
-        {
-            LevelUp();
-            return true;
+            if(EXP >= 100)
+            {
+                LevelUp();
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
         else
         {
             return false;
         }
+        
     }
     public void LevelUp()
     {
