@@ -52,16 +52,17 @@ public static class GameStateQueries
     {
         RankEvaluation _result = new();
         JobStatFocus _focus = Config.JobStatMap.First(x => x.Job == character.Job);
-
+        _result.PrimaryStat = _focus.Primary;
+        _result.SecondaryStat = _focus.Secondary;
+        
         switch(character.Rank)
         {
             case CharacterRank.E:
                 _result.PromotionCost = Config.RankE.PromotionCost;
                 _result.CurrentWage = Config.RankE.Wage;
                 _result.NextWage = Config.RankD.Wage;
-                _result.CurrentRank = CharacterRank.E;
                 _result.NextRank = CharacterRank.D;
-                _result.MainStatRequirement = Config.RankE.MainStatRequirement;
+                _result.PrimaryStatRequirement = Config.RankE.PrimaryStatRequirement;
                 _result.SecondaryStatRequirement = Config.RankE.SecondaryStatRequirement;
                 _result.RequiredLevel = Config.RankE.RequiredLevel;
                 break;
@@ -69,9 +70,8 @@ public static class GameStateQueries
                 _result.PromotionCost = Config.RankD.PromotionCost;
                 _result.CurrentWage = Config.RankD.Wage;
                 _result.NextWage = Config.RankC.Wage;
-                _result.CurrentRank = CharacterRank.D;
                 _result.NextRank = CharacterRank.C;
-                _result.MainStatRequirement = Config.RankD.MainStatRequirement;
+                _result.PrimaryStatRequirement = Config.RankD.PrimaryStatRequirement;
                 _result.SecondaryStatRequirement = Config.RankD.SecondaryStatRequirement;
                 _result.RequiredLevel = Config.RankD.RequiredLevel;
                 break;
@@ -79,9 +79,8 @@ public static class GameStateQueries
                 _result.PromotionCost = Config.RankC.PromotionCost;
                 _result.CurrentWage = Config.RankC.Wage;
                 _result.NextWage = Config.RankB.Wage;
-                _result.CurrentRank = CharacterRank.C;
                 _result.NextRank = CharacterRank.B;
-                _result.MainStatRequirement = Config.RankC.MainStatRequirement;
+                _result.PrimaryStatRequirement = Config.RankC.PrimaryStatRequirement;
                 _result.SecondaryStatRequirement = Config.RankC.SecondaryStatRequirement;
                 _result.RequiredLevel = Config.RankC.RequiredLevel;
                 break;
@@ -89,9 +88,8 @@ public static class GameStateQueries
                 _result.PromotionCost = Config.RankB.PromotionCost;
                 _result.CurrentWage = Config.RankB.Wage;
                 _result.NextWage = Config.RankA.Wage;
-                _result.CurrentRank = CharacterRank.B;
                 _result.NextRank = CharacterRank.A;
-                _result.MainStatRequirement = Config.RankB.MainStatRequirement;
+                _result.PrimaryStatRequirement = Config.RankB.PrimaryStatRequirement;
                 _result.SecondaryStatRequirement = Config.RankB.SecondaryStatRequirement;
                 _result.RequiredLevel = Config.RankB.RequiredLevel;
                 break;
@@ -99,19 +97,22 @@ public static class GameStateQueries
                 _result.PromotionCost = Config.RankA.PromotionCost;
                 _result.CurrentWage = Config.RankA.Wage;
                 _result.NextWage = Config.RankS.Wage;
-                _result.CurrentRank = CharacterRank.A;
                 _result.NextRank = CharacterRank.S;
-                _result.MainStatRequirement = Config.RankA.MainStatRequirement;
+                _result.PrimaryStatRequirement = Config.RankA.PrimaryStatRequirement;
                 _result.SecondaryStatRequirement = Config.RankA.SecondaryStatRequirement;
                 _result.RequiredLevel = Config.RankA.RequiredLevel;
                 break;
         }
-        
+
+        _result.MeetsRequiredLevel = character.Level >= _result.RequiredLevel;
+        _result.MeetsRequiredPrimaryStat = character.Base.GetStat(_focus.Primary) >= _result.PrimaryStatRequirement;
+        _result.MeetsRequiredSecondaryStat = character.Base.GetStat(_focus.Secondary) >= _result.SecondaryStatRequirement;
+        _result.HasEnoughGold = gold >= _result.PromotionCost;
         _result.CanPromote = 
-            character.Level >= _result.RequiredLevel &&
-            character.Base.GetStat(_focus.Primary) >= _result.MainStatRequirement &&
-            character.Base.GetStat(_focus.Secondary) >= _result.SecondaryStatRequirement &&
-            gold >= _result.PromotionCost;
+            _result.MeetsRequiredLevel && 
+            _result.MeetsRequiredPrimaryStat &&
+            _result.MeetsRequiredSecondaryStat &&
+            _result.HasEnoughGold;
 
         return _result;   
     }

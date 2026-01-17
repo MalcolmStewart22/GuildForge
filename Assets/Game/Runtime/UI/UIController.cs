@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -15,7 +16,8 @@ public class UIController : MonoBehaviour
     private DetailPanel detailPanel;
     [SerializeField]
     private AfterActionReport afterActionReport;
-
+    [SerializeField]
+    private RankEvaluationPanel rankEvaluationPanel;
     private VisualElement root;
     private VisualElement mainMenu;
     private VisualElement mapScreen;
@@ -246,9 +248,17 @@ public class UIController : MonoBehaviour
             case "HealButton":
                 currentCharacter.MagicHeal();
                 break;
+            case "RankUpButton":
+                OpenRankUpModal();
+                break;
         }
     }
 
+    private void OnRankUpConfirmed()
+    {
+        currentCharacter.RankUp();
+        CloseFocusedElement();
+    }
     #endregion
     public void DisplayMapButtons(List<DungeonInstance> dungeonList)
     {
@@ -409,4 +419,20 @@ public class UIController : MonoBehaviour
             confirm: () => master.EndDay()
         );
     }
+
+    private void OpenRankUpModal()
+    {
+        VisualElement _RankUpBox = mapScreen.Q<VisualElement>("RankUpBox");
+        _RankUpBox.style.display = DisplayStyle.Flex;
+        FocusedElements.Push(_RankUpBox);
+
+        RankEvaluation eval = GameStateQueries.GetRankEvaluation(currentCharacter, master.State.CurrentGold);
+
+        rankEvaluationPanel.ShowRankEvaluation(_RankUpBox, currentCharacter, eval);
+
+        Button _confirm = _RankUpBox.Q<Button>("ConfirmRankUpButton");
+        _confirm.clicked += () => OnRankUpConfirmed();
+    }
 }
+
+

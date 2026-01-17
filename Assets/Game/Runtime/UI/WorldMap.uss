@@ -52,14 +52,6 @@
     color: rgb(0, 0, 0);
 }
 
-.HasToolTip {
-    -unity-font-style: bold;
-    color: rgb(0, 67, 130);
-    -unity-text-outline-width: 0;
-    -unity-text-outline-color: rgb(38, 38, 38);
-    -unity-text-align: upper-center;
-}
-
 .StatNumber {
     -unity-text-align: middle-center;
 }
@@ -121,4 +113,8 @@
     -unity-font-style: bold;
     font-size: 28px;
     -unity-text-align: middle-left;
+}
+
+.RankUpLabel {
+    font-size: 12px;
 }

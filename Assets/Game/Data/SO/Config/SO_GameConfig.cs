@@ -44,7 +44,7 @@ public class RankBalanceLevers
     public int PromotionCost; //cost to go to next
     public int Wage; // paid to current rank
     public int RequiredLevel; //Should always be less than Level Cap - needed to go to next
-    public int MainStatRequirement; //needed to go to next
+    public int PrimaryStatRequirement; //needed to go to next
     public int SecondaryStatRequirement; //needed to go to next
 }
 
