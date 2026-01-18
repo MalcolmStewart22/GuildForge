@@ -42,6 +42,23 @@ public class DetailPanel : MonoBehaviour
         var _characterName = container.Q<Label>("CharacterName");
         _characterName.text = character.Name;
 
+        var _health = container.Q<ProgressBar>("HealthBar");
+        if(character.IsResting)
+        {
+            _health.title = character.CurrentHP.ToString() + "/" + character.HPMax.ToString() + " (Resting)";
+        }
+        else
+        {
+            _health.title = character.CurrentHP.ToString() + "/" + character.HPMax.ToString();
+        }
+        _health.value = character.CurrentHP;
+        _health.highValue = character.HPMax;
+        var progress = _health.Q<VisualElement>(className: "unity-progress-bar__progress");
+
+        progress.style.backgroundColor = character.CurrentHP > (character.HPMax * .3) ? Color.green : Color.red;
+
+        
+
         var _rank = container.Q<Label>("CharacterRank");
         _rank.text = character.Rank.ToString();
 
