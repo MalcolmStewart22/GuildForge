@@ -6,7 +6,7 @@ using UnityEngine;
 public class SO_GameConfig : ScriptableObject
 {
     [Header("Game")] 
-    public int NumberOfCharacters = 4;
+    public int MaxPartySize = 4;
     public int NumberOfDungeons = 10;
     public List<JobStatFocus> JobStatMap = new();
 
@@ -19,6 +19,7 @@ public class SO_GameConfig : ScriptableObject
     public float IncomeModifier = 1f;
     public float ExpenseModifier = 1f;
     public int RestingCost = 1;
+    public int BaseMissionGoldPerPartyMember = 2;
 
     [Header("HP Levers")] 
     public float HPRefusalThreshold = 0.3f;
@@ -34,9 +35,18 @@ public class SO_GameConfig : ScriptableObject
     public RankBalanceLevers RankA;
     public RankBalanceLevers RankS;
 
+    [Header("Dungeon Levers")] 
+    public int DungeonMinimumStatRankE;
+    public int DungeonMinimumStatRankD;
+    public int DungeonMinimumStatRankC;
+    public int DungeonMinimumStatRankB;
+    public int DungeonMinimumStatRankA;
+    public int DungeonMinimumStatRankS;
+    public OutcomeBands OutcomeOptions; 
+
     [Header("Other Config Bits")]
     public SO_NameSyllableSet SyllableSet;
-    public OutcomeBands OutcomeOptions; 
+
 }
 
 [System.Serializable]
@@ -56,4 +66,15 @@ public class JobStatFocus
     public CharacterJob Job;
     public StatType Primary;
     public StatType Secondary;
+}
+
+[System.Serializable]
+public class DungeonLevers
+{
+    public int StatMinimum;
+    public int DangerousStatDelta;
+    public int RiskyStatDelta;
+    public int MostlySafeStatDelta;
+    public int PerfectlySafeStatDelta;
+
 }

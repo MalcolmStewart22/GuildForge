@@ -38,7 +38,7 @@ public class GameController : MonoBehaviour
         eventResolver = new();
 
         Debug.Log("======= Character Creation ========");
-        for (int i = 0; i < Config.NumberOfCharacters; i++)
+        for (int i = 0; i < Config.MaxPartySize; i++)
         {
             gameState.Characters.Add(_cg.GenerateCharacter(gameState.Characters.Count, Config.SyllableSet, TraitLibrary));
         }
@@ -133,12 +133,14 @@ public class GameController : MonoBehaviour
             ui.CloseFocusedElement();
         }
 
+        List<MissionResult> _todaysMissions = new();
         foreach(var party in gameState.Parties)
         {
             if(party.IsOnMission == true)
             {
                 MissionResult newMission = dungeonResolver.EnterDungeon(party.CurrentMission, party, EventLibrary, eventResolver, Config.OutcomeOptions, gameState.DayCount);
                 gameState.MissionLog.Add(newMission);
+                _todaysMissions.Add(newMission);
                 gameState.CurrentGold += newMission.GoldGained;
             }
         }
@@ -170,13 +172,13 @@ public class GameController : MonoBehaviour
         else
         {
             gameState.DayCount += 1;
-            ui.UpdateForEndOfDay(gameState.CurrentGold, gameState.DayCount, gameState.MissionLog[gameState.MissionLog.Count -1]); 
+            ui.UpdateForEndOfDay(gameState.CurrentGold, gameState.DayCount, _todaysMissions); 
         }
     }
 
     private bool IsEveryoneDead()
     {
-        foreach(var c in gameState.Recruited)
+        foreach(var c in gameState.Characters)
         {
             if(!c.IsAlive)
             {

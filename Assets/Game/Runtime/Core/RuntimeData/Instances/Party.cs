@@ -46,13 +46,11 @@ public class Party
     }
     public void PrepareParty()
     {
+        ActiveMembers.Clear();
+
         foreach (Character c in PartyMembers)
         {
-            if (c.IsResting || c.IsAlive == false)
-            {
-                ActiveMembers.Remove(c);
-            }
-            else if (!ActiveMembers.Contains(c))
+            if (c.IsResting == false && c.IsAlive)
             {
                 ActiveMembers.Add(c);
             }
@@ -176,23 +174,29 @@ public class Party
 
     public void StatusCheck()
     {
-        foreach (var c in ActiveMembers)
+        List<Character> temp = new List<Character>(ActiveMembers);
+        foreach (var c in temp)
         {
             if(!c.IsAlive)
             {
                 ActiveMembers.Remove(c);
-                PartyMembers.Remove(c);
             }
 
         }
     }
 
+    public void GoHome()
+    {
+        CurrentMission = null;
+        IsOnMission = false;
+        ActiveMembers.Clear();
+    }
     public string GetSafetyRating(DungeonInstance dungeon)
     {
         int mightDifference = (PartyStats.might - dungeon.CalculateRequiredStat(EventType.Combat)) + TraitEffects.CombatBonus;
-        int controlDifference = (PartyStats.might - dungeon.CalculateRequiredStat(EventType.Trap)) + TraitEffects.CombatBonus;
-        int finesseDifference = (PartyStats.might - dungeon.CalculateRequiredStat(EventType.Hazard)) + TraitEffects.CombatBonus;
-        int arcanaDifference = (PartyStats.might - dungeon.CalculateRequiredStat(EventType.Treasure)) + TraitEffects.CombatBonus;
+        int controlDifference = (PartyStats.control - dungeon.CalculateRequiredStat(EventType.Trap)) + TraitEffects.CombatBonus;
+        int finesseDifference = (PartyStats.finesse - dungeon.CalculateRequiredStat(EventType.Hazard)) + TraitEffects.CombatBonus;
+        int arcanaDifference = (PartyStats.arcana - dungeon.CalculateRequiredStat(EventType.Treasure)) + TraitEffects.CombatBonus;
 
         int averageDifference = (mightDifference + controlDifference + finesseDifference + arcanaDifference) / 4;
 
@@ -206,11 +210,11 @@ public class Party
         }
         else if (averageDifference <= 20) 
         {
-            return "Safe";
+            return "Mostly Safe";
         }
         else
         {
-            return "EASY!";
+            return "Perfectly Safe";
         }
     }
 }

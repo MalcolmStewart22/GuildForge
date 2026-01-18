@@ -77,24 +77,35 @@ public class DungeonResolver
             }
             _totalExp += e.ExpGained;
         }
+        
         missionResult.LevelUpReports = new List<LevelUpReport>(party.AssignExp(_totalExp));
         _outcomeAsNum = _outcomeAsNum / missionResult.EventResults.Count;
+        int _goldMinimum = missionResult.Dungeon.MinimumPayout;
         switch(_outcomeAsNum)
         {
             case 1:
                 missionResult.Outcome = OutcomeTypes.Catastrophe;
+                _goldMinimum = (int)(_goldMinimum * GameStateQueries.GetOutcomeGoldModifier(OutcomeTypes.Catastrophe));
                 break;
             case 2:
                 missionResult.Outcome = OutcomeTypes.Failure;
+                _goldMinimum = (int)(_goldMinimum * GameStateQueries.GetOutcomeGoldModifier(OutcomeTypes.Failure));
                 break;
             case 3:
                 missionResult.Outcome = OutcomeTypes.Success;
+                _goldMinimum = (int)(_goldMinimum * GameStateQueries.GetOutcomeGoldModifier(OutcomeTypes.Success));
                 break;
             case 4:
                 missionResult.Outcome = OutcomeTypes.Triumph;
+                _goldMinimum = (int)(_goldMinimum * GameStateQueries.GetOutcomeGoldModifier(OutcomeTypes.Triumph));
                 break;
         }
 
+        if(missionResult.GoldGained < _goldMinimum ) //enforcing a minimum gold return to make sure you dont lose from drawing bad events when you were successful
+        {
+            missionResult.GoldGained = _goldMinimum;
+        }
+        party.GoHome();
         Debug.Log("==== Mission Completed ====");
         return missionResult;
     }

@@ -20,6 +20,7 @@ public class DungeonListView : MonoBehaviour
 
             var title = new Label { name = "Title" };
             title.AddToClassList("DungeonTitle");
+            title.style.whiteSpace = WhiteSpace.Normal;
             row.Add(title);
 
             return row;

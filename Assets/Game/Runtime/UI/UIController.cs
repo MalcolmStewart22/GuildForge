@@ -28,6 +28,8 @@ public class UIController : MonoBehaviour
     private DungeonInstance currentDungeon;
     private Character currentCharacter;
     private System.Action onConfirm;
+    private List<MissionResult> todaysMissions = new();
+    private int missionReportIndex = 0;
     
     public void Setup()
     {
@@ -56,13 +58,13 @@ public class UIController : MonoBehaviour
     }
     private void SetupButtons()
     {
-        var _menuButtons = root.Query<Button>(className:"MenuButton").ToList();
+        List<Button> _menuButtons = root.Query<Button>(className:"MenuButton").ToList();
         mapButtons = root.Query<Button>(className:"MapButton").ToList();
-        var _exitButtons = root.Query<Button>(className:"ExitButtons").ToList();
-        var _characterButtons = root.Query<Button>(className:"CharacterButton").ToList();
+        List<Button>  _exitButtons = root.Query<Button>(className:"ExitButtons").ToList();
+        List<Button>  _characterButtons = root.Query<Button>(className:"CharacterButton").ToList();
     
 
-        foreach (var button in _menuButtons)
+        foreach (Button button in _menuButtons)
         {
             var btn = button;
             switch(btn.name)
@@ -89,25 +91,33 @@ public class UIController : MonoBehaviour
                     break;
             } 
         }
-        foreach (var button in mapButtons)
+        foreach (Button button in mapButtons)
         {
-            var btn = button;
+            Button btn = button;
             btn.clicked += () => OnMapClicked(btn.name);
         }
-        foreach (var button in _exitButtons)
+        foreach (Button button in _exitButtons)
         {
-            var btn = button;
+            Button btn = button;
             btn.clicked += () => OnExitClicked(btn.name);
         }
-        foreach (var button in _characterButtons)
+        foreach (Button button in _characterButtons)
         {
-            var btn = button;
+            Button btn = button;
             btn.clicked += () => OnCharacterButtonClicked(btn.name);
         }
-        var _dialogConfirm = root.Q<Button>("DialogConfirm");
-        var _dialogCancel = root.Q<Button>("DialogCancel");
+        Button _dialogConfirm = root.Q<Button>("DialogConfirm");
+        Button _dialogCancel = root.Q<Button>("DialogCancel");
         _dialogConfirm.clicked += OnConfirmClicked;
         _dialogCancel.clicked += () =>  CloseFocusedElement();
+
+        Button _rankconfirm = root.Q<Button>("ConfirmRankUpButton");
+        _rankconfirm.clicked += () => OnRankUpConfirmed();
+
+        Button _reportBack = root.Q<Button>("ReportBackButton");
+        _reportBack.clicked += () => OnReportButtonClicked("ReportBackButton");
+        Button _reportForward = root.Q<Button>("ReportForwardButton");
+        _reportBack.clicked += () => OnReportButtonClicked("ReportForwardButton");
     }
     private void SetupUIEvents()
     {
@@ -256,11 +266,25 @@ public class UIController : MonoBehaviour
                 break;
         }
     }
-
     private void OnRankUpConfirmed()
     {
         currentCharacter.RankUp();
         CloseFocusedElement();
+    }
+    private void OnReportButtonClicked(string button)
+    {
+        switch(button)
+        {
+            case "ReportForwardButton":
+                missionReportIndex += 1;
+                DisplayAfterActionReport();
+                break;
+            case "ReportBackButton":
+                missionReportIndex -= 1;
+                DisplayAfterActionReport();
+                break;
+
+        }
     }
     #endregion
     public void DisplayMapButtons(List<DungeonInstance> dungeonList)
@@ -373,7 +397,7 @@ public class UIController : MonoBehaviour
     }
 
     //will need to pass lists of missions in the future when multiple parties is implemented.
-    public void UpdateForEndOfDay(int gold, int day, MissionResult mission)
+    public void UpdateForEndOfDay(int gold, int day, List<MissionResult> missions)
     {
         VisualElement _header = root.Q<VisualElement>("InfoHeader");
 
@@ -383,16 +407,36 @@ public class UIController : MonoBehaviour
         Label _gold = _header.Q<Label>("GoldNumber");
         _gold.text = gold.ToString();
 
-        DisplayAfterActionReport(mission);
+        if (missions.Count > 0)
+        {
+            todaysMissions = new List<MissionResult>(missions);
+            DisplayAfterActionReport();
+        }
     }
 
-    public void DisplayAfterActionReport(MissionResult mission)
+    public void DisplayAfterActionReport()
     {
         var _actionReport = root.Q<VisualElement>("AfterAction");
         _actionReport.style.display = DisplayStyle.Flex;
 
-        afterActionReport.ShowReport(_actionReport, mission);
-        FocusedElements.Push(_actionReport);
+        afterActionReport.ShowReport(_actionReport, todaysMissions[missionReportIndex]);
+        
+        if (FocusedElements.Count == 0 || FocusedElements.Peek() != _actionReport)
+        {
+            FocusedElements.Push(_actionReport);
+        }
+        if(todaysMissions.Count > 1)
+        {
+            root.Q<Button>("ReportBackButton").style.display = DisplayStyle.Flex;
+            root.Q<Button>("ReportForwardButton").style.display = DisplayStyle.Flex;
+        }
+        else
+        {
+            root.Q<Button>("ReportBackButton").style.display = DisplayStyle.None;
+            root.Q<Button>("ReportForwardButton").style.display = DisplayStyle.None;
+        }
+
+
     }
     public void GameOver()
     {
@@ -441,8 +485,6 @@ public class UIController : MonoBehaviour
 
         rankEvaluationPanel.ShowRankEvaluation(_RankUpBox, currentCharacter, eval);
 
-        Button _confirm = _RankUpBox.Q<Button>("ConfirmRankUpButton");
-        _confirm.clicked += () => OnRankUpConfirmed();
     }
 }
 

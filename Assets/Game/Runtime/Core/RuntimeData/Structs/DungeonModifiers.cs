@@ -42,13 +42,13 @@ public class DungeonModifiers
     public DungeonModifiers CombineModifiers (DungeonModifiers x, DungeonModifiers y)
     {
         DungeonModifiers _newModifier = new();
-        _newModifier.MightWeight = x.MightWeight + y.MightWeight;
-        _newModifier.FinesseWeight = x.FinesseWeight + y.FinesseWeight;
-        _newModifier.EnduranceWeight = x.EnduranceWeight + y.EnduranceWeight;
-        _newModifier.HealingWeight = x.HealingWeight + y.HealingWeight;
-        _newModifier.ArcanaWeight = x.ArcanaWeight + y.ArcanaWeight;
-        _newModifier.ControlWeight = x.ControlWeight + y.ControlWeight;
-        _newModifier.ResolveWeight = x.ResolveWeight + y.ResolveWeight;
+        _newModifier.MightWeight = x.MightWeight * y.MightWeight;
+        _newModifier.FinesseWeight = x.FinesseWeight * y.FinesseWeight;
+        _newModifier.EnduranceWeight = x.EnduranceWeight * y.EnduranceWeight;
+        _newModifier.HealingWeight = x.HealingWeight * y.HealingWeight;
+        _newModifier.ArcanaWeight = x.ArcanaWeight * y.ArcanaWeight;
+        _newModifier.ControlWeight = x.ControlWeight * y.ControlWeight;
+        _newModifier.ResolveWeight = x.ResolveWeight * y.ResolveWeight;
 
         _newModifier.CombatWeight = x.CombatWeight * y.CombatWeight;
         _newModifier.TrapWeight = x.TrapWeight * y.TrapWeight;

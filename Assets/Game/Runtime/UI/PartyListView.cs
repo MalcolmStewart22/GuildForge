@@ -38,8 +38,17 @@ public class PartyListView : MonoBehaviour
         {
             var c = currentLevelUps[index];
             element.Q<Label>("Name").text = c.Character.Name;
-            element.Q<Label>("CurrentHP").text = "Current HP: " + c.Character.CurrentHP.ToString() + "/" + c.Character.HPMax.ToString();
+            if(c.Character.IsResting)
+            {
+                element.Q<Label>("CurrentHP").text = "Current HP: " + c.Character.CurrentHP.ToString() + "/" + c.Character.HPMax.ToString() + " (INJURED)";
 
+            }
+            else
+            {
+                element.Q<Label>("CurrentHP").text = "Current HP: " + c.Character.CurrentHP.ToString() + "/" + c.Character.HPMax.ToString();
+
+            }
+            
             if(c.LeveledUp)
             {
                 element.Q<Label>("LeveldUp").text = "LEVELED UP! Reached level " + c.Character.Level;

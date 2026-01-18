@@ -197,14 +197,14 @@ public class Character
         if (IsResting)
         {
             CurrentHP += Mathf.RoundToInt(HPMax * restHeal);
-            if(CurrentHP > (HPMax * tooLow))
+            if(CurrentHP > (HPMax * ready))
             {
                 IsResting = false;
             }
         }
         else
         {
-            if (CurrentHP < (HPMax * ready))
+            if (CurrentHP < (HPMax * tooLow))
             {
                 IsResting = true;
             }

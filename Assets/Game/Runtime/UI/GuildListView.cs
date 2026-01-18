@@ -52,6 +52,11 @@ public class GuildListView : MonoBehaviour
             if(character.IsResting)
             {
                 element.Q<Label>("Status").text ="Resting";
+                element.Q<Label>("Status").style.color = Color.yellow;
+            }
+            else if(!character.IsAlive)
+            {
+                element.Q<Label>("Status").text ="Deceased";
                 element.Q<Label>("Status").style.color = Color.red;
             }
             else

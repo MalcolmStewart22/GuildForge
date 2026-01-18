@@ -25,7 +25,7 @@ public static class GameStateQueries
             case "MountainButton":
                 return gameState.Dungeons.Where(d => d.Biome.Name == "Mountains").ToList();
             case "FrozenWastesButton":
-                return gameState.Dungeons.Where(d => d.Biome.Name == "FrozenWastes").ToList();
+                return gameState.Dungeons.Where(d => d.Biome.Name == "Frozen Wastes").ToList();
             case "ForestButton":
                 return gameState.Dungeons.Where(d => d.Biome.Name == "Forest").ToList();
             case "SwampButton":
@@ -42,10 +42,57 @@ public static class GameStateQueries
     {
         return gameState.CurrentGold;
     }
-
+    public static float GetOutcomeGoldModifier(OutcomeTypes outcome)
+    {
+        switch (outcome)
+        {
+            case OutcomeTypes.Triumph:
+                return Config.OutcomeOptions.Triumph.GoldGainedModifier;
+            case OutcomeTypes.Success:
+                return Config.OutcomeOptions.Success.GoldGainedModifier;
+            case OutcomeTypes.Fled:
+                return Config.OutcomeOptions.Fled.GoldGainedModifier;
+            case OutcomeTypes.Failure:
+                return Config.OutcomeOptions.Failure.GoldGainedModifier;
+            case OutcomeTypes.Catastrophe:
+                return Config.OutcomeOptions.Catastrophe.GoldGainedModifier;
+        }
+        
+        return 1; //if the switch somehow breaks (should be impossible) dont break the game 
+    }
+    public static int GetStatMinimum(DungeonRank rank)
+    {
+        int result = 0;
+        switch(rank)
+        {
+            case DungeonRank.E:
+                result =  Config.DungeonMinimumStatRankE;
+                break;
+            case DungeonRank.D:
+                result =  Config.DungeonMinimumStatRankE;
+                break;
+            case DungeonRank.C:
+                result =  Config.DungeonMinimumStatRankE;
+                break;
+            case DungeonRank.B:
+                result =  Config.DungeonMinimumStatRankE;
+                break;
+            case DungeonRank.A:
+                result =  Config.DungeonMinimumStatRankE;
+                break;
+            case DungeonRank.S:
+                result =  Config.DungeonMinimumStatRankE;
+                break;
+        }
+        return result;
+    }
     public static Party GetParty(GameState gameState)
     {
         return gameState.Parties[0];
+    }
+    public static int GetMaxPartySize()
+    {
+        return Config.MaxPartySize;
     }
 
     public static RankEvaluation GetRankEvaluation(Character character, int gold)//Cant be called on S rank character - Prevention logic will live elsewhere

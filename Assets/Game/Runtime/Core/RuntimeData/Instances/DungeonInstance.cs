@@ -13,36 +13,14 @@ public class DungeonInstance
     public SO_DungeonTag Location;
     public List<SO_DungeonTag> Enemies = new();
     public int NumberOfEvents;
+    public int MinimumPayout;
     public DungeonModifiers CalculatedModifier = new();
 
 
 
     public int CalculateRequiredStat(EventType e)
     {
-        int statMinimum = 0;
-
-        switch(Rank)
-        {
-            case DungeonRank.E:
-                statMinimum = 5;
-                break;
-            case DungeonRank.D:
-                statMinimum = 10;
-                break;
-            case DungeonRank.C:
-                statMinimum = 25;
-                break;
-            case DungeonRank.B:
-                statMinimum = 40;
-                break;
-            case DungeonRank.A:
-                statMinimum = 50;
-                break;
-            case DungeonRank.S:
-                statMinimum = 60;
-                break;
-        }
-
+        int statMinimum = GameStateQueries.GetStatMinimum(Rank);
         switch(e)
         {
             case EventType.Combat:
@@ -67,6 +45,5 @@ public class DungeonInstance
                 return (int)(statMinimum * _treasureMod.ArcanaWeight);
         }
         return statMinimum;
-
     }
 }

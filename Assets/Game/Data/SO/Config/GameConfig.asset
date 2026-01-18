@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc77efd585e842e4e9b0afda940713ab, type: 3}
   m_Name: GameConfig
   m_EditorClassIdentifier: Assembly-CSharp::SO_GameConfig
-  NumberOfCharacters: 4
+  MaxPartySize: 4
   NumberOfDungeons: 10
   JobStatMap:
   - Job: 0
@@ -29,35 +29,36 @@ MonoBehaviour:
     Secondary: 1
   MissionCapActive: 0
   MissionCap: 10
-  startingGold: 0
+  startingGold: 20
   IncomeModifier: 1
   ExpenseModifier: 1
   RestingCost: 1
+  BaseMissionGoldPerPartyMember: 2
   HPRefusalThreshold: 0.3
   HPReadyForActionThreshold: 0.7
   BaseRestHeal: 0.2
   retreatHpThreshold: 0
   RankE:
-    LevelCap: 0
-    PromotionCost: 0
-    Wage: 0
-    RequiredLevel: 1
-    PrimaryStatRequirement: 0
-    SecondaryStatRequirement: 0
+    LevelCap: 10
+    PromotionCost: 10
+    Wage: 2
+    RequiredLevel: 5
+    PrimaryStatRequirement: 20
+    SecondaryStatRequirement: 10
   RankD:
-    LevelCap: 0
-    PromotionCost: 0
-    Wage: 0
-    RequiredLevel: 0
-    PrimaryStatRequirement: 0
-    SecondaryStatRequirement: 0
+    LevelCap: 20
+    PromotionCost: 20
+    Wage: 3
+    RequiredLevel: 15
+    PrimaryStatRequirement: 35
+    SecondaryStatRequirement: 20
   RankC:
-    LevelCap: 0
-    PromotionCost: 0
-    Wage: 0
-    RequiredLevel: 0
-    PrimaryStatRequirement: 0
-    SecondaryStatRequirement: 0
+    LevelCap: 30
+    PromotionCost: 30
+    Wage: 4
+    RequiredLevel: 25
+    PrimaryStatRequirement: 50
+    SecondaryStatRequirement: 30
   RankB:
     LevelCap: 0
     PromotionCost: 0
@@ -79,7 +80,12 @@ MonoBehaviour:
     RequiredLevel: 0
     PrimaryStatRequirement: 0
     SecondaryStatRequirement: 0
-  SyllableSet: {fileID: 11400000, guid: f6604fd868b51a144aa0b48be4488cb5, type: 2}
+  DungeonMinimumStatRankE: 5
+  DungeonMinimumStatRankD: 10
+  DungeonMinimumStatRankC: 25
+  DungeonMinimumStatRankB: 40
+  DungeonMinimumStatRankA: 50
+  DungeonMinimumStatRankS: 60
   OutcomeOptions:
     Triumph:
       GoldGainedModifier: 1.25
@@ -94,7 +100,7 @@ MonoBehaviour:
       Weight: 4
       DifferenceToPrevent: 0
     Fled:
-      GoldGainedModifier: 0
+      GoldGainedModifier: 0.5
       DamageModifier: 0
       EXPModifier: 0.5
       Weight: 2
@@ -111,3 +117,4 @@ MonoBehaviour:
       EXPModifier: 0
       Weight: 2
       DifferenceToPrevent: 10
+  SyllableSet: {fileID: 11400000, guid: f6604fd868b51a144aa0b48be4488cb5, type: 2}
