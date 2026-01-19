@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using UnityEngine;
@@ -7,7 +8,7 @@ using UnityEngine.UIElements;
 public class UIController : MonoBehaviour
 {
     [SerializeField]
-    private GameController master;
+    private GameController gameController;
     [SerializeField]
     private DungeonListView dungeonListView;
     [SerializeField]
@@ -15,9 +16,7 @@ public class UIController : MonoBehaviour
     [SerializeField]
     private DetailPanel detailPanel;
     [SerializeField]
-    private AfterActionReport afterActionReport;
-    [SerializeField]
-    private RankEvaluationPanel rankEvaluationPanel;
+    private MainInfoPanel mainInfoPanel;
     private VisualElement root;
     private VisualElement mainMenu;
     private VisualElement mapScreen;
@@ -27,9 +26,9 @@ public class UIController : MonoBehaviour
     public Stack<VisualElement> FocusedElements = new();
     private DungeonInstance currentDungeon;
     private Character currentCharacter;
-    private System.Action onConfirm;
-    private List<MissionResult> todaysMissions = new();
+    private List<MissionResult> currentMissionList = new();
     private int missionReportIndex = 0;
+    private System.Action onConfirm;
     
     public void Setup()
     {
@@ -62,7 +61,7 @@ public class UIController : MonoBehaviour
         mapButtons = root.Query<Button>(className:"MapButton").ToList();
         List<Button>  _exitButtons = root.Query<Button>(className:"ExitButtons").ToList();
         List<Button>  _characterButtons = root.Query<Button>(className:"CharacterButton").ToList();
-    
+        List<Button>  _headerButtons = root.Query<Button>(className:"HeaderButton").ToList();
 
         foreach (Button button in _menuButtons)
         {
@@ -76,12 +75,12 @@ public class UIController : MonoBehaviour
                      btn.clicked += () => CloseFocusedElement();
                     break;
                 case "StartOverButton":
-                     btn.clicked += () => master.Restart();
+                     btn.clicked += () => gameController.Restart();
                     break;
                 case "SendPartyButton":
                 //will need to implement party selection screens later
                     Debug.Log("Send Party!");
-                    btn.clicked += () => master.DungeonStart(currentDungeon);
+                    btn.clicked += () => gameController.DungeonStart(currentDungeon);
                     break;
                 case "ConfirmButton":
                      btn.clicked += () => CloseFocusedElement();
@@ -106,13 +105,19 @@ public class UIController : MonoBehaviour
             Button btn = button;
             btn.clicked += () => OnCharacterButtonClicked(btn.name);
         }
+        foreach (Button button in _headerButtons)
+        {
+            Button btn = button;
+            btn.clicked += () => OnHeaderClicked(btn.name);
+        }
+
         Button _dialogConfirm = root.Q<Button>("DialogConfirm");
         Button _dialogCancel = root.Q<Button>("DialogCancel");
-        _dialogConfirm.clicked += OnConfirmClicked;
+        _dialogConfirm.clicked += OnDialogConfirmClicked;
         _dialogCancel.clicked += () =>  CloseFocusedElement();
 
-        Button _rankconfirm = root.Q<Button>("ConfirmRankUpButton");
-        _rankconfirm.clicked += () => OnRankUpConfirmed();
+        Button _mainInfoConfirm = root.Q<Button>("MainInfoConfirmButton");
+        _mainInfoConfirm.clicked +=  OnDialogConfirmClicked;
 
         Button _reportBack = root.Q<Button>("ReportBackButton");
         _reportBack.clicked += () => OnReportButtonClicked("ReportBackButton");
@@ -133,11 +138,14 @@ public class UIController : MonoBehaviour
 
         VisualElement _header = root.Q<VisualElement>("InfoHeader");
 
-        Label _day = _header.Q<Label>("DayNumber");
+        Button _day = _header.Q<Button>("DayButton");
         _day.text = day.ToString();
 
         Label _gold = _header.Q<Label>("GoldNumber");
         _gold.text = gold.ToString();
+
+        Button _guildRank = _header.Q<Button>("GuildRankButton");
+        _guildRank.text = "Guild Rank: " + gameController.State.CurrentGuildRank;
     }
     
     #region Buttons
@@ -147,12 +155,12 @@ public class UIController : MonoBehaviour
         switch(name)
         {
             case "PlayButton":
-                master.StartGame();
+                gameController.StartGame();
                 break;
             case "OptionButton":
                 break;
             case "QuitButton":
-                master.QuitGame();
+                gameController.QuitGame();
                 break;
         }
     } 
@@ -174,7 +182,7 @@ public class UIController : MonoBehaviour
         {
             _guildView.style.display = DisplayStyle.Flex;
             _dungeonView.style.display = DisplayStyle.None;
-            List<Character> roster = GameStateQueries.GetRoster(master.State);
+            List<Character> roster = gameController.State.Recruited;
             guildListView.ShowRoster(roster);
         }
         else
@@ -210,20 +218,20 @@ public class UIController : MonoBehaviour
                     break;
             }
             
-            List<DungeonInstance> list = GameStateQueries.GetFilteredDungeonList(name, master.State);
+            List<DungeonInstance> list = GameStateQueries.GetFilteredDungeonList(name, gameController.State);
             dungeonListView.ShowDungeon(list);
         }
     } 
     private void OnNextButtonClicked()
     {
         Debug.Log("====== NEXT DAY =======");
-        master.ReadyForNextDay();
+        gameController.ReadyForNextDay();
     }
-    private void OnConfirmClicked()
+    private void OnDialogConfirmClicked()
     {
         CloseFocusedElement();
         onConfirm?.Invoke();
-
+        onConfirm = null;
     }
     public void EscapePressed()
     {
@@ -261,12 +269,12 @@ public class UIController : MonoBehaviour
             case "RankUpButton":
                 if(currentCharacter.Rank != CharacterRank.S)
                 {
-                    OpenRankUpModal();
+                     DisplayMainInfoPanel("CharacterRankLayer");
                 }
                 break;
         }
     }
-    private void OnRankUpConfirmed()
+    private void OnCharacterRankUpConfirmed()
     {
         currentCharacter.RankUp();
         CloseFocusedElement();
@@ -275,15 +283,37 @@ public class UIController : MonoBehaviour
     {
         switch(button)
         {
-            case "ReportForwardButton":
-                missionReportIndex += 1;
-                DisplayAfterActionReport();
+            case "ReportForwardButton":  
+                if(missionReportIndex < currentMissionList.Count -1)
+                {
+                    missionReportIndex += 1;
+                }
                 break;
             case "ReportBackButton":
-                missionReportIndex -= 1;
-                DisplayAfterActionReport();
+                if(missionReportIndex > 0)
+                {
+                    missionReportIndex -= 1;
+                }
                 break;
 
+        }
+        DisplayMainInfoPanel("MissionLogLayer");
+    }
+    private void OnHeaderClicked(string name)
+    {
+        switch(name)
+        {
+            case "GoldButton":
+                DisplayMainInfoPanel("GoldLedgerLayer");
+                break;
+            case "DayButton":
+                currentMissionList = new List<MissionResult>(gameController.State.MissionLog);
+                missionReportIndex = 0;
+                DisplayMainInfoPanel("MissionLogLayer");
+                break;
+            case "GuildRankButton":
+                DisplayMainInfoPanel("GuildRankLayer");
+                break;
         }
     }
     #endregion
@@ -362,9 +392,9 @@ public class UIController : MonoBehaviour
         _detailsBoard.Q<VisualElement>("CharacterDetails").style.display = DisplayStyle.None;
 
         //will change when adding party selection screen
-        GameStateQueries.GetParty(master.State).PrepareParty();
+        GameStateQueries.GetParty(gameController.State).PrepareParty();
         
-        detailPanel.PopulateDungeonDetails(dungeon, _container, GameStateQueries.GetParty(master.State).GetSafetyRating(dungeon));
+        detailPanel.PopulateDungeonDetails(dungeon, _container, GameStateQueries.GetParty(gameController.State).GetSafetyRating(dungeon));
         if (FocusedElements.Count == 0 || FocusedElements.Peek() != _detailsBoard)
         {
             FocusedElements.Push(_detailsBoard);
@@ -381,7 +411,7 @@ public class UIController : MonoBehaviour
         _container.style.display = DisplayStyle.Flex;
         _detailsBoard.Q<VisualElement>("DungeonDetails").style.display = DisplayStyle.None;
 
-        detailPanel.PopulateCharacterDetails(character, _container, GameStateQueries.GetCurrentGold(master.State));
+        detailPanel.PopulateCharacterDetails(character, _container, gameController.State.CurrentGold);
         if (FocusedElements.Count == 0 || FocusedElements.Peek() != _detailsBoard)
         {
             FocusedElements.Push(_detailsBoard);
@@ -401,43 +431,89 @@ public class UIController : MonoBehaviour
     {
         VisualElement _header = root.Q<VisualElement>("InfoHeader");
 
-        Label _day = _header.Q<Label>("DayNumber");
-        _day.text = day.ToString();
+        Button _day = _header.Q<Button>("DayButton");
+        _day.text = "Day# " + day.ToString();
 
         Label _gold = _header.Q<Label>("GoldNumber");
         _gold.text = gold.ToString();
 
         if (missions.Count > 0)
         {
-            todaysMissions = new List<MissionResult>(missions);
-            DisplayAfterActionReport();
+            currentMissionList = new List<MissionResult>(missions);
+            missionReportIndex = 0;
+            DisplayMainInfoPanel("MissionLogLayer");
         }
     }
 
-    public void DisplayAfterActionReport()
+    private void DisplayMainInfoPanel(string view)
     {
-        var _actionReport = root.Q<VisualElement>("AfterAction");
-        _actionReport.style.display = DisplayStyle.Flex;
-
-        afterActionReport.ShowReport(_actionReport, todaysMissions[missionReportIndex]);
-        
-        if (FocusedElements.Count == 0 || FocusedElements.Peek() != _actionReport)
+        var _mainInfoPanel = root.Q<VisualElement>("MainInfoPanel");
+        _mainInfoPanel.style.display = DisplayStyle.Flex;
+        if (FocusedElements.Count == 0 || FocusedElements.Peek() != _mainInfoPanel)
         {
-            FocusedElements.Push(_actionReport);
+            FocusedElements.Push(_mainInfoPanel);
         }
-        if(todaysMissions.Count > 1)
-        {
-            root.Q<Button>("ReportBackButton").style.display = DisplayStyle.Flex;
-            root.Q<Button>("ReportForwardButton").style.display = DisplayStyle.Flex;
-        }
-        else
-        {
-            root.Q<Button>("ReportBackButton").style.display = DisplayStyle.None;
-            root.Q<Button>("ReportForwardButton").style.display = DisplayStyle.None;
-        }
+        HideAllInfoPanelLayers(_mainInfoPanel);
 
-
+        switch(view)
+        {
+            case "MissionLogLayer":
+                mainInfoPanel.ShowMissionReport(_mainInfoPanel.Q<VisualElement>("MissionLogPanel"), currentMissionList[missionReportIndex]);
+                if(currentMissionList.Count > 1)
+                {
+                    root.Q<Button>("ReportBackButton").style.display = DisplayStyle.Flex;
+                    root.Q<Button>("ReportForwardButton").style.display = DisplayStyle.Flex;
+                }
+                else
+                {
+                    root.Q<Button>("ReportBackButton").style.display = DisplayStyle.None;
+                    root.Q<Button>("ReportForwardButton").style.display = DisplayStyle.None;
+                } 
+                onConfirm = null;
+                break;
+            case "GuildRankLayer":
+                GuildRankEvaluation _guildEval = GameStateQueries.GetGuildRankEvaluation(gameController.State);
+                mainInfoPanel.ShowGuildRankInfo(_mainInfoPanel.Q<VisualElement>("GuildRankLayer"), gameController.State.CurrentGuildRank, _guildEval);
+                
+                if(_guildEval.CanPromote)
+                {
+                    _mainInfoPanel.Q<Button>("MainInfoConfirmButton").SetEnabled(true);
+                }
+                else
+                {
+                    _mainInfoPanel.Q<Button>("MainInfoConfirmButton").SetEnabled(false);
+                }
+                
+                onConfirm = () => gameController.GuildRankUp();
+                break;
+            case "GoldLedgerLayer":
+                mainInfoPanel.ShowLedger(_mainInfoPanel.Q<VisualElement>("GoldLedgerLayer"));
+                onConfirm = null;
+                break;
+            case "CharacterRankLayer":
+                CharacterRankEvaluation _characterEval = GameStateQueries.GetCharacterRankEvaluation(currentCharacter, gameController.State.CurrentGold);
+                mainInfoPanel.ShowCharacterRankInfo(_mainInfoPanel.Q<VisualElement>("CharacterRankLayer"),currentCharacter, _characterEval);
+                
+                if(_characterEval.CanPromote)
+                {
+                    _mainInfoPanel.Q<Button>("MainInfoConfirmButton").SetEnabled(true);
+                }
+                else
+                {
+                    _mainInfoPanel.Q<Button>("MainInfoConfirmButton").SetEnabled(false);
+                }
+                 onConfirm = () => currentCharacter.RankUp();
+                break;
+        }
     }
+    private void HideAllInfoPanelLayers(VisualElement container)
+    {
+        container.Q<VisualElement>("MissionLogLayer").style.display = DisplayStyle.None;
+        container.Q<VisualElement>("GuildRankLayer").style.display = DisplayStyle.None;
+        container.Q<VisualElement>("GoldLedgerLayer").style.display = DisplayStyle.None;
+        container.Q<VisualElement>("CharacterRankLayer").style.display = DisplayStyle.None;
+    }
+
     public void GameOver()
     {
         mainMenu.style.display = DisplayStyle.None;
@@ -461,7 +537,7 @@ public class UIController : MonoBehaviour
     {
         ShowDialogBox(
             "The party has not been assigned a mission! Are you sure you want to proceed?",
-            confirm: () => master.EndDay()
+            confirm: () => gameController.EndDay()
         );
     }
 
@@ -471,21 +547,11 @@ public class UIController : MonoBehaviour
     {
         ShowDialogBox(
             "All Parties have been assigned Missions. Would you like to end the day now?",
-            confirm: () => master.EndDay()
+            confirm: () => gameController.EndDay()
         );
     }
 
-    private void OpenRankUpModal()
-    {
-        VisualElement _RankUpBox = mapScreen.Q<VisualElement>("RankUpBox");
-        _RankUpBox.style.display = DisplayStyle.Flex;
-        FocusedElements.Push(_RankUpBox);
-
-        RankEvaluation eval = GameStateQueries.GetRankEvaluation(currentCharacter, master.State.CurrentGold);
-
-        rankEvaluationPanel.ShowRankEvaluation(_RankUpBox, currentCharacter, eval);
-
-    }
 }
+
 
 

@@ -57,6 +57,7 @@ public class GameController : MonoBehaviour
         Debug.Log("======= Data Creation Finished ========");
 
         gameState.CurrentGold = Config.startingGold;
+        gameState.Ledger.Add(new LedgerLine(gameState.DayCount, gameState.CurrentGold, gameState.CurrentGold, "Guild Open"));
         ui.LoadMapScreen(gameState.CurrentGold, gameState.DayCount);
         ui.DisplayMapButtons(gameState.Dungeons);
 
@@ -76,7 +77,10 @@ public class GameController : MonoBehaviour
             Application.Quit();
         #endif
     }
-
+    public void GuildRankUp()
+    {
+        
+    }
     public void DungeonStart(DungeonInstance dungeon)
     {
         //will need to implement party selection
@@ -142,25 +146,32 @@ public class GameController : MonoBehaviour
                 gameState.MissionLog.Add(newMission);
                 _todaysMissions.Add(newMission);
                 gameState.CurrentGold += newMission.GoldGained;
+                gameState.Ledger.Add(new LedgerLine(gameState.DayCount, gameState.CurrentGold, newMission.GoldGained, "Dungeon Income"));
             }
         }
+        
+        
 
         foreach (var character in gameState.Characters)
         {
+            int _wage = 0;
             //add rank costs later
             if(character.IsAlive)
             {
                 if(character.IsResting)
                 {                
-                    gameState.CurrentGold -= GameStateQueries.GetWage(character.Rank) + Config.RestingCost;
+                    _wage = GameStateQueries.GetWage(character.Rank) + Config.RestingCost;
                     character.HealthCheck(Config.HPRefusalThreshold, Config.HPReadyForActionThreshold, Config.BaseRestHeal);
                 }
                 else
                 {
-                    gameState.CurrentGold -= GameStateQueries.GetWage(character.Rank);
+                    _wage = GameStateQueries.GetWage(character.Rank);
                     character.HealthCheck(Config.HPRefusalThreshold, Config.HPReadyForActionThreshold, Config.BaseRestHeal);
                 }
             }
+            gameState.CurrentGold -= _wage;
+            gameState.Ledger.Add(new LedgerLine(gameState.DayCount, gameState.CurrentGold, 0 - _wage, $"Wages for {character.Name}"));
+            
         }
         // will need to update logic when we add recruitment
         if(gameState.CurrentGold < 1 || IsEveryoneDead())

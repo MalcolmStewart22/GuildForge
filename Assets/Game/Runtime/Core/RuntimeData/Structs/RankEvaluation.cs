@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [System.Serializable]
-public class RankEvaluation
+public class CharacterRankEvaluation
 {
     //Bools
     public bool CanPromote;
@@ -22,7 +22,22 @@ public class RankEvaluation
     public int CurrentWage;
     public int NextWage;
     public CharacterRank NextRank;
+}
 
-    
+[System.Serializable]
+public class GuildRankEvaluation
+{
+    //bools
+    public bool CanPromote;
+    public bool HasEnoughGold;
+    public bool MeetsCharacterRequirement;
 
+    //requirements
+    public int NumCharactersAtRank;
+    public int NumCharactersRequiredAtRank;
+    public int PromotionCost;
+
+    //effects
+    public int NewPartyMax;
+    public GuildRank NewRank;
 }

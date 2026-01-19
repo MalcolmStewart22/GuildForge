@@ -10,10 +10,6 @@ public static class GameStateQueries
     {
         Config = config;
     }
-    public static List<Character> GetRoster(GameState gameState)
-    {
-        return gameState.Recruited;
-    }
     public static List<DungeonInstance> GetFilteredDungeonList(string buttonName, GameState gameState)
     {
         switch(buttonName)
@@ -38,10 +34,6 @@ public static class GameStateQueries
         return null;
     }
 
-    public static int GetCurrentGold(GameState gameState)
-    {
-        return gameState.CurrentGold;
-    }
     public static float GetOutcomeGoldModifier(OutcomeTypes outcome)
     {
         switch (outcome)
@@ -95,9 +87,9 @@ public static class GameStateQueries
         return Config.MaxPartySize;
     }
 
-    public static RankEvaluation GetRankEvaluation(Character character, int gold)//Cant be called on S rank character - Prevention logic will live elsewhere
+    public static CharacterRankEvaluation GetCharacterRankEvaluation(Character character, int gold)//Cant be called on S rank character - Prevention logic will live elsewhere
     {
-        RankEvaluation _result = new();
+        CharacterRankEvaluation _result = new();
         JobStatFocus _focus = Config.JobStatMap.First(x => x.Job == character.Job);
         _result.PrimaryStat = _focus.Primary;
         _result.SecondaryStat = _focus.Secondary;
@@ -162,6 +154,11 @@ public static class GameStateQueries
             _result.HasEnoughGold;
 
         return _result;   
+    }
+
+    public static GuildRankEvaluation GetGuildRankEvaluation(GameState gameState)
+    {
+        return new GuildRankEvaluation();
     }
 
     public static int GetWage(CharacterRank rank)

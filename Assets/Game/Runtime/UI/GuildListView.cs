@@ -77,6 +77,7 @@ public class GuildListView : MonoBehaviour
     }
     public void ShowRoster(List<Character> newRoster)
     {
+        listView.ClearSelection();
         roster = newRoster ?? new List<Character>();
         listView.itemsSource = roster;
         listView.Rebuild();

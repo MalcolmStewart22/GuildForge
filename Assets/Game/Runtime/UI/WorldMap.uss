@@ -118,3 +118,6 @@
 .RankUpLabel {
     font-size: 12px;
 }
+
+.HeaderButtons {
+}

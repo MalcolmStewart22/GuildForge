@@ -60,12 +60,12 @@ MonoBehaviour:
     PrimaryStatRequirement: 50
     SecondaryStatRequirement: 30
   RankB:
-    LevelCap: 0
-    PromotionCost: 0
-    Wage: 0
-    RequiredLevel: 0
-    PrimaryStatRequirement: 0
-    SecondaryStatRequirement: 0
+    LevelCap: 40
+    PromotionCost: 40
+    Wage: 5
+    RequiredLevel: 35
+    PrimaryStatRequirement: 60
+    SecondaryStatRequirement: 40
   RankA:
     LevelCap: 0
     PromotionCost: 0
@@ -117,4 +117,22 @@ MonoBehaviour:
       EXPModifier: 0
       Weight: 2
       DifferenceToPrevent: 10
+  GuildRankE:
+    MaxNumberOfParties: 0
+    PromotionCost: 0
+  GuildRankD:
+    MaxNumberOfParties: 0
+    PromotionCost: 0
+  GuildRankC:
+    MaxNumberOfParties: 0
+    PromotionCost: 0
+  GuildRankB:
+    MaxNumberOfParties: 0
+    PromotionCost: 0
+  GuildRankA:
+    MaxNumberOfParties: 0
+    PromotionCost: 0
+  GuildRankS:
+    MaxNumberOfParties: 0
+    PromotionCost: 0
   SyllableSet: {fileID: 11400000, guid: f6604fd868b51a144aa0b48be4488cb5, type: 2}

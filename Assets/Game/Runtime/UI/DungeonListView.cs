@@ -44,6 +44,7 @@ public class DungeonListView : MonoBehaviour
 
     public void ShowDungeon(List<DungeonInstance> newDungeons)
     {
+        listView.ClearSelection();
         _currentDungeons = newDungeons ?? new List<DungeonInstance>();
         listView.itemsSource = _currentDungeons;
         listView.Rebuild();
