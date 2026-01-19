@@ -118,21 +118,27 @@ MonoBehaviour:
       Weight: 2
       DifferenceToPrevent: 10
   GuildRankE:
-    MaxNumberOfParties: 0
-    PromotionCost: 0
+    CharactersRequiredToRankUp: 3
+    MaxNumberOfParties: 1
+    PromotionCost: 30
   GuildRankD:
-    MaxNumberOfParties: 0
-    PromotionCost: 0
+    CharactersRequiredToRankUp: 5
+    MaxNumberOfParties: 2
+    PromotionCost: 50
   GuildRankC:
-    MaxNumberOfParties: 0
-    PromotionCost: 0
+    CharactersRequiredToRankUp: 8
+    MaxNumberOfParties: 3
+    PromotionCost: 70
   GuildRankB:
+    CharactersRequiredToRankUp: 0
     MaxNumberOfParties: 0
     PromotionCost: 0
   GuildRankA:
+    CharactersRequiredToRankUp: 0
     MaxNumberOfParties: 0
     PromotionCost: 0
   GuildRankS:
+    CharactersRequiredToRankUp: 0
     MaxNumberOfParties: 0
     PromotionCost: 0
   SyllableSet: {fileID: 11400000, guid: f6604fd868b51a144aa0b48be4488cb5, type: 2}

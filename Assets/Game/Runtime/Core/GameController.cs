@@ -77,9 +77,23 @@ public class GameController : MonoBehaviour
             Application.Quit();
         #endif
     }
-    public void GuildRankUp()
+    public void RankUp(GuildRankEvaluation guildEval)
     {
-        
+        gameState.CurrentGuildRank = guildEval.NewRank;
+        PayGold(guildEval.PromotionCost, "Guild Promotion");
+        ui.UpdateHeaderInfo();
+    }
+    public void RankUp(CharacterRankEvaluation characterEval, Character character)
+    {
+        character.RankUp();
+        PayGold(characterEval.PromotionCost, $"Promotion for {character.Name}");
+        ui.UpdateHeaderInfo();
+    }
+
+    public void PayGold(int amount, string reason)
+    {
+        gameState.CurrentGold -= amount;
+        gameState.Ledger.Add(new LedgerLine(gameState.DayCount, gameState.CurrentGold, 0 - amount, reason));
     }
     public void DungeonStart(DungeonInstance dungeon)
     {
@@ -169,8 +183,7 @@ public class GameController : MonoBehaviour
                     character.HealthCheck(Config.HPRefusalThreshold, Config.HPReadyForActionThreshold, Config.BaseRestHeal);
                 }
             }
-            gameState.CurrentGold -= _wage;
-            gameState.Ledger.Add(new LedgerLine(gameState.DayCount, gameState.CurrentGold, 0 - _wage, $"Wages for {character.Name}"));
+            PayGold(_wage, $"Wages for {character.Name}");
             
         }
         // will need to update logic when we add recruitment
@@ -183,7 +196,7 @@ public class GameController : MonoBehaviour
         else
         {
             gameState.DayCount += 1;
-            ui.UpdateForEndOfDay(gameState.CurrentGold, gameState.DayCount, _todaysMissions); 
+            ui.EndOfDay( _todaysMissions); 
         }
     }
 

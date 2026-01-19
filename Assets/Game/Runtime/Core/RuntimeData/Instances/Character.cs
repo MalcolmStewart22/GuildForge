@@ -50,24 +50,6 @@ public class Character
         return _healCost;
     }
 
-    public int GetRankUpCost()
-    {
-        switch (Rank)
-        {
-            case CharacterRank.E:
-                return 10;
-            case CharacterRank.D:
-                return 20;
-            case CharacterRank.C:
-                return 30;
-            case CharacterRank.B:
-                return 40;
-            case CharacterRank.A:
-                return 50;
-        }
-        return 0;
-    }
-
     public void RankUp()
     {
         switch (Rank)

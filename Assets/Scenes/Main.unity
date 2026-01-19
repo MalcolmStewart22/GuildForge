@@ -465,7 +465,7 @@ MonoBehaviour:
     CurrentGold: 0
     DayCount: 0
     MissionCount: 0
-    guildRank: 0
+    CurrentGuildRank: 0
     Characters: []
     Recruited: []
     Parties: []
@@ -510,7 +510,6 @@ GameObject:
   - component: {fileID: 959317429}
   - component: {fileID: 959317430}
   - component: {fileID: 959317431}
-  - component: {fileID: 959317432}
   m_Layer: 5
   m_Name: UI
   m_TagString: Untagged
@@ -563,17 +562,16 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 959317421}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e6373f03996cec24381a44e0b04502a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIController
-  master: {fileID: 913104260}
+  gameController: {fileID: 913104260}
   dungeonListView: {fileID: 959317425}
   guildListView: {fileID: 959317426}
   detailPanel: {fileID: 959317427}
-  afterActionReport: {fileID: 959317429}
-  rankEvaluationPanel: {fileID: 959317432}
+  mainInfoPanel: {fileID: 959317429}
 --- !u!114 &959317425
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -581,7 +579,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 959317421}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 95bd36dc6faa5b7469f36c26d0c953a1, type: 3}
   m_Name: 
@@ -593,7 +591,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 959317421}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 29c0ec3682f065746a416d9d887c7f57, type: 3}
   m_Name: 
@@ -605,7 +603,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 959317421}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fa54a461b1eca044595e240e7ff8924a, type: 3}
   m_Name: 
@@ -618,7 +616,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 959317421}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ad6d17e137b46f14489981839ab13cee, type: 3}
   m_Name: 
@@ -630,7 +628,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 959317421}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c176c8240b0ec4b45985a546f429c955, type: 3}
   m_Name: 
@@ -644,7 +642,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 959317421}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 996fae48223c7d24594bd8b32c35373d, type: 3}
   m_Name: 
@@ -656,23 +654,11 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 959317421}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ea61d4554e322764795d22717e6d2703, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PartyListView
---- !u!114 &959317432
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 959317421}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e5c14ca6f2e25ab4990141bb7faf5fbf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::RankEvaluationPanel
 --- !u!1 &1025785454
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using Unity.VisualScripting;
 
 public static class GameStateQueries
 {
@@ -90,56 +91,62 @@ public static class GameStateQueries
     public static CharacterRankEvaluation GetCharacterRankEvaluation(Character character, int gold)//Cant be called on S rank character - Prevention logic will live elsewhere
     {
         CharacterRankEvaluation _result = new();
+        _result.CurrentRank = character.Rank;
+        if(character.Rank == CharacterRank.S)
+        {
+            _result.CanPromote = false;
+            return _result;
+        }
         JobStatFocus _focus = Config.JobStatMap.First(x => x.Job == character.Job);
         _result.PrimaryStat = _focus.Primary;
         _result.SecondaryStat = _focus.Secondary;
-
+        Debug.Log($"Focus collected: {_focus.Job} {_focus.Primary} {_focus.Secondary}");
         switch(character.Rank)
         {
             case CharacterRank.E:
-                _result.PromotionCost = Config.RankE.PromotionCost;
-                _result.CurrentWage = Config.RankE.Wage;
-                _result.NextWage = Config.RankD.Wage;
+                _result.PromotionCost = Config.CharacterRankE.PromotionCost;
+                _result.CurrentWage = Config.CharacterRankE.Wage;
+                _result.NextWage = Config.CharacterRankD.Wage;
                 _result.NextRank = CharacterRank.D;
-                _result.PrimaryStatRequirement = Config.RankE.PrimaryStatRequirement;
-                _result.SecondaryStatRequirement = Config.RankE.SecondaryStatRequirement;
-                _result.RequiredLevel = Config.RankE.RequiredLevel;
+                _result.PrimaryStatRequirement = Config.CharacterRankE.PrimaryStatRequirement;
+                _result.SecondaryStatRequirement = Config.CharacterRankE.SecondaryStatRequirement;
+                _result.RequiredLevel = Config.CharacterRankE.RequiredLevel;
                 break;
             case CharacterRank.D:
-                _result.PromotionCost = Config.RankD.PromotionCost;
-                _result.CurrentWage = Config.RankD.Wage;
-                _result.NextWage = Config.RankC.Wage;
+                _result.PromotionCost = Config.CharacterRankD.PromotionCost;
+                _result.CurrentWage = Config.CharacterRankD.Wage;
+                _result.NextWage = Config.CharacterRankC.Wage;
                 _result.NextRank = CharacterRank.C;
-                _result.PrimaryStatRequirement = Config.RankD.PrimaryStatRequirement;
-                _result.SecondaryStatRequirement = Config.RankD.SecondaryStatRequirement;
-                _result.RequiredLevel = Config.RankD.RequiredLevel;
+                _result.PrimaryStatRequirement = Config.CharacterRankD.PrimaryStatRequirement;
+                _result.SecondaryStatRequirement = Config.CharacterRankD.SecondaryStatRequirement;
+                _result.RequiredLevel = Config.CharacterRankD.RequiredLevel;
                 break;
             case CharacterRank.C:
-                _result.PromotionCost = Config.RankC.PromotionCost;
-                _result.CurrentWage = Config.RankC.Wage;
-                _result.NextWage = Config.RankB.Wage;
+                _result.PromotionCost = Config.CharacterRankC.PromotionCost;
+                _result.CurrentWage = Config.CharacterRankC.Wage;
+                _result.NextWage = Config.CharacterRankB.Wage;
                 _result.NextRank = CharacterRank.B;
-                _result.PrimaryStatRequirement = Config.RankC.PrimaryStatRequirement;
-                _result.SecondaryStatRequirement = Config.RankC.SecondaryStatRequirement;
-                _result.RequiredLevel = Config.RankC.RequiredLevel;
+                _result.PrimaryStatRequirement = Config.CharacterRankC.PrimaryStatRequirement;
+                _result.SecondaryStatRequirement = Config.CharacterRankC.SecondaryStatRequirement;
+                _result.RequiredLevel = Config.CharacterRankC.RequiredLevel;
                 break;
             case CharacterRank.B:
-                _result.PromotionCost = Config.RankB.PromotionCost;
-                _result.CurrentWage = Config.RankB.Wage;
-                _result.NextWage = Config.RankA.Wage;
+                _result.PromotionCost = Config.CharacterRankB.PromotionCost;
+                _result.CurrentWage = Config.CharacterRankB.Wage;
+                _result.NextWage = Config.CharacterRankA.Wage;
                 _result.NextRank = CharacterRank.A;
-                _result.PrimaryStatRequirement = Config.RankB.PrimaryStatRequirement;
-                _result.SecondaryStatRequirement = Config.RankB.SecondaryStatRequirement;
-                _result.RequiredLevel = Config.RankB.RequiredLevel;
+                _result.PrimaryStatRequirement = Config.CharacterRankB.PrimaryStatRequirement;
+                _result.SecondaryStatRequirement = Config.CharacterRankB.SecondaryStatRequirement;
+                _result.RequiredLevel = Config.CharacterRankB.RequiredLevel;
                 break;
             case CharacterRank.A:
-                _result.PromotionCost = Config.RankA.PromotionCost;
-                _result.CurrentWage = Config.RankA.Wage;
-                _result.NextWage = Config.RankS.Wage;
+                _result.PromotionCost = Config.CharacterRankA.PromotionCost;
+                _result.CurrentWage = Config.CharacterRankA.Wage;
+                _result.NextWage = Config.CharacterRankS.Wage;
                 _result.NextRank = CharacterRank.S;
-                _result.PrimaryStatRequirement = Config.RankA.PrimaryStatRequirement;
-                _result.SecondaryStatRequirement = Config.RankA.SecondaryStatRequirement;
-                _result.RequiredLevel = Config.RankA.RequiredLevel;
+                _result.PrimaryStatRequirement = Config.CharacterRankA.PrimaryStatRequirement;
+                _result.SecondaryStatRequirement = Config.CharacterRankA.SecondaryStatRequirement;
+                _result.RequiredLevel = Config.CharacterRankA.RequiredLevel;
                 break;
         }
 
@@ -158,7 +165,82 @@ public static class GameStateQueries
 
     public static GuildRankEvaluation GetGuildRankEvaluation(GameState gameState)
     {
-        return new GuildRankEvaluation();
+        GuildRankEvaluation _result = new();
+        _result.CurrentRank = gameState.CurrentGuildRank;
+        if(gameState.CurrentGuildRank == GuildRank.S)
+        {
+            _result.CanPromote = false;
+            return _result;
+        }
+        switch(gameState.CurrentGuildRank)
+        {
+            case GuildRank.E:
+                _result.NumCharactersAtRank = GetRecruitedCharactersOfRank(CharacterRank.D, gameState).Count;
+                _result.NumCharactersRequiredAtRank = Config.GuildRankE.CharactersRequiredToRankUp;
+                _result.PromotionCost = Config.GuildRankE.PromotionCost;
+                _result.NewPartyMax = Config.GuildRankD.MaxNumberOfParties;
+                _result.NewRank =  GuildRank.D;
+                break;
+            case GuildRank.D:
+                _result.NumCharactersAtRank = GetRecruitedCharactersOfRank(CharacterRank.C, gameState).Count;
+                _result.NumCharactersRequiredAtRank = Config.GuildRankD.CharactersRequiredToRankUp;
+                _result.PromotionCost = Config.GuildRankD.PromotionCost;
+                _result.NewPartyMax = Config.GuildRankC.MaxNumberOfParties;
+                _result.NewRank =  GuildRank.C;
+                break;
+            case GuildRank.C:
+                _result.NumCharactersAtRank = GetRecruitedCharactersOfRank(CharacterRank.B, gameState).Count;
+                _result.NumCharactersRequiredAtRank = Config.GuildRankC.CharactersRequiredToRankUp;
+                _result.PromotionCost = Config.GuildRankC.PromotionCost;
+                _result.NewPartyMax = Config.GuildRankB.MaxNumberOfParties;
+                _result.NewRank =  GuildRank.B;
+                break;
+            case GuildRank.B:
+                _result.NumCharactersAtRank = GetRecruitedCharactersOfRank(CharacterRank.A, gameState).Count;
+                _result.NumCharactersRequiredAtRank = Config.GuildRankB.CharactersRequiredToRankUp;
+                _result.PromotionCost = Config.GuildRankB.PromotionCost;
+                _result.NewPartyMax = Config.GuildRankA.MaxNumberOfParties;
+                _result.NewRank =  GuildRank.A;
+                break;
+            case GuildRank.A:
+                _result.NumCharactersAtRank = GetRecruitedCharactersOfRank(CharacterRank.S, gameState).Count;
+                _result.NumCharactersRequiredAtRank = Config.GuildRankA.CharactersRequiredToRankUp;
+                _result.PromotionCost = Config.GuildRankA.PromotionCost;
+                _result.NewPartyMax = Config.GuildRankS.MaxNumberOfParties;
+                _result.NewRank =  GuildRank.S;
+                break;
+        }
+        
+        if(_result.NumCharactersAtRank >= _result.NumCharactersRequiredAtRank)
+        {
+            _result.MeetsCharacterRequirement = true;
+        }
+        if(gameState.CurrentGold >= _result.PromotionCost)
+        {
+            _result.HasEnoughGold = true;
+        }
+        _result.CanPromote = _result.MeetsCharacterRequirement && _result.HasEnoughGold;
+
+        return _result;
+    }
+    public static List<Character> GetRecruitedCharactersOfRank(CharacterRank rank, GameState gameState)
+    {
+        switch(rank)
+        {
+            case CharacterRank.E:
+                return gameState.Recruited.Where(c => c.Rank == CharacterRank.E).ToList();
+            case CharacterRank.D:
+                return gameState.Recruited.Where(c => c.Rank == CharacterRank.D).ToList();
+            case CharacterRank.C:
+                return gameState.Recruited.Where(c => c.Rank == CharacterRank.C).ToList();
+            case CharacterRank.B:
+                return gameState.Recruited.Where(c => c.Rank == CharacterRank.B).ToList();
+            case CharacterRank.A:
+                return gameState.Recruited.Where(c => c.Rank == CharacterRank.A).ToList();
+            case CharacterRank.S:
+                return gameState.Recruited.Where(c => c.Rank == CharacterRank.S).ToList();
+        }
+        return null;
     }
 
     public static int GetWage(CharacterRank rank)
@@ -166,19 +248,19 @@ public static class GameStateQueries
         switch(rank)
         {
             case CharacterRank.E:
-                return Config.RankE.Wage;
+                return Config.CharacterRankE.Wage;
             case CharacterRank.D:
-                return Config.RankD.Wage;
+                return Config.CharacterRankD.Wage;
             case CharacterRank.C:
-                return Config.RankC.Wage;
+                return Config.CharacterRankC.Wage;
             case CharacterRank.B:
-                return Config.RankB.Wage;
+                return Config.CharacterRankB.Wage;
             case CharacterRank.A:
-                return Config.RankA.Wage;
+                return Config.CharacterRankA.Wage;
             case CharacterRank.S:
-                return Config.RankS.Wage;
+                return Config.CharacterRankS.Wage;
         }
-        return Config.RankE.Wage;
+        return Config.CharacterRankE.Wage;
     }
 
     public static int GetLevelCap(CharacterRank rank)
@@ -186,18 +268,18 @@ public static class GameStateQueries
         switch(rank)
         {
             case CharacterRank.E:
-                return Config.RankE.LevelCap;
+                return Config.CharacterRankE.LevelCap;
             case CharacterRank.D:
-                return Config.RankD.LevelCap;
+                return Config.CharacterRankD.LevelCap;
             case CharacterRank.C:
-                return Config.RankC.LevelCap;
+                return Config.CharacterRankC.LevelCap;
             case CharacterRank.B:
-                return Config.RankB.LevelCap;
+                return Config.CharacterRankB.LevelCap;
             case CharacterRank.A:
-                return Config.RankA.LevelCap;
+                return Config.CharacterRankA.LevelCap;
             case CharacterRank.S:
-                return Config.RankS.LevelCap;
+                return Config.CharacterRankS.LevelCap;
         }
-        return Config.RankE.Wage;
+        return Config.CharacterRankE.Wage;
     }
 }

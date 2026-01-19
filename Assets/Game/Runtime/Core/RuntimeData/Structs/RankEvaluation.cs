@@ -22,15 +22,16 @@ public class CharacterRankEvaluation
     public int CurrentWage;
     public int NextWage;
     public CharacterRank NextRank;
+    public CharacterRank CurrentRank;
 }
 
 [System.Serializable]
 public class GuildRankEvaluation
 {
     //bools
-    public bool CanPromote;
-    public bool HasEnoughGold;
-    public bool MeetsCharacterRequirement;
+    public bool CanPromote = false;
+    public bool HasEnoughGold = false;
+    public bool MeetsCharacterRequirement = false;
 
     //requirements
     public int NumCharactersAtRank;
@@ -40,4 +41,5 @@ public class GuildRankEvaluation
     //effects
     public int NewPartyMax;
     public GuildRank NewRank;
+    public GuildRank CurrentRank;
 }

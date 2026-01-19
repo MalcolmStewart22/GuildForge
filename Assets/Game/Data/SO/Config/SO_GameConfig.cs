@@ -28,12 +28,12 @@ public class SO_GameConfig : ScriptableObject
     public float retreatHpThreshold = 0;
 
     [Header("Character Rank Levers")] 
-    public CharacterRankLevers RankE;
-    public CharacterRankLevers RankD;
-    public CharacterRankLevers RankC;
-    public CharacterRankLevers RankB;
-    public CharacterRankLevers RankA;
-    public CharacterRankLevers RankS;
+    public CharacterRankLevers CharacterRankE;
+    public CharacterRankLevers CharacterRankD;
+    public CharacterRankLevers CharacterRankC;
+    public CharacterRankLevers CharacterRankB;
+    public CharacterRankLevers CharacterRankA;
+    public CharacterRankLevers CharacterRankS;
 
     [Header("Dungeon Levers")] 
     public int DungeonMinimumStatRankE;
@@ -43,6 +43,7 @@ public class SO_GameConfig : ScriptableObject
     public int DungeonMinimumStatRankA;
     public int DungeonMinimumStatRankS;
     public OutcomeBands OutcomeOptions; 
+    public DungeonLevers DungeonLever;
 
     [Header("Guild Rank Levers")]
     public GuildRankLevers GuildRankE;
@@ -51,7 +52,7 @@ public class SO_GameConfig : ScriptableObject
     public GuildRankLevers GuildRankB;
     public GuildRankLevers GuildRankA;
     public GuildRankLevers GuildRankS;
-    
+
     [Header("Other Config Bits")]
     public SO_NameSyllableSet SyllableSet;
 
@@ -71,7 +72,8 @@ public class CharacterRankLevers
 [System.Serializable]
 public class GuildRankLevers
 {
-    public int MaxNumberOfParties;
+    public int CharactersRequiredToRankUp; // needed to go to next
+    public int MaxNumberOfParties; // current rank cap
     public int PromotionCost; //cost to go to next
 }
 
