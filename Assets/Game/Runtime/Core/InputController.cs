@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 public class InputController : MonoBehaviour
 {
     [SerializeField]
-    private GameController master;
+    private GameController gameController;
     [SerializeField]
     private UIController ui;
     private GameInput input;

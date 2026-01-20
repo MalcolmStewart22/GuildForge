@@ -19,16 +19,11 @@ MonoBehaviour:
   Tooltip: 
   DefaultEnemy: {fileID: 0}
   Effects:
-    MightWeight: 1.5
+    MightWeight: 1.2
     FinesseWeight: 1
-    EnduranceWeight: 1.25
-    HealingWeight: 1
     ArcanaWeight: 1
-    ControlWeight: 1.25
-    ResolveWeight: 1
+    ControlWeight: 1.1
     CombatWeight: 1.5
     TrapWeight: 1.25
     HazardWeight: 0.5
     TreasureWeight: 1.25
-    PhysicalMultiplier: 1
-    MagicMultiplier: 1

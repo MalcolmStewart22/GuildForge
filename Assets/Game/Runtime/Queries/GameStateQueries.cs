@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using Unity.VisualScripting;
+using System;
 
 public static class GameStateQueries
 {
@@ -53,39 +54,32 @@ public static class GameStateQueries
         
         return 1; //if the switch somehow breaks (should be impossible) dont break the game 
     }
-    public static int GetStatMinimum(DungeonRank rank)
+    public static DungeonLevers GetDungeonLevers(DungeonRank rank)
     {
-        int result = 0;
         switch(rank)
         {
             case DungeonRank.E:
-                result =  Config.DungeonMinimumStatRankE;
-                break;
+                return new DungeonLevers(Config.DungeonRankEMinimum, Config.BaseDeltas);
             case DungeonRank.D:
-                result =  Config.DungeonMinimumStatRankE;
-                break;
+                return new DungeonLevers(Config.DungeonRankDMinimum, Config.BaseDeltas);
             case DungeonRank.C:
-                result =  Config.DungeonMinimumStatRankE;
-                break;
+                return new DungeonLevers(Config.DungeonRankCMinimum, Config.BaseDeltas);
             case DungeonRank.B:
-                result =  Config.DungeonMinimumStatRankE;
-                break;
+                return new DungeonLevers(Config.DungeonRankBMinimum, Config.BaseDeltas);
             case DungeonRank.A:
-                result =  Config.DungeonMinimumStatRankE;
-                break;
+                return new DungeonLevers(Config.DungeonRankAMinimum, Config.BaseDeltas);
             case DungeonRank.S:
-                result =  Config.DungeonMinimumStatRankE;
-                break;
+                return new DungeonLevers(Config.DungeonRankSMinimum, Config.BaseDeltas);
         }
-        return result;
+        return null;
     }
     public static Party GetParty(GameState gameState)
     {
         return gameState.Parties[0];
     }
-    public static int GetMaxPartySize()
+    public static int GetDungeonMinimumPayout(DungeonRank rank)
     {
-        return Config.MaxPartySize;
+        return  (int)MathF.Round(Config.MaxPartySize * GetWage((CharacterRank)rank) * (1 / Config.ExpectedMissionRatio));
     }
 
     public static CharacterRankEvaluation GetCharacterRankEvaluation(Character character, int gold)//Cant be called on S rank character - Prevention logic will live elsewhere

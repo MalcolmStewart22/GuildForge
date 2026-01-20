@@ -79,7 +79,7 @@ public class DungeonResolver
         }
         
         missionResult.LevelUpReports = new List<LevelUpReport>(party.AssignExp(_totalExp));
-        _outcomeAsNum = _outcomeAsNum / missionResult.EventResults.Count;
+        _outcomeAsNum = Mathf.RoundToInt(_outcomeAsNum / (missionResult.EventResults.Count * 1f)); // I want a failure + Success to equal success. Just weighting it up a little
         int _goldMinimum = missionResult.Dungeon.MinimumPayout;
         switch(_outcomeAsNum)
         {

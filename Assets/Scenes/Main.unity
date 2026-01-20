@@ -462,15 +462,1567 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameController
   gameState:
-    CurrentGold: 0
-    DayCount: 0
+    CurrentGold: 30
+    DayCount: 2
     MissionCount: 0
     CurrentGuildRank: 0
-    Characters: []
-    Recruited: []
-    Parties: []
-    Dungeons: []
-    MissionLog: []
+    Characters:
+    - CharacterID: 0
+      Name: Thainis
+      Age: 0
+      Job: 0
+      Rank: 0
+      Level: 1
+      EXP: 0
+      HPMax: 21
+      CurrentHP: 15
+      Base:
+        might: 11
+        finesse: 14
+        endurance: 14
+        healing: 10
+        arcana: 12
+        control: 14
+        resolve: 12
+      Actual:
+        might: 11
+        finesse: 14
+        endurance: 14
+        healing: 10
+        arcana: 12
+        control: 14
+        resolve: 12
+      Traits:
+      - {fileID: 11400000, guid: e786eb956bd1acd439a9ad9c1b9479aa, type: 2}
+      TotalTraitEffects:
+        MightBonus: 0
+        FinesseBonus: 0
+        EnduranceBonus: 0
+        HealingBonus: 0
+        AracanaBonus: 0
+        ControlBonus: 0
+        ResolveBonus: 0
+        CombatBonus: 0
+        TrapBonus: 0
+        HazardBonus: 0
+        TreasureBonus: 0
+        GoldModifier: 1
+        DamageModifier: 1
+        EXPModifier: 1
+      IsAlive: 1
+      IsResting: 0
+    - CharacterID: 1
+      Name: Belthos
+      Age: 0
+      Job: 2
+      Rank: 0
+      Level: 1
+      EXP: 0
+      HPMax: 21
+      CurrentHP: 15
+      Base:
+        might: 17
+        finesse: 16
+        endurance: 14
+        healing: 13
+        arcana: 15
+        control: 8
+        resolve: 13
+      Actual:
+        might: 17
+        finesse: 16
+        endurance: 14
+        healing: 13
+        arcana: 15
+        control: 8
+        resolve: 13
+      Traits:
+      - {fileID: 11400000, guid: fe96b3dd21fdb824bac23f598a1ef1b6, type: 2}
+      TotalTraitEffects:
+        MightBonus: 0
+        FinesseBonus: 0
+        EnduranceBonus: 0
+        HealingBonus: 0
+        AracanaBonus: 0
+        ControlBonus: 0
+        ResolveBonus: 0
+        CombatBonus: 0
+        TrapBonus: 0
+        HazardBonus: 0
+        TreasureBonus: 0
+        GoldModifier: 1
+        DamageModifier: 1
+        EXPModifier: 1
+      IsAlive: 1
+      IsResting: 0
+    - CharacterID: 2
+      Name: Corrain
+      Age: 0
+      Job: 1
+      Rank: 0
+      Level: 1
+      EXP: 0
+      HPMax: 21
+      CurrentHP: 15
+      Base:
+        might: 12
+        finesse: 12
+        endurance: 14
+        healing: 15
+        arcana: 8
+        control: 12
+        resolve: 14
+      Actual:
+        might: 12
+        finesse: 12
+        endurance: 14
+        healing: 15
+        arcana: 8
+        control: 12
+        resolve: 14
+      Traits:
+      - {fileID: 11400000, guid: 5673ef2dc8968ed4584c6f4746e16f5a, type: 2}
+      TotalTraitEffects:
+        MightBonus: 0
+        FinesseBonus: 0
+        EnduranceBonus: 0
+        HealingBonus: 0
+        AracanaBonus: 0
+        ControlBonus: 0
+        ResolveBonus: 0
+        CombatBonus: 0
+        TrapBonus: 0
+        HazardBonus: 0
+        TreasureBonus: 0
+        GoldModifier: 1
+        DamageModifier: 1
+        EXPModifier: 1
+      IsAlive: 1
+      IsResting: 0
+    - CharacterID: 3
+      Name: Elen
+      Age: 0
+      Job: 3
+      Rank: 0
+      Level: 1
+      EXP: 0
+      HPMax: 13
+      CurrentHP: 7
+      Base:
+        might: 14
+        finesse: 14
+        endurance: 9
+        healing: 12
+        arcana: 10
+        control: 9
+        resolve: 10
+      Actual:
+        might: 14
+        finesse: 14
+        endurance: 9
+        healing: 12
+        arcana: 10
+        control: 9
+        resolve: 15
+      Traits:
+      - {fileID: 11400000, guid: 1ef3485a1b34bc249b5d586ebc1db331, type: 2}
+      TotalTraitEffects:
+        MightBonus: 0
+        FinesseBonus: 0
+        EnduranceBonus: 0
+        HealingBonus: 0
+        AracanaBonus: 0
+        ControlBonus: 0
+        ResolveBonus: 5
+        CombatBonus: 0
+        TrapBonus: 0
+        HazardBonus: 0
+        TreasureBonus: 0
+        GoldModifier: 1
+        DamageModifier: 1
+        EXPModifier: 1
+      IsAlive: 1
+      IsResting: 0
+    Recruited:
+    - CharacterID: 0
+      Name: Thainis
+      Age: 0
+      Job: 0
+      Rank: 0
+      Level: 1
+      EXP: 0
+      HPMax: 21
+      CurrentHP: 15
+      Base:
+        might: 11
+        finesse: 14
+        endurance: 14
+        healing: 10
+        arcana: 12
+        control: 14
+        resolve: 12
+      Actual:
+        might: 11
+        finesse: 14
+        endurance: 14
+        healing: 10
+        arcana: 12
+        control: 14
+        resolve: 12
+      Traits:
+      - {fileID: 11400000, guid: e786eb956bd1acd439a9ad9c1b9479aa, type: 2}
+      TotalTraitEffects:
+        MightBonus: 0
+        FinesseBonus: 0
+        EnduranceBonus: 0
+        HealingBonus: 0
+        AracanaBonus: 0
+        ControlBonus: 0
+        ResolveBonus: 0
+        CombatBonus: 0
+        TrapBonus: 0
+        HazardBonus: 0
+        TreasureBonus: 0
+        GoldModifier: 1
+        DamageModifier: 1
+        EXPModifier: 1
+      IsAlive: 1
+      IsResting: 0
+    - CharacterID: 1
+      Name: Belthos
+      Age: 0
+      Job: 2
+      Rank: 0
+      Level: 1
+      EXP: 0
+      HPMax: 21
+      CurrentHP: 15
+      Base:
+        might: 17
+        finesse: 16
+        endurance: 14
+        healing: 13
+        arcana: 15
+        control: 8
+        resolve: 13
+      Actual:
+        might: 17
+        finesse: 16
+        endurance: 14
+        healing: 13
+        arcana: 15
+        control: 8
+        resolve: 13
+      Traits:
+      - {fileID: 11400000, guid: fe96b3dd21fdb824bac23f598a1ef1b6, type: 2}
+      TotalTraitEffects:
+        MightBonus: 0
+        FinesseBonus: 0
+        EnduranceBonus: 0
+        HealingBonus: 0
+        AracanaBonus: 0
+        ControlBonus: 0
+        ResolveBonus: 0
+        CombatBonus: 0
+        TrapBonus: 0
+        HazardBonus: 0
+        TreasureBonus: 0
+        GoldModifier: 1
+        DamageModifier: 1
+        EXPModifier: 1
+      IsAlive: 1
+      IsResting: 0
+    - CharacterID: 2
+      Name: Corrain
+      Age: 0
+      Job: 1
+      Rank: 0
+      Level: 1
+      EXP: 0
+      HPMax: 21
+      CurrentHP: 15
+      Base:
+        might: 12
+        finesse: 12
+        endurance: 14
+        healing: 15
+        arcana: 8
+        control: 12
+        resolve: 14
+      Actual:
+        might: 12
+        finesse: 12
+        endurance: 14
+        healing: 15
+        arcana: 8
+        control: 12
+        resolve: 14
+      Traits:
+      - {fileID: 11400000, guid: 5673ef2dc8968ed4584c6f4746e16f5a, type: 2}
+      TotalTraitEffects:
+        MightBonus: 0
+        FinesseBonus: 0
+        EnduranceBonus: 0
+        HealingBonus: 0
+        AracanaBonus: 0
+        ControlBonus: 0
+        ResolveBonus: 0
+        CombatBonus: 0
+        TrapBonus: 0
+        HazardBonus: 0
+        TreasureBonus: 0
+        GoldModifier: 1
+        DamageModifier: 1
+        EXPModifier: 1
+      IsAlive: 1
+      IsResting: 0
+    - CharacterID: 3
+      Name: Elen
+      Age: 0
+      Job: 3
+      Rank: 0
+      Level: 1
+      EXP: 0
+      HPMax: 13
+      CurrentHP: 7
+      Base:
+        might: 14
+        finesse: 14
+        endurance: 9
+        healing: 12
+        arcana: 10
+        control: 9
+        resolve: 10
+      Actual:
+        might: 14
+        finesse: 14
+        endurance: 9
+        healing: 12
+        arcana: 10
+        control: 9
+        resolve: 15
+      Traits:
+      - {fileID: 11400000, guid: 1ef3485a1b34bc249b5d586ebc1db331, type: 2}
+      TotalTraitEffects:
+        MightBonus: 0
+        FinesseBonus: 0
+        EnduranceBonus: 0
+        HealingBonus: 0
+        AracanaBonus: 0
+        ControlBonus: 0
+        ResolveBonus: 5
+        CombatBonus: 0
+        TrapBonus: 0
+        HazardBonus: 0
+        TreasureBonus: 0
+        GoldModifier: 1
+        DamageModifier: 1
+        EXPModifier: 1
+      IsAlive: 1
+      IsResting: 0
+    Parties:
+    - ID: 0
+      PartyMembers:
+      - CharacterID: 0
+        Name: Thainis
+        Age: 0
+        Job: 0
+        Rank: 0
+        Level: 1
+        EXP: 0
+        HPMax: 21
+        CurrentHP: 15
+        Base:
+          might: 11
+          finesse: 14
+          endurance: 14
+          healing: 10
+          arcana: 12
+          control: 14
+          resolve: 12
+        Actual:
+          might: 11
+          finesse: 14
+          endurance: 14
+          healing: 10
+          arcana: 12
+          control: 14
+          resolve: 12
+        Traits:
+        - {fileID: 11400000, guid: e786eb956bd1acd439a9ad9c1b9479aa, type: 2}
+        TotalTraitEffects:
+          MightBonus: 0
+          FinesseBonus: 0
+          EnduranceBonus: 0
+          HealingBonus: 0
+          AracanaBonus: 0
+          ControlBonus: 0
+          ResolveBonus: 0
+          CombatBonus: 0
+          TrapBonus: 0
+          HazardBonus: 0
+          TreasureBonus: 0
+          GoldModifier: 1
+          DamageModifier: 1
+          EXPModifier: 1
+        IsAlive: 1
+        IsResting: 0
+      - CharacterID: 1
+        Name: Belthos
+        Age: 0
+        Job: 2
+        Rank: 0
+        Level: 1
+        EXP: 0
+        HPMax: 21
+        CurrentHP: 15
+        Base:
+          might: 17
+          finesse: 16
+          endurance: 14
+          healing: 13
+          arcana: 15
+          control: 8
+          resolve: 13
+        Actual:
+          might: 17
+          finesse: 16
+          endurance: 14
+          healing: 13
+          arcana: 15
+          control: 8
+          resolve: 13
+        Traits:
+        - {fileID: 11400000, guid: fe96b3dd21fdb824bac23f598a1ef1b6, type: 2}
+        TotalTraitEffects:
+          MightBonus: 0
+          FinesseBonus: 0
+          EnduranceBonus: 0
+          HealingBonus: 0
+          AracanaBonus: 0
+          ControlBonus: 0
+          ResolveBonus: 0
+          CombatBonus: 0
+          TrapBonus: 0
+          HazardBonus: 0
+          TreasureBonus: 0
+          GoldModifier: 1
+          DamageModifier: 1
+          EXPModifier: 1
+        IsAlive: 1
+        IsResting: 0
+      - CharacterID: 2
+        Name: Corrain
+        Age: 0
+        Job: 1
+        Rank: 0
+        Level: 1
+        EXP: 0
+        HPMax: 21
+        CurrentHP: 15
+        Base:
+          might: 12
+          finesse: 12
+          endurance: 14
+          healing: 15
+          arcana: 8
+          control: 12
+          resolve: 14
+        Actual:
+          might: 12
+          finesse: 12
+          endurance: 14
+          healing: 15
+          arcana: 8
+          control: 12
+          resolve: 14
+        Traits:
+        - {fileID: 11400000, guid: 5673ef2dc8968ed4584c6f4746e16f5a, type: 2}
+        TotalTraitEffects:
+          MightBonus: 0
+          FinesseBonus: 0
+          EnduranceBonus: 0
+          HealingBonus: 0
+          AracanaBonus: 0
+          ControlBonus: 0
+          ResolveBonus: 0
+          CombatBonus: 0
+          TrapBonus: 0
+          HazardBonus: 0
+          TreasureBonus: 0
+          GoldModifier: 1
+          DamageModifier: 1
+          EXPModifier: 1
+        IsAlive: 1
+        IsResting: 0
+      - CharacterID: 3
+        Name: Elen
+        Age: 0
+        Job: 3
+        Rank: 0
+        Level: 1
+        EXP: 0
+        HPMax: 13
+        CurrentHP: 7
+        Base:
+          might: 14
+          finesse: 14
+          endurance: 9
+          healing: 12
+          arcana: 10
+          control: 9
+          resolve: 10
+        Actual:
+          might: 14
+          finesse: 14
+          endurance: 9
+          healing: 12
+          arcana: 10
+          control: 9
+          resolve: 15
+        Traits:
+        - {fileID: 11400000, guid: 1ef3485a1b34bc249b5d586ebc1db331, type: 2}
+        TotalTraitEffects:
+          MightBonus: 0
+          FinesseBonus: 0
+          EnduranceBonus: 0
+          HealingBonus: 0
+          AracanaBonus: 0
+          ControlBonus: 0
+          ResolveBonus: 5
+          CombatBonus: 0
+          TrapBonus: 0
+          HazardBonus: 0
+          TreasureBonus: 0
+          GoldModifier: 1
+          DamageModifier: 1
+          EXPModifier: 1
+        IsAlive: 1
+        IsResting: 0
+      ActiveMembers: []
+      IsOnMission: 0
+      CurrentMission:
+        ID: 0
+        Name: 
+        Rank: 0
+        Biome: {fileID: 0}
+        Location: {fileID: 0}
+        Enemies: []
+        NumberOfEvents: 0
+        MinimumPayout: 0
+        CalculatedModifier:
+          MightWeight: 1
+          FinesseWeight: 1
+          ArcanaWeight: 1
+          ControlWeight: 1
+          CombatWeight: 1
+          TrapWeight: 1
+          HazardWeight: 1
+          TreasureWeight: 1
+      PartyStats:
+        might: 17
+        finesse: 18
+        endurance: 16
+        healing: 16
+        arcana: 14
+        control: 14
+        resolve: 17
+      TraitEffects:
+        MightBonus: 0
+        FinesseBonus: 0
+        EnduranceBonus: 0
+        HealingBonus: 0
+        AracanaBonus: 0
+        ControlBonus: 0
+        ResolveBonus: 35
+        CombatBonus: 0
+        TrapBonus: 0
+        HazardBonus: 0
+        TreasureBonus: 0
+        GoldModifier: 1
+        DamageModifier: 1
+        EXPModifier: 1
+    Dungeons:
+    - ID: 0
+      Name: Crypt in Mountains
+      Rank: 0
+      Biome: {fileID: 11400000, guid: 05507db8fef2bcf478b45181cd844455, type: 2}
+      Location: {fileID: 11400000, guid: e191840a48c071a47b80da30edae2913, type: 2}
+      Enemies:
+      - {fileID: 11400000, guid: 1bb6b4df875fd114fadbbd9477f246c9, type: 2}
+      NumberOfEvents: 2
+      MinimumPayout: 0
+      CalculatedModifier:
+        MightWeight: 1.1
+        FinesseWeight: 1.1
+        ArcanaWeight: 1.2
+        ControlWeight: 1
+        CombatWeight: 2.8125
+        TrapWeight: 0.75
+        HazardWeight: 1.5
+        TreasureWeight: 2.34375
+    - ID: 1
+      Name: Ruins in Forest
+      Rank: 0
+      Biome: {fileID: 11400000, guid: ec76cbe246fc099479fb840d9c6003f1, type: 2}
+      Location: {fileID: 11400000, guid: fcc85e07f09c73b42a77aa3c1022b0e2, type: 2}
+      Enemies:
+      - {fileID: 11400000, guid: 5b2479b6f205d19478b7c456e8d87a42, type: 2}
+      NumberOfEvents: 2
+      MinimumPayout: 0
+      CalculatedModifier:
+        MightWeight: 1
+        FinesseWeight: 1.2
+        ArcanaWeight: 1.2
+        ControlWeight: 1.2
+        CombatWeight: 1.5
+        TrapWeight: 2
+        HazardWeight: 1.875
+        TreasureWeight: 1.25
+    - ID: 2
+      Name: Abandoned Village in Forest
+      Rank: 1
+      Biome: {fileID: 11400000, guid: ec76cbe246fc099479fb840d9c6003f1, type: 2}
+      Location: {fileID: 11400000, guid: 5a127302ea3e29143bad315b2eebfe42, type: 2}
+      Enemies:
+      - {fileID: 11400000, guid: ab8b537a02a6f6f45aab6f5bb67cebac, type: 2}
+      NumberOfEvents: 3
+      MinimumPayout: 0
+      CalculatedModifier:
+        MightWeight: 1
+        FinesseWeight: 1.2
+        ArcanaWeight: 1.2
+        ControlWeight: 1.2
+        CombatWeight: 1.5
+        TrapWeight: 1.25
+        HazardWeight: 1.875
+        TreasureWeight: 1.25
+    - ID: 3
+      Name: Cavern in Plains
+      Rank: 1
+      Biome: {fileID: 11400000, guid: de1db9653bdfedd4ab7b8be3cdfc56d8, type: 2}
+      Location: {fileID: 11400000, guid: c2d0c2ae2ad441049bb82b55f09c3407, type: 2}
+      Enemies:
+      - {fileID: 11400000, guid: 5b2479b6f205d19478b7c456e8d87a42, type: 2}
+      - {fileID: 11400000, guid: 4acefe14f66fa3c4d965b122b2c2d3b7, type: 2}
+      NumberOfEvents: 3
+      MinimumPayout: 0
+      CalculatedModifier:
+        MightWeight: 1.2
+        FinesseWeight: 1
+        ArcanaWeight: 1
+        ControlWeight: 1
+        CombatWeight: 2
+        TrapWeight: 1.875
+        HazardWeight: 1.875
+        TreasureWeight: 1.25
+    - ID: 4
+      Name: Cavern in Frozen Wastes
+      Rank: 2
+      Biome: {fileID: 11400000, guid: 063effe1a7d942e44be74a3dabd0e7a5, type: 2}
+      Location: {fileID: 11400000, guid: c2d0c2ae2ad441049bb82b55f09c3407, type: 2}
+      Enemies:
+      - {fileID: 11400000, guid: 4acefe14f66fa3c4d965b122b2c2d3b7, type: 2}
+      NumberOfEvents: 3
+      MinimumPayout: 0
+      CalculatedModifier:
+        MightWeight: 1.1
+        FinesseWeight: 1
+        ArcanaWeight: 1
+        ControlWeight: 1
+        CombatWeight: 2
+        TrapWeight: 1.25
+        HazardWeight: 1.875
+        TreasureWeight: 1
+    - ID: 5
+      Name: Wilderness in Desert
+      Rank: 2
+      Biome: {fileID: 11400000, guid: 5e42dd68802ef804b8c2207e116ee1d7, type: 2}
+      Location: {fileID: 11400000, guid: d44fa758692d8aa49be7af3e67f9253d, type: 2}
+      Enemies:
+      - {fileID: 11400000, guid: 1ba0ccbdbb219444b843e3ec8c598400, type: 2}
+      NumberOfEvents: 3
+      MinimumPayout: 0
+      CalculatedModifier:
+        MightWeight: 0.9
+        FinesseWeight: 1.2
+        ArcanaWeight: 1.2
+        ControlWeight: 1
+        CombatWeight: 1.25
+        TrapWeight: 0.9375
+        HazardWeight: 2.25
+        TreasureWeight: 0.75
+    - ID: 6
+      Name: Wilderness in Frozen Wastes
+      Rank: 3
+      Biome: {fileID: 11400000, guid: 063effe1a7d942e44be74a3dabd0e7a5, type: 2}
+      Location: {fileID: 11400000, guid: d44fa758692d8aa49be7af3e67f9253d, type: 2}
+      Enemies:
+      - {fileID: 11400000, guid: ab8b537a02a6f6f45aab6f5bb67cebac, type: 2}
+      - {fileID: 11400000, guid: 1bb6b4df875fd114fadbbd9477f246c9, type: 2}
+      NumberOfEvents: 4
+      MinimumPayout: 0
+      CalculatedModifier:
+        MightWeight: 1
+        FinesseWeight: 1.2
+        ArcanaWeight: 1
+        ControlWeight: 1
+        CombatWeight: 2.34375
+        TrapWeight: 0.5
+        HazardWeight: 3.375
+        TreasureWeight: 0.75
+    - ID: 7
+      Name: Wilderness in Volcanic
+      Rank: 3
+      Biome: {fileID: 11400000, guid: 90e7ad8386d9dce4db9aca65b83b202b, type: 2}
+      Location: {fileID: 11400000, guid: d44fa758692d8aa49be7af3e67f9253d, type: 2}
+      Enemies:
+      - {fileID: 11400000, guid: 1bb6b4df875fd114fadbbd9477f246c9, type: 2}
+      - {fileID: 11400000, guid: 4acefe14f66fa3c4d965b122b2c2d3b7, type: 2}
+      NumberOfEvents: 4
+      MinimumPayout: 0
+      CalculatedModifier:
+        MightWeight: 1
+        FinesseWeight: 1.2
+        ArcanaWeight: 1
+        ControlWeight: 1
+        CombatWeight: 2
+        TrapWeight: 0.5
+        HazardWeight: 2
+        TreasureWeight: 0.9375
+    - ID: 8
+      Name: Ruins in Plains
+      Rank: 4
+      Biome: {fileID: 11400000, guid: de1db9653bdfedd4ab7b8be3cdfc56d8, type: 2}
+      Location: {fileID: 11400000, guid: fcc85e07f09c73b42a77aa3c1022b0e2, type: 2}
+      Enemies:
+      - {fileID: 11400000, guid: 4acefe14f66fa3c4d965b122b2c2d3b7, type: 2}
+      - {fileID: 11400000, guid: 4ad219cf760ccab4ca2fae96a1f5bf0d, type: 2}
+      NumberOfEvents: 5
+      MinimumPayout: 0
+      CalculatedModifier:
+        MightWeight: 1.2
+        FinesseWeight: 1.2
+        ArcanaWeight: 1.1
+        ControlWeight: 1.1
+        CombatWeight: 2.8125
+        TrapWeight: 1.875
+        HazardWeight: 1
+        TreasureWeight: 1.953125
+    - ID: 9
+      Name: Abandoned Village in Plains
+      Rank: 5
+      Biome: {fileID: 11400000, guid: de1db9653bdfedd4ab7b8be3cdfc56d8, type: 2}
+      Location: {fileID: 11400000, guid: 5a127302ea3e29143bad315b2eebfe42, type: 2}
+      Enemies:
+      - {fileID: 11400000, guid: 4acefe14f66fa3c4d965b122b2c2d3b7, type: 2}
+      - {fileID: 11400000, guid: 5b2479b6f205d19478b7c456e8d87a42, type: 2}
+      NumberOfEvents: 6
+      MinimumPayout: 0
+      CalculatedModifier:
+        MightWeight: 1.2
+        FinesseWeight: 1
+        ArcanaWeight: 1
+        ControlWeight: 1.1
+        CombatWeight: 1.875
+        TrapWeight: 1.875
+        HazardWeight: 1.5
+        TreasureWeight: 1.5625
+    MissionLog:
+    - EventResults:
+      - DungeonEvent: {fileID: 11400000, guid: bf52f2375d0588d4284a59d6d324c0a1, type: 2}
+        GoldGained: 0
+        ExpGained: 20
+        DamageDone: 6
+        TookDamage:
+        - CharacterID: 0
+          Name: Thainis
+          Age: 0
+          Job: 0
+          Rank: 0
+          Level: 1
+          EXP: 0
+          HPMax: 21
+          CurrentHP: 15
+          Base:
+            might: 11
+            finesse: 14
+            endurance: 14
+            healing: 10
+            arcana: 12
+            control: 14
+            resolve: 12
+          Actual:
+            might: 11
+            finesse: 14
+            endurance: 14
+            healing: 10
+            arcana: 12
+            control: 14
+            resolve: 12
+          Traits:
+          - {fileID: 11400000, guid: e786eb956bd1acd439a9ad9c1b9479aa, type: 2}
+          TotalTraitEffects:
+            MightBonus: 0
+            FinesseBonus: 0
+            EnduranceBonus: 0
+            HealingBonus: 0
+            AracanaBonus: 0
+            ControlBonus: 0
+            ResolveBonus: 0
+            CombatBonus: 0
+            TrapBonus: 0
+            HazardBonus: 0
+            TreasureBonus: 0
+            GoldModifier: 1
+            DamageModifier: 1
+            EXPModifier: 1
+          IsAlive: 1
+          IsResting: 0
+        - CharacterID: 1
+          Name: Belthos
+          Age: 0
+          Job: 2
+          Rank: 0
+          Level: 1
+          EXP: 0
+          HPMax: 21
+          CurrentHP: 15
+          Base:
+            might: 17
+            finesse: 16
+            endurance: 14
+            healing: 13
+            arcana: 15
+            control: 8
+            resolve: 13
+          Actual:
+            might: 17
+            finesse: 16
+            endurance: 14
+            healing: 13
+            arcana: 15
+            control: 8
+            resolve: 13
+          Traits:
+          - {fileID: 11400000, guid: fe96b3dd21fdb824bac23f598a1ef1b6, type: 2}
+          TotalTraitEffects:
+            MightBonus: 0
+            FinesseBonus: 0
+            EnduranceBonus: 0
+            HealingBonus: 0
+            AracanaBonus: 0
+            ControlBonus: 0
+            ResolveBonus: 0
+            CombatBonus: 0
+            TrapBonus: 0
+            HazardBonus: 0
+            TreasureBonus: 0
+            GoldModifier: 1
+            DamageModifier: 1
+            EXPModifier: 1
+          IsAlive: 1
+          IsResting: 0
+        - CharacterID: 2
+          Name: Corrain
+          Age: 0
+          Job: 1
+          Rank: 0
+          Level: 1
+          EXP: 0
+          HPMax: 21
+          CurrentHP: 15
+          Base:
+            might: 12
+            finesse: 12
+            endurance: 14
+            healing: 15
+            arcana: 8
+            control: 12
+            resolve: 14
+          Actual:
+            might: 12
+            finesse: 12
+            endurance: 14
+            healing: 15
+            arcana: 8
+            control: 12
+            resolve: 14
+          Traits:
+          - {fileID: 11400000, guid: 5673ef2dc8968ed4584c6f4746e16f5a, type: 2}
+          TotalTraitEffects:
+            MightBonus: 0
+            FinesseBonus: 0
+            EnduranceBonus: 0
+            HealingBonus: 0
+            AracanaBonus: 0
+            ControlBonus: 0
+            ResolveBonus: 0
+            CombatBonus: 0
+            TrapBonus: 0
+            HazardBonus: 0
+            TreasureBonus: 0
+            GoldModifier: 1
+            DamageModifier: 1
+            EXPModifier: 1
+          IsAlive: 1
+          IsResting: 0
+        - CharacterID: 3
+          Name: Elen
+          Age: 0
+          Job: 3
+          Rank: 0
+          Level: 1
+          EXP: 0
+          HPMax: 13
+          CurrentHP: 7
+          Base:
+            might: 14
+            finesse: 14
+            endurance: 9
+            healing: 12
+            arcana: 10
+            control: 9
+            resolve: 10
+          Actual:
+            might: 14
+            finesse: 14
+            endurance: 9
+            healing: 12
+            arcana: 10
+            control: 9
+            resolve: 15
+          Traits:
+          - {fileID: 11400000, guid: 1ef3485a1b34bc249b5d586ebc1db331, type: 2}
+          TotalTraitEffects:
+            MightBonus: 0
+            FinesseBonus: 0
+            EnduranceBonus: 0
+            HealingBonus: 0
+            AracanaBonus: 0
+            ControlBonus: 0
+            ResolveBonus: 5
+            CombatBonus: 0
+            TrapBonus: 0
+            HazardBonus: 0
+            TreasureBonus: 0
+            GoldModifier: 1
+            DamageModifier: 1
+            EXPModifier: 1
+          IsAlive: 1
+          IsResting: 0
+        Outcome: 1
+      - DungeonEvent: {fileID: 11400000, guid: 22216a7545cbaef48affa69cf1ec6962, type: 2}
+        GoldGained: 10
+        ExpGained: 5
+        DamageDone: 0
+        TookDamage:
+        - CharacterID: 0
+          Name: Thainis
+          Age: 0
+          Job: 0
+          Rank: 0
+          Level: 1
+          EXP: 0
+          HPMax: 21
+          CurrentHP: 15
+          Base:
+            might: 11
+            finesse: 14
+            endurance: 14
+            healing: 10
+            arcana: 12
+            control: 14
+            resolve: 12
+          Actual:
+            might: 11
+            finesse: 14
+            endurance: 14
+            healing: 10
+            arcana: 12
+            control: 14
+            resolve: 12
+          Traits:
+          - {fileID: 11400000, guid: e786eb956bd1acd439a9ad9c1b9479aa, type: 2}
+          TotalTraitEffects:
+            MightBonus: 0
+            FinesseBonus: 0
+            EnduranceBonus: 0
+            HealingBonus: 0
+            AracanaBonus: 0
+            ControlBonus: 0
+            ResolveBonus: 0
+            CombatBonus: 0
+            TrapBonus: 0
+            HazardBonus: 0
+            TreasureBonus: 0
+            GoldModifier: 1
+            DamageModifier: 1
+            EXPModifier: 1
+          IsAlive: 1
+          IsResting: 0
+        - CharacterID: 1
+          Name: Belthos
+          Age: 0
+          Job: 2
+          Rank: 0
+          Level: 1
+          EXP: 0
+          HPMax: 21
+          CurrentHP: 15
+          Base:
+            might: 17
+            finesse: 16
+            endurance: 14
+            healing: 13
+            arcana: 15
+            control: 8
+            resolve: 13
+          Actual:
+            might: 17
+            finesse: 16
+            endurance: 14
+            healing: 13
+            arcana: 15
+            control: 8
+            resolve: 13
+          Traits:
+          - {fileID: 11400000, guid: fe96b3dd21fdb824bac23f598a1ef1b6, type: 2}
+          TotalTraitEffects:
+            MightBonus: 0
+            FinesseBonus: 0
+            EnduranceBonus: 0
+            HealingBonus: 0
+            AracanaBonus: 0
+            ControlBonus: 0
+            ResolveBonus: 0
+            CombatBonus: 0
+            TrapBonus: 0
+            HazardBonus: 0
+            TreasureBonus: 0
+            GoldModifier: 1
+            DamageModifier: 1
+            EXPModifier: 1
+          IsAlive: 1
+          IsResting: 0
+        - CharacterID: 2
+          Name: Corrain
+          Age: 0
+          Job: 1
+          Rank: 0
+          Level: 1
+          EXP: 0
+          HPMax: 21
+          CurrentHP: 15
+          Base:
+            might: 12
+            finesse: 12
+            endurance: 14
+            healing: 15
+            arcana: 8
+            control: 12
+            resolve: 14
+          Actual:
+            might: 12
+            finesse: 12
+            endurance: 14
+            healing: 15
+            arcana: 8
+            control: 12
+            resolve: 14
+          Traits:
+          - {fileID: 11400000, guid: 5673ef2dc8968ed4584c6f4746e16f5a, type: 2}
+          TotalTraitEffects:
+            MightBonus: 0
+            FinesseBonus: 0
+            EnduranceBonus: 0
+            HealingBonus: 0
+            AracanaBonus: 0
+            ControlBonus: 0
+            ResolveBonus: 0
+            CombatBonus: 0
+            TrapBonus: 0
+            HazardBonus: 0
+            TreasureBonus: 0
+            GoldModifier: 1
+            DamageModifier: 1
+            EXPModifier: 1
+          IsAlive: 1
+          IsResting: 0
+        - CharacterID: 3
+          Name: Elen
+          Age: 0
+          Job: 3
+          Rank: 0
+          Level: 1
+          EXP: 0
+          HPMax: 13
+          CurrentHP: 7
+          Base:
+            might: 14
+            finesse: 14
+            endurance: 9
+            healing: 12
+            arcana: 10
+            control: 9
+            resolve: 10
+          Actual:
+            might: 14
+            finesse: 14
+            endurance: 9
+            healing: 12
+            arcana: 10
+            control: 9
+            resolve: 15
+          Traits:
+          - {fileID: 11400000, guid: 1ef3485a1b34bc249b5d586ebc1db331, type: 2}
+          TotalTraitEffects:
+            MightBonus: 0
+            FinesseBonus: 0
+            EnduranceBonus: 0
+            HealingBonus: 0
+            AracanaBonus: 0
+            ControlBonus: 0
+            ResolveBonus: 5
+            CombatBonus: 0
+            TrapBonus: 0
+            HazardBonus: 0
+            TreasureBonus: 0
+            GoldModifier: 1
+            DamageModifier: 1
+            EXPModifier: 1
+          IsAlive: 1
+          IsResting: 0
+        Outcome: 1
+      Party:
+        ID: 0
+        PartyMembers:
+        - CharacterID: 0
+          Name: Thainis
+          Age: 0
+          Job: 0
+          Rank: 0
+          Level: 1
+          EXP: 0
+          HPMax: 21
+          CurrentHP: 15
+          Base:
+            might: 11
+            finesse: 14
+            endurance: 14
+            healing: 10
+            arcana: 12
+            control: 14
+            resolve: 12
+          Actual:
+            might: 11
+            finesse: 14
+            endurance: 14
+            healing: 10
+            arcana: 12
+            control: 14
+            resolve: 12
+          Traits:
+          - {fileID: 11400000, guid: e786eb956bd1acd439a9ad9c1b9479aa, type: 2}
+          TotalTraitEffects:
+            MightBonus: 0
+            FinesseBonus: 0
+            EnduranceBonus: 0
+            HealingBonus: 0
+            AracanaBonus: 0
+            ControlBonus: 0
+            ResolveBonus: 0
+            CombatBonus: 0
+            TrapBonus: 0
+            HazardBonus: 0
+            TreasureBonus: 0
+            GoldModifier: 1
+            DamageModifier: 1
+            EXPModifier: 1
+          IsAlive: 1
+          IsResting: 0
+        - CharacterID: 1
+          Name: Belthos
+          Age: 0
+          Job: 2
+          Rank: 0
+          Level: 1
+          EXP: 0
+          HPMax: 21
+          CurrentHP: 15
+          Base:
+            might: 17
+            finesse: 16
+            endurance: 14
+            healing: 13
+            arcana: 15
+            control: 8
+            resolve: 13
+          Actual:
+            might: 17
+            finesse: 16
+            endurance: 14
+            healing: 13
+            arcana: 15
+            control: 8
+            resolve: 13
+          Traits:
+          - {fileID: 11400000, guid: fe96b3dd21fdb824bac23f598a1ef1b6, type: 2}
+          TotalTraitEffects:
+            MightBonus: 0
+            FinesseBonus: 0
+            EnduranceBonus: 0
+            HealingBonus: 0
+            AracanaBonus: 0
+            ControlBonus: 0
+            ResolveBonus: 0
+            CombatBonus: 0
+            TrapBonus: 0
+            HazardBonus: 0
+            TreasureBonus: 0
+            GoldModifier: 1
+            DamageModifier: 1
+            EXPModifier: 1
+          IsAlive: 1
+          IsResting: 0
+        - CharacterID: 2
+          Name: Corrain
+          Age: 0
+          Job: 1
+          Rank: 0
+          Level: 1
+          EXP: 0
+          HPMax: 21
+          CurrentHP: 15
+          Base:
+            might: 12
+            finesse: 12
+            endurance: 14
+            healing: 15
+            arcana: 8
+            control: 12
+            resolve: 14
+          Actual:
+            might: 12
+            finesse: 12
+            endurance: 14
+            healing: 15
+            arcana: 8
+            control: 12
+            resolve: 14
+          Traits:
+          - {fileID: 11400000, guid: 5673ef2dc8968ed4584c6f4746e16f5a, type: 2}
+          TotalTraitEffects:
+            MightBonus: 0
+            FinesseBonus: 0
+            EnduranceBonus: 0
+            HealingBonus: 0
+            AracanaBonus: 0
+            ControlBonus: 0
+            ResolveBonus: 0
+            CombatBonus: 0
+            TrapBonus: 0
+            HazardBonus: 0
+            TreasureBonus: 0
+            GoldModifier: 1
+            DamageModifier: 1
+            EXPModifier: 1
+          IsAlive: 1
+          IsResting: 0
+        - CharacterID: 3
+          Name: Elen
+          Age: 0
+          Job: 3
+          Rank: 0
+          Level: 1
+          EXP: 0
+          HPMax: 13
+          CurrentHP: 7
+          Base:
+            might: 14
+            finesse: 14
+            endurance: 9
+            healing: 12
+            arcana: 10
+            control: 9
+            resolve: 10
+          Actual:
+            might: 14
+            finesse: 14
+            endurance: 9
+            healing: 12
+            arcana: 10
+            control: 9
+            resolve: 15
+          Traits:
+          - {fileID: 11400000, guid: 1ef3485a1b34bc249b5d586ebc1db331, type: 2}
+          TotalTraitEffects:
+            MightBonus: 0
+            FinesseBonus: 0
+            EnduranceBonus: 0
+            HealingBonus: 0
+            AracanaBonus: 0
+            ControlBonus: 0
+            ResolveBonus: 5
+            CombatBonus: 0
+            TrapBonus: 0
+            HazardBonus: 0
+            TreasureBonus: 0
+            GoldModifier: 1
+            DamageModifier: 1
+            EXPModifier: 1
+          IsAlive: 1
+          IsResting: 0
+        ActiveMembers: []
+        IsOnMission: 0
+        CurrentMission:
+          ID: 0
+          Name: 
+          Rank: 0
+          Biome: {fileID: 0}
+          Location: {fileID: 0}
+          Enemies: []
+          NumberOfEvents: 0
+          MinimumPayout: 0
+          CalculatedModifier:
+            MightWeight: 1
+            FinesseWeight: 1
+            ArcanaWeight: 1
+            ControlWeight: 1
+            CombatWeight: 1
+            TrapWeight: 1
+            HazardWeight: 1
+            TreasureWeight: 1
+        PartyStats:
+          might: 17
+          finesse: 18
+          endurance: 16
+          healing: 16
+          arcana: 14
+          control: 14
+          resolve: 17
+        TraitEffects:
+          MightBonus: 0
+          FinesseBonus: 0
+          EnduranceBonus: 0
+          HealingBonus: 0
+          AracanaBonus: 0
+          ControlBonus: 0
+          ResolveBonus: 35
+          CombatBonus: 0
+          TrapBonus: 0
+          HazardBonus: 0
+          TreasureBonus: 0
+          GoldModifier: 1
+          DamageModifier: 1
+          EXPModifier: 1
+      Dungeon:
+        ID: 1
+        Name: Ruins in Forest
+        Rank: 0
+        Biome: {fileID: 11400000, guid: ec76cbe246fc099479fb840d9c6003f1, type: 2}
+        Location: {fileID: 11400000, guid: fcc85e07f09c73b42a77aa3c1022b0e2, type: 2}
+        Enemies:
+        - {fileID: 11400000, guid: 5b2479b6f205d19478b7c456e8d87a42, type: 2}
+        NumberOfEvents: 2
+        MinimumPayout: 0
+        CalculatedModifier:
+          MightWeight: 1
+          FinesseWeight: 1.44
+          ArcanaWeight: 1.32
+          ControlWeight: 1.32
+          CombatWeight: 1.5
+          TrapWeight: 2.25
+          HazardWeight: 1.875
+          TreasureWeight: 1.25
+      GoldGained: 10
+      MissionDay: 1
+      Outcome: 1
+      LevelUpReports:
+      - Character:
+          CharacterID: 0
+          Name: Thainis
+          Age: 0
+          Job: 0
+          Rank: 0
+          Level: 1
+          EXP: 0
+          HPMax: 21
+          CurrentHP: 15
+          Base:
+            might: 11
+            finesse: 14
+            endurance: 14
+            healing: 10
+            arcana: 12
+            control: 14
+            resolve: 12
+          Actual:
+            might: 11
+            finesse: 14
+            endurance: 14
+            healing: 10
+            arcana: 12
+            control: 14
+            resolve: 12
+          Traits:
+          - {fileID: 11400000, guid: e786eb956bd1acd439a9ad9c1b9479aa, type: 2}
+          TotalTraitEffects:
+            MightBonus: 0
+            FinesseBonus: 0
+            EnduranceBonus: 0
+            HealingBonus: 0
+            AracanaBonus: 0
+            ControlBonus: 0
+            ResolveBonus: 0
+            CombatBonus: 0
+            TrapBonus: 0
+            HazardBonus: 0
+            TreasureBonus: 0
+            GoldModifier: 1
+            DamageModifier: 1
+            EXPModifier: 1
+          IsAlive: 1
+          IsResting: 0
+        LeveledUp: 0
+      - Character:
+          CharacterID: 1
+          Name: Belthos
+          Age: 0
+          Job: 2
+          Rank: 0
+          Level: 1
+          EXP: 0
+          HPMax: 21
+          CurrentHP: 15
+          Base:
+            might: 17
+            finesse: 16
+            endurance: 14
+            healing: 13
+            arcana: 15
+            control: 8
+            resolve: 13
+          Actual:
+            might: 17
+            finesse: 16
+            endurance: 14
+            healing: 13
+            arcana: 15
+            control: 8
+            resolve: 13
+          Traits:
+          - {fileID: 11400000, guid: fe96b3dd21fdb824bac23f598a1ef1b6, type: 2}
+          TotalTraitEffects:
+            MightBonus: 0
+            FinesseBonus: 0
+            EnduranceBonus: 0
+            HealingBonus: 0
+            AracanaBonus: 0
+            ControlBonus: 0
+            ResolveBonus: 0
+            CombatBonus: 0
+            TrapBonus: 0
+            HazardBonus: 0
+            TreasureBonus: 0
+            GoldModifier: 1
+            DamageModifier: 1
+            EXPModifier: 1
+          IsAlive: 1
+          IsResting: 0
+        LeveledUp: 0
+      - Character:
+          CharacterID: 2
+          Name: Corrain
+          Age: 0
+          Job: 1
+          Rank: 0
+          Level: 1
+          EXP: 0
+          HPMax: 21
+          CurrentHP: 15
+          Base:
+            might: 12
+            finesse: 12
+            endurance: 14
+            healing: 15
+            arcana: 8
+            control: 12
+            resolve: 14
+          Actual:
+            might: 12
+            finesse: 12
+            endurance: 14
+            healing: 15
+            arcana: 8
+            control: 12
+            resolve: 14
+          Traits:
+          - {fileID: 11400000, guid: 5673ef2dc8968ed4584c6f4746e16f5a, type: 2}
+          TotalTraitEffects:
+            MightBonus: 0
+            FinesseBonus: 0
+            EnduranceBonus: 0
+            HealingBonus: 0
+            AracanaBonus: 0
+            ControlBonus: 0
+            ResolveBonus: 0
+            CombatBonus: 0
+            TrapBonus: 0
+            HazardBonus: 0
+            TreasureBonus: 0
+            GoldModifier: 1
+            DamageModifier: 1
+            EXPModifier: 1
+          IsAlive: 1
+          IsResting: 0
+        LeveledUp: 0
+      - Character:
+          CharacterID: 3
+          Name: Elen
+          Age: 0
+          Job: 3
+          Rank: 0
+          Level: 1
+          EXP: 0
+          HPMax: 13
+          CurrentHP: 7
+          Base:
+            might: 14
+            finesse: 14
+            endurance: 9
+            healing: 12
+            arcana: 10
+            control: 9
+            resolve: 10
+          Actual:
+            might: 14
+            finesse: 14
+            endurance: 9
+            healing: 12
+            arcana: 10
+            control: 9
+            resolve: 15
+          Traits:
+          - {fileID: 11400000, guid: 1ef3485a1b34bc249b5d586ebc1db331, type: 2}
+          TotalTraitEffects:
+            MightBonus: 0
+            FinesseBonus: 0
+            EnduranceBonus: 0
+            HealingBonus: 0
+            AracanaBonus: 0
+            ControlBonus: 0
+            ResolveBonus: 5
+            CombatBonus: 0
+            TrapBonus: 0
+            HazardBonus: 0
+            TreasureBonus: 0
+            GoldModifier: 1
+            DamageModifier: 1
+            EXPModifier: 1
+          IsAlive: 1
+          IsResting: 0
+        LeveledUp: 0
   Config: {fileID: 11400000, guid: f3c9b24eb517f434baf38e13c8e5ee67, type: 2}
   TagLibrary: {fileID: 11400000, guid: 56933f956049d42449bc7aa80c0f519b, type: 2}
   EventLibrary: {fileID: 11400000, guid: cc3d252e67ecdc046a7d406cc90916f0, type: 2}
@@ -688,7 +2240,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25bcb34ef68301a449a791a09d3536d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InputController
-  master: {fileID: 913104260}
+  gameController: {fileID: 913104260}
   ui: {fileID: 959317424}
 --- !u!4 &1025785456
 Transform:

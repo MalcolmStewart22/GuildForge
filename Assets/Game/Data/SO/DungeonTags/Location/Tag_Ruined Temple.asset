@@ -21,14 +21,9 @@ MonoBehaviour:
   Effects:
     MightWeight: 1
     FinesseWeight: 1
-    EnduranceWeight: 1
-    HealingWeight: 1.5
-    ArcanaWeight: 1.25
+    ArcanaWeight: 1.1
     ControlWeight: 1
-    ResolveWeight: 1.25
     CombatWeight: 1
     TrapWeight: 1.25
     HazardWeight: 1
     TreasureWeight: 1.5
-    PhysicalMultiplier: 1
-    MagicMultiplier: 1

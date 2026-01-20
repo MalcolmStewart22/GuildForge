@@ -7,7 +7,6 @@ public class Outcomes
     public float DamageModifier = 1f;
     public float EXPModifier = 1f;
     public int Weight = 2;
-    public int DifferenceToPrevent = 0;
 
 
 
@@ -18,7 +17,6 @@ public class Outcomes
             GoldGainedModifier = GoldGainedModifier,
             DamageModifier = DamageModifier,
             Weight = Weight,
-            DifferenceToPrevent = DifferenceToPrevent
         };
     }
 }

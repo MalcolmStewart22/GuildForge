@@ -41,29 +41,24 @@ public class DungeonGenerator
         {
             case DungeonRank.E:
                 _d.NumberOfEvents = 2;
-                _d.MinimumPayout = GameStateQueries.GetMaxPartySize() * GameStateQueries.GetWage(CharacterRank.E);
                 break;
             case DungeonRank.D:
                 _d.NumberOfEvents = 3;
-                _d.MinimumPayout = GameStateQueries.GetMaxPartySize() * GameStateQueries.GetWage(CharacterRank.D);
                 break;
             case DungeonRank.C:
                 _d.NumberOfEvents = 3;
-                _d.MinimumPayout = GameStateQueries.GetMaxPartySize() * GameStateQueries.GetWage(CharacterRank.C);
                 break;
             case DungeonRank.B:
                 _d.NumberOfEvents = 4;
-                _d.MinimumPayout = GameStateQueries.GetMaxPartySize() * GameStateQueries.GetWage(CharacterRank.B);
                 break;
             case DungeonRank.A:
                 _d.NumberOfEvents = 5;
-                _d.MinimumPayout = GameStateQueries.GetMaxPartySize() * GameStateQueries.GetWage(CharacterRank.A);
                 break;
             case DungeonRank.S:
                 _d.NumberOfEvents = 6;
-                _d.MinimumPayout = GameStateQueries.GetMaxPartySize() * GameStateQueries.GetWage(CharacterRank.S);
                 break;
         }
+        _d.MinimumPayout = GameStateQueries.GetDungeonMinimumPayout(_d.Rank);
         
         #region Tags
         //biome

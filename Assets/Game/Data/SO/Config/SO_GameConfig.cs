@@ -19,12 +19,14 @@ public class SO_GameConfig : ScriptableObject
     public float IncomeModifier = 1f;
     public float ExpenseModifier = 1f;
     public int RestingCost = 1;
-    public int BaseMissionGoldPerPartyMember = 2;
+    [Range(0,1f)]
+    public float ExpectedMissionRatio = .75f; // What percentage of days sending out a party
 
     [Header("HP Levers")] 
     public float HPRefusalThreshold = 0.3f;
     public float HPReadyForActionThreshold = 0.7f;
-    public float BaseRestHeal = .2f;
+    public float BaseRestHeal = .4f;
+    public float BaseNoMissionHeal = .2f;
     public float retreatHpThreshold = 0;
 
     [Header("Character Rank Levers")] 
@@ -36,14 +38,14 @@ public class SO_GameConfig : ScriptableObject
     public CharacterRankLevers CharacterRankS;
 
     [Header("Dungeon Levers")] 
-    public int DungeonMinimumStatRankE;
-    public int DungeonMinimumStatRankD;
-    public int DungeonMinimumStatRankC;
-    public int DungeonMinimumStatRankB;
-    public int DungeonMinimumStatRankA;
-    public int DungeonMinimumStatRankS;
+    public int DungeonRankEMinimum;
+    public int DungeonRankDMinimum;
+    public int DungeonRankCMinimum;
+    public int DungeonRankBMinimum;
+    public int DungeonRankAMinimum;
+    public int DungeonRankSMinimum;
     public OutcomeBands OutcomeOptions; 
-    public DungeonLevers DungeonLever;
+    public DungeonLevers BaseDeltas;
 
     [Header("Guild Rank Levers")]
     public GuildRankLevers GuildRankE;
@@ -89,9 +91,16 @@ public class JobStatFocus
 public class DungeonLevers
 {
     public int StatMinimum;
-    public int DangerousStatDelta;
-    public int RiskyStatDelta;
-    public int MostlySafeStatDelta;
-    public int PerfectlySafeStatDelta;
+    public int DangerousStatDelta; // less than or equal to
+    public int RiskyStatDelta; // less than or equal to
+    public int SafeStatDelta; // Mostly Safe is less than or equal to -> Perfectly is Greater than
+
+    public DungeonLevers(int min, DungeonLevers baseDelta)
+    {
+        StatMinimum = min;
+        DangerousStatDelta = baseDelta.DangerousStatDelta; 
+        RiskyStatDelta = baseDelta.RiskyStatDelta; 
+        SafeStatDelta = baseDelta.SafeStatDelta; 
+    }
 
 }

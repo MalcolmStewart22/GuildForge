@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Unity.Jobs.LowLevel.Unsafe;
 using UnityEngine;
 
 public class EventResolver
@@ -49,10 +48,11 @@ public class EventResolver
     //straight roll outcome modifiers damage scale
     private void CombatResolver(SO_Event e, Party party, DungeonInstance dungeon, OutcomeBands outcomeOptions)
     {
-        int _requiredStat = dungeon.CalculateRequiredStat(e.EventType);
-        int _statDifference = (party.PartyStats.might - _requiredStat) + party.TraitEffects.CombatBonus;
+        DungeonLevers _levers = GameStateQueries.GetDungeonLevers(dungeon.Rank);
+        _levers.StatMinimum = dungeon.CalculateRequiredStat(e.EventType, _levers.StatMinimum);
+        int _statDifference = party.PartyStats.might - _levers.StatMinimum + party.TraitEffects.CombatBonus;
         OutcomeBands _combatOptions = outcomeOptions.Clone();
-        if (_statDifference <= 0)
+        if (_statDifference <=_levers.DangerousStatDelta)
         {
             _combatOptions.Catastrophe.Weight = _combatOptions.Catastrophe.Weight * 1;
             _combatOptions.Failure.Weight = _combatOptions.Failure.Weight * 1;
@@ -60,23 +60,18 @@ public class EventResolver
             _combatOptions.Success.Weight =  (int)(_combatOptions.Success.Weight * .5);
             _combatOptions.Triumph.Weight = 0;
         }
-        else if (_statDifference <= 10)
+        else if (_statDifference <= _levers.RiskyStatDelta) // leave everything as normal
         {
-            _combatOptions.Catastrophe.Weight = (int)(_combatOptions.Catastrophe.Weight * .5);
-            _combatOptions.Failure.Weight = _combatOptions.Failure.Weight * 1;
-            _combatOptions.Fled.Weight = _combatOptions.Fled.Weight * 1;
-            _combatOptions.Success.Weight =  _combatOptions.Success.Weight * 1;
-            _combatOptions.Triumph.Weight = (int)(_combatOptions.Triumph.Weight  * .5); 
         }
-        else if (_statDifference <= 20) 
+        else if (_statDifference <= _levers.SafeStatDelta) 
         {
             _combatOptions.Catastrophe.Weight = 0;
             _combatOptions.Failure.Weight = (int)(_combatOptions.Failure.Weight * .5);
-            _combatOptions.Fled.Weight = _combatOptions.Fled.Weight * 1;
+            _combatOptions.Fled.Weight = (int)(_combatOptions.Fled.Weight * .5);
             _combatOptions.Success.Weight =  _combatOptions.Success.Weight * 2;
             _combatOptions.Triumph.Weight = _combatOptions.Triumph.Weight  * 1;
         }
-        else if (_statDifference > 20) 
+        else if (_statDifference > _levers.SafeStatDelta) 
         {
             _combatOptions.Catastrophe.Weight = 0;
             _combatOptions.Failure.Weight = 0;
@@ -93,10 +88,11 @@ public class EventResolver
     //finesse to dodge damage -> will implement this when I add in Caught Damage Type
     private void TrapResolver(SO_Event e, Party party, DungeonInstance dungeon, OutcomeBands outcomeOptions)
     {
-        int _requiredStat = dungeon.CalculateRequiredStat(e.EventType);
-        int _statDifference = (party.PartyStats.control - _requiredStat) + party.TraitEffects.TrapBonus;
+        DungeonLevers _levers = GameStateQueries.GetDungeonLevers(dungeon.Rank);
+        _levers.StatMinimum = dungeon.CalculateRequiredStat(e.EventType, _levers.StatMinimum);
+        int _statDifference = party.PartyStats.control - _levers.StatMinimum + party.TraitEffects.TrapBonus;
         OutcomeBands _trapOptions = outcomeOptions.Clone();
-        if (_statDifference <= 0)
+        if (_statDifference <= _levers.DangerousStatDelta)
         {
             _trapOptions.Catastrophe.Weight = _trapOptions.Catastrophe.Weight * 1;
             _trapOptions.Failure.Weight = _trapOptions.Failure.Weight * 1;
@@ -104,7 +100,7 @@ public class EventResolver
             _trapOptions.Success.Weight =  (int)(_trapOptions.Success.Weight * .5);
             _trapOptions.Triumph.Weight = 0;
         }
-        else if (_statDifference <= 10)
+        else if (_statDifference <= _levers.RiskyStatDelta)
         {
             _trapOptions.Catastrophe.Weight = (int)(_trapOptions.Catastrophe.Weight * .5);
             _trapOptions.Failure.Weight = _trapOptions.Failure.Weight * 1;
@@ -112,7 +108,7 @@ public class EventResolver
             _trapOptions.Success.Weight =  _trapOptions.Success.Weight * 1;
             _trapOptions.Triumph.Weight = (int)(_trapOptions.Triumph.Weight  * .5); 
         }
-        else if (_statDifference <= 20) 
+        else if (_statDifference <= _levers.SafeStatDelta) 
         {
             _trapOptions.Catastrophe.Weight = 0;
             _trapOptions.Failure.Weight = (int)(_trapOptions.Failure.Weight * .5);
@@ -120,7 +116,7 @@ public class EventResolver
             _trapOptions.Success.Weight =  _trapOptions.Success.Weight * 2;
             _trapOptions.Triumph.Weight = _trapOptions.Triumph.Weight  * 1;
         }
-        else if (_statDifference > 20) 
+        else if (_statDifference > _levers.SafeStatDelta) 
         {
             _trapOptions.Catastrophe.Weight = 0;
             _trapOptions.Failure.Weight = 0;
@@ -135,11 +131,12 @@ public class EventResolver
     //finesse to get through
     private void HazardResolver(SO_Event e, Party party, DungeonInstance dungeon, OutcomeBands outcomeOptions)
     {
-        int _requiredStat = dungeon.CalculateRequiredStat(e.EventType);
-        int _statDifference = (party.PartyStats.finesse - _requiredStat) + party.TraitEffects.HazardBonus;
+        DungeonLevers _levers = GameStateQueries.GetDungeonLevers(dungeon.Rank);
+        _levers.StatMinimum = dungeon.CalculateRequiredStat(e.EventType, _levers.StatMinimum);
+        int _statDifference = (party.PartyStats.finesse - _levers.StatMinimum) + party.TraitEffects.HazardBonus;
 
         OutcomeBands _hazardOptions = outcomeOptions.Clone();
-        if (_statDifference <= 0)
+        if (_statDifference <= _levers.DangerousStatDelta)
         {
             _hazardOptions.Catastrophe.Weight = _hazardOptions.Catastrophe.Weight * 1;
             _hazardOptions.Failure.Weight = _hazardOptions.Failure.Weight * 1;
@@ -147,7 +144,7 @@ public class EventResolver
             _hazardOptions.Success.Weight =  (int)(_hazardOptions.Success.Weight * .5);
             _hazardOptions.Triumph.Weight = 0;
         }
-        else if (_statDifference <= 10)
+        else if (_statDifference <= _levers.RiskyStatDelta)
         {
             _hazardOptions.Catastrophe.Weight = (int)(_hazardOptions.Catastrophe.Weight * .5);
             _hazardOptions.Failure.Weight = _hazardOptions.Failure.Weight * 1;
@@ -155,7 +152,7 @@ public class EventResolver
             _hazardOptions.Success.Weight =  _hazardOptions.Success.Weight * 1;
             _hazardOptions.Triumph.Weight = (int)(_hazardOptions.Triumph.Weight  * .5); 
         }
-        else if (_statDifference <= 20) 
+        else if (_statDifference <= _levers.SafeStatDelta) 
         {
             _hazardOptions.Catastrophe.Weight = 0;
             _hazardOptions.Failure.Weight = (int)(_hazardOptions.Failure.Weight * .5);
@@ -163,7 +160,7 @@ public class EventResolver
             _hazardOptions.Success.Weight =  _hazardOptions.Success.Weight * 2;
             _hazardOptions.Triumph.Weight = _hazardOptions.Triumph.Weight  * 1;
         }
-        else if (_statDifference > 20) 
+        else if (_statDifference > _levers.SafeStatDelta) 
         {
             _hazardOptions.Catastrophe.Weight = 0;
             _hazardOptions.Failure.Weight = 0;
@@ -179,40 +176,30 @@ public class EventResolver
     //arcana to spot
     private void TreasureResolver(SO_Event e, Party party, DungeonInstance dungeon, OutcomeBands outcomeOptions)
     {
-        int _requiredStat = dungeon.CalculateRequiredStat(e.EventType);
-        int _statDifference = (party.PartyStats.arcana - _requiredStat) + party.TraitEffects.TreasureBonus;
+        DungeonLevers _levers = GameStateQueries.GetDungeonLevers(dungeon.Rank);
+        _levers.StatMinimum = dungeon.CalculateRequiredStat(e.EventType, _levers.StatMinimum);
+        int _statDifference = (party.PartyStats.arcana - _levers.StatMinimum) + party.TraitEffects.TreasureBonus;
         OutcomeBands _treasureOptions = outcomeOptions.Clone();
-        if (_statDifference <= 0)
+        _treasureOptions.Failure.GoldGainedModifier = 0; //failing means you didnt recover it
+
+        //dont need the other versions, just success or failure
+        _treasureOptions.Triumph.Weight = 0;
+        _treasureOptions.Fled.Weight = 0;
+        _treasureOptions.Catastrophe.Weight = 0;
+        if (_statDifference <= _levers.DangerousStatDelta)
         {
-            _treasureOptions.Catastrophe.Weight = 0;
-            _treasureOptions.Failure.Weight = _treasureOptions.Failure.Weight * 1;
-            _treasureOptions.Fled.Weight = 0;
-            _treasureOptions.Success.Weight =  (int)(_treasureOptions.Success.Weight * .5);
-            _treasureOptions.Triumph.Weight = 0;
+            _treasureOptions.Failure.Weight = _treasureOptions.Failure.Weight * 2;
+            _treasureOptions.Success.Weight =  (int)Mathf.Round(_treasureOptions.Success.Weight * .25f);
+            
         }
-        else if (_statDifference <= 10)
+        else if (_statDifference <= _levers.RiskyStatDelta) // 50/50 chance to get the treasure
         {
-            _treasureOptions.Catastrophe.Weight = 0;
-            _treasureOptions.Failure.Weight = _treasureOptions.Failure.Weight * 1;
-            _treasureOptions.Fled.Weight = 0;
-            _treasureOptions.Success.Weight =  _treasureOptions.Success.Weight * 1;
-            _treasureOptions.Triumph.Weight = (int)(_treasureOptions.Triumph.Weight  * .5); 
+            _treasureOptions.Failure.Weight = _treasureOptions.Success.Weight;
+
         }
-        else if (_statDifference <= 20) 
+        else if (_statDifference > _levers.SafeStatDelta) //guaranteed to get treasure
         {
-            _treasureOptions.Catastrophe.Weight = 0;
-            _treasureOptions.Failure.Weight = (int)(_treasureOptions.Failure.Weight * .5);
-            _treasureOptions.Fled.Weight = 0;
-            _treasureOptions.Success.Weight =  _treasureOptions.Success.Weight * 2;
-            _treasureOptions.Triumph.Weight = _treasureOptions.Triumph.Weight  * 1;
-        }
-        else if (_statDifference > 20) 
-        {
-            _treasureOptions.Catastrophe.Weight = 0;
             _treasureOptions.Failure.Weight = 0;
-            _treasureOptions.Fled.Weight = 0;
-            _treasureOptions.Success.Weight =  _treasureOptions.Success.Weight * 1;
-            _treasureOptions.Triumph.Weight = _treasureOptions.Triumph.Weight  * 1;
         }
 
         WeightedRoll(_treasureOptions);

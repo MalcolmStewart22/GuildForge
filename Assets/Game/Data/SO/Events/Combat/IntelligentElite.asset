@@ -17,6 +17,6 @@ MonoBehaviour:
   EventType: 0
   PotentialGold: 6
   damageProfile: 2
-  PotentialDamage: 10
+  PotentialDamage: 5
   CanZeroGold: 0
   PotentialExp: 30

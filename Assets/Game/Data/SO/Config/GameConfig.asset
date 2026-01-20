@@ -33,90 +33,91 @@ MonoBehaviour:
   IncomeModifier: 1
   ExpenseModifier: 1
   RestingCost: 1
-  BaseMissionGoldPerPartyMember: 2
+  ExpectedMissionRatio: 0.75
   HPRefusalThreshold: 0.3
   HPReadyForActionThreshold: 0.7
   BaseRestHeal: 0.2
+  BaseNoMissionHeal: 0.2
   retreatHpThreshold: 0
-  RankE:
+  CharacterRankE:
     LevelCap: 10
     PromotionCost: 10
     Wage: 2
     RequiredLevel: 5
     PrimaryStatRequirement: 20
     SecondaryStatRequirement: 10
-  RankD:
-    LevelCap: 20
-    PromotionCost: 20
-    Wage: 3
-    RequiredLevel: 15
-    PrimaryStatRequirement: 35
-    SecondaryStatRequirement: 20
-  RankC:
-    LevelCap: 30
-    PromotionCost: 30
-    Wage: 4
-    RequiredLevel: 25
-    PrimaryStatRequirement: 50
-    SecondaryStatRequirement: 30
-  RankB:
-    LevelCap: 40
-    PromotionCost: 40
-    Wage: 5
-    RequiredLevel: 35
-    PrimaryStatRequirement: 60
-    SecondaryStatRequirement: 40
-  RankA:
+  CharacterRankD:
     LevelCap: 0
     PromotionCost: 0
     Wage: 0
     RequiredLevel: 0
     PrimaryStatRequirement: 0
     SecondaryStatRequirement: 0
-  RankS:
+  CharacterRankC:
     LevelCap: 0
     PromotionCost: 0
     Wage: 0
     RequiredLevel: 0
     PrimaryStatRequirement: 0
     SecondaryStatRequirement: 0
-  DungeonMinimumStatRankE: 5
-  DungeonMinimumStatRankD: 10
-  DungeonMinimumStatRankC: 25
-  DungeonMinimumStatRankB: 40
-  DungeonMinimumStatRankA: 50
-  DungeonMinimumStatRankS: 60
+  CharacterRankB:
+    LevelCap: 0
+    PromotionCost: 0
+    Wage: 0
+    RequiredLevel: 0
+    PrimaryStatRequirement: 0
+    SecondaryStatRequirement: 0
+  CharacterRankA:
+    LevelCap: 0
+    PromotionCost: 0
+    Wage: 0
+    RequiredLevel: 0
+    PrimaryStatRequirement: 0
+    SecondaryStatRequirement: 0
+  CharacterRankS:
+    LevelCap: 0
+    PromotionCost: 0
+    Wage: 0
+    RequiredLevel: 0
+    PrimaryStatRequirement: 0
+    SecondaryStatRequirement: 0
+  DungeonRankEMinimum: 10
+  DungeonRankDMinimum: 20
+  DungeonRankCMinimum: 30
+  DungeonRankBMinimum: 40
+  DungeonRankAMinimum: 50
+  DungeonRankSMinimum: 60
   OutcomeOptions:
     Triumph:
       GoldGainedModifier: 1.25
       DamageModifier: 0.5
       EXPModifier: 1.25
-      Weight: 2
-      DifferenceToPrevent: 0
+      Weight: 1
     Success:
       GoldGainedModifier: 1
-      DamageModifier: 1
+      DamageModifier: 0.75
       EXPModifier: 1
-      Weight: 4
-      DifferenceToPrevent: 0
+      Weight: 7
     Fled:
-      GoldGainedModifier: 0.5
-      DamageModifier: 0
-      EXPModifier: 0.5
+      GoldGainedModifier: 0.75
+      DamageModifier: 0.5
+      EXPModifier: 0.75
       Weight: 2
-      DifferenceToPrevent: 0
     Failure:
-      GoldGainedModifier: 0.25
-      DamageModifier: 1
-      EXPModifier: 0.25
-      Weight: 4
-      DifferenceToPrevent: 20
-    Catastrophe:
-      GoldGainedModifier: 0
-      DamageModifier: 1.5
-      EXPModifier: 0
+      GoldGainedModifier: 0.75
+      DamageModifier: 1.25
+      EXPModifier: 1
       Weight: 2
-      DifferenceToPrevent: 10
+    Catastrophe:
+      GoldGainedModifier: 0.5
+      DamageModifier: 1.5
+      EXPModifier: 0.5
+      Weight: 1
+  BaseDeltas:
+    StatMinimum: 0
+    DangerousStatDelta: 0
+    RiskyStatDelta: 10
+    SafeStatDelta: 20
   GuildRankE:
     CharactersRequiredToRankUp: 3
     MaxNumberOfParties: 1

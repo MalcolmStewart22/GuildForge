@@ -18,9 +18,9 @@ public class DungeonInstance
 
 
 
-    public int CalculateRequiredStat(EventType e)
+    public int CalculateRequiredStat(EventType e, int min)
     {
-        int statMinimum = GameStateQueries.GetStatMinimum(Rank);
+        int statMinimum = min;
         switch(e)
         {
             case EventType.Combat:

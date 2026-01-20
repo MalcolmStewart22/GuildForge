@@ -193,22 +193,23 @@ public class Party
     }
     public string GetSafetyRating(DungeonInstance dungeon)
     {
-        int mightDifference = (PartyStats.might - dungeon.CalculateRequiredStat(EventType.Combat)) + TraitEffects.CombatBonus;
-        int controlDifference = (PartyStats.control - dungeon.CalculateRequiredStat(EventType.Trap)) + TraitEffects.CombatBonus;
-        int finesseDifference = (PartyStats.finesse - dungeon.CalculateRequiredStat(EventType.Hazard)) + TraitEffects.CombatBonus;
-        int arcanaDifference = (PartyStats.arcana - dungeon.CalculateRequiredStat(EventType.Treasure)) + TraitEffects.CombatBonus;
+        DungeonLevers _levers = GameStateQueries.GetDungeonLevers(dungeon.Rank);
+        int mightDifference = (PartyStats.might - dungeon.CalculateRequiredStat(EventType.Combat, _levers.StatMinimum)) + TraitEffects.CombatBonus;
+        int controlDifference = (PartyStats.control - dungeon.CalculateRequiredStat(EventType.Trap, _levers.StatMinimum)) + TraitEffects.CombatBonus;
+        int finesseDifference = (PartyStats.finesse - dungeon.CalculateRequiredStat(EventType.Hazard, _levers.StatMinimum)) + TraitEffects.CombatBonus;
+        int arcanaDifference = (PartyStats.arcana - dungeon.CalculateRequiredStat(EventType.Treasure, _levers.StatMinimum)) + TraitEffects.CombatBonus;
 
         int averageDifference = (mightDifference + controlDifference + finesseDifference + arcanaDifference) / 4;
 
-        if (averageDifference <= 0)
+        if (averageDifference <= _levers.DangerousStatDelta)
         {
             return "Dangerous!";
         }
-        else if (averageDifference <= 10)
+        else if (averageDifference <= _levers.RiskyStatDelta)
         {
             return "Risky";
         }
-        else if (averageDifference <= 20) 
+        else if (averageDifference <= _levers.SafeStatDelta) 
         {
             return "Mostly Safe";
         }
