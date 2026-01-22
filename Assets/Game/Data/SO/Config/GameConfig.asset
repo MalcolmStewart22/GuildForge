@@ -47,40 +47,40 @@ MonoBehaviour:
     PrimaryStatRequirement: 20
     SecondaryStatRequirement: 10
   CharacterRankD:
-    LevelCap: 0
-    PromotionCost: 0
-    Wage: 0
-    RequiredLevel: 0
-    PrimaryStatRequirement: 0
-    SecondaryStatRequirement: 0
+    LevelCap: 20
+    PromotionCost: 20
+    Wage: 3
+    RequiredLevel: 15
+    PrimaryStatRequirement: 30
+    SecondaryStatRequirement: 20
   CharacterRankC:
-    LevelCap: 0
-    PromotionCost: 0
-    Wage: 0
-    RequiredLevel: 0
-    PrimaryStatRequirement: 0
-    SecondaryStatRequirement: 0
+    LevelCap: 30
+    PromotionCost: 30
+    Wage: 4
+    RequiredLevel: 25
+    PrimaryStatRequirement: 40
+    SecondaryStatRequirement: 30
   CharacterRankB:
-    LevelCap: 0
-    PromotionCost: 0
-    Wage: 0
-    RequiredLevel: 0
-    PrimaryStatRequirement: 0
-    SecondaryStatRequirement: 0
+    LevelCap: 40
+    PromotionCost: 40
+    Wage: 5
+    RequiredLevel: 35
+    PrimaryStatRequirement: 50
+    SecondaryStatRequirement: 40
   CharacterRankA:
-    LevelCap: 0
-    PromotionCost: 0
-    Wage: 0
-    RequiredLevel: 0
-    PrimaryStatRequirement: 0
-    SecondaryStatRequirement: 0
+    LevelCap: 50
+    PromotionCost: 50
+    Wage: 6
+    RequiredLevel: 45
+    PrimaryStatRequirement: 60
+    SecondaryStatRequirement: 50
   CharacterRankS:
-    LevelCap: 0
-    PromotionCost: 0
-    Wage: 0
-    RequiredLevel: 0
-    PrimaryStatRequirement: 0
-    SecondaryStatRequirement: 0
+    LevelCap: 60
+    PromotionCost: 60
+    Wage: 7
+    RequiredLevel: 55
+    PrimaryStatRequirement: 70
+    SecondaryStatRequirement: 60
   DungeonRankEMinimum: 10
   DungeonRankDMinimum: 20
   DungeonRankCMinimum: 30
@@ -131,15 +131,15 @@ MonoBehaviour:
     MaxNumberOfParties: 3
     PromotionCost: 70
   GuildRankB:
-    CharactersRequiredToRankUp: 0
-    MaxNumberOfParties: 0
-    PromotionCost: 0
+    CharactersRequiredToRankUp: 10
+    MaxNumberOfParties: 4
+    PromotionCost: 80
   GuildRankA:
-    CharactersRequiredToRankUp: 0
-    MaxNumberOfParties: 0
-    PromotionCost: 0
+    CharactersRequiredToRankUp: 12
+    MaxNumberOfParties: 5
+    PromotionCost: 90
   GuildRankS:
     CharactersRequiredToRankUp: 0
-    MaxNumberOfParties: 0
+    MaxNumberOfParties: 6
     PromotionCost: 0
   SyllableSet: {fileID: 11400000, guid: f6604fd868b51a144aa0b48be4488cb5, type: 2}

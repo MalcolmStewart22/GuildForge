@@ -17,23 +17,45 @@ public class DungeonResolver
         missionResult.Dungeon = dungeon;
         missionResult.MissionDay = day;
 
+        foreach (var e in RollEventList(library))
+        {
+            missionResult.EventResults.Add(eventResolver.ResolveEvent(e, party, dungeon, outcomeOptions));
+        }
+
+        missionResult.Outcome = CalculateMissionOutcome();
+
+        int _goldMinimum = CalculateGoldMinimum(missionResult.Dungeon.MinimumPayout, missionResult.Outcome);
+        if(missionResult.GoldGained < _goldMinimum ) //enforcing a minimum gold return to make sure you dont lose from drawing bad events when you were successful
+        {
+            missionResult.GoldGained = _goldMinimum;
+        }
+
+        SendPartyHome();
+
+        Debug.Log($"==== {party.PartyName} Mission Completed ====");
+        return missionResult;
+    }
+    private List<SO_Event> RollEventList(SO_EventLibrary library)
+    {
         List<SO_Event> _missionEvents = new();
         
         float _totalWeight = 0;
         foreach (var e in library.AllEvents)
         {
-            _totalWeight += CalculateEffectiveWeight(e, dungeon.CalculatedModifier);            
+            Debug.Log($"{e.Name}");
+            Debug.Log($"{missionResult.Dungeon.Name}");
+            _totalWeight += CalculateEffectiveWeight(e, missionResult.Dungeon.CalculatedModifier);            
         }
         
         List<SO_Event> _temp = new(library.AllEvents);
 
-        for (int i = 0; i < dungeon.NumberOfEvents; i++)
+        for (int i = 0; i < missionResult.Dungeon.NumberOfEvents; i++)
         {
             float _r = Random.value * _totalWeight;
             SO_Event _selected = null;
             foreach (var e in _temp)
             {
-                _r -= CalculateEffectiveWeight(e, dungeon.CalculatedModifier);
+                _r -= CalculateEffectiveWeight(e, missionResult.Dungeon.CalculatedModifier);
                 if(_r <= 0)
                 {
                     _missionEvents.Add(e);
@@ -42,18 +64,51 @@ public class DungeonResolver
                 }
             }
             _temp.Remove(_selected);
-            _totalWeight -= CalculateEffectiveWeight(_selected, dungeon.CalculatedModifier);
+            _totalWeight -= CalculateEffectiveWeight(_selected, missionResult.Dungeon.CalculatedModifier);
         }
-
-        foreach (var e in _missionEvents)
+        return _missionEvents;
+    }
+    private float CalculateEffectiveWeight(SO_Event e, DungeonModifiers modifier)
+    {
+        switch(e.EventType)
         {
-            Debug.Log(e.Name);
-            missionResult.EventResults.Add(eventResolver.ResolveEvent(e, party, dungeon, outcomeOptions));
+            case EventType.Combat:
+                return e.Weight * modifier.CombatWeight;
+            case EventType.Treasure:
+                return e.Weight * modifier.TreasureWeight;
+            case EventType.Trap:
+                return e.Weight * modifier.TrapWeight;
+            case EventType.Hazard:
+                return e.Weight * modifier.HazardWeight;
+            default:
+                return e.Weight;
         }
-        
+    }
+
+    private int CalculateGoldMinimum(int min, OutcomeTypes outcome)
+    { 
+        int _result = 0;
+        switch(outcome)
+        {
+            case OutcomeTypes.Triumph:
+                _result = (int)(min * GameStateQueries.GetOutcomeGoldModifier(OutcomeTypes.Triumph));
+                break;
+            case OutcomeTypes.Success:
+                _result = (int)(min * GameStateQueries.GetOutcomeGoldModifier(OutcomeTypes.Success));
+                break;
+            case OutcomeTypes.Failure:
+                _result = (int)(min * GameStateQueries.GetOutcomeGoldModifier(OutcomeTypes.Failure));
+                break;
+            case OutcomeTypes.Catastrophe:
+                _result = (int)(min * GameStateQueries.GetOutcomeGoldModifier(OutcomeTypes.Catastrophe));
+                break;
+        }
+        return _result;
+    }
+    private OutcomeTypes CalculateMissionOutcome()
+    {
         //when I institute dungeon fleeing this will have to change somewhat
         int _outcomeAsNum = 0;
-        int _totalExp = 0;
         foreach( var e in missionResult.EventResults)
         {
             missionResult.GoldGained += e.GoldGained;
@@ -75,56 +130,32 @@ public class DungeonResolver
                     _outcomeAsNum += 1;
                     break;
             }
-            _totalExp += e.ExpGained;
         }
-        
-        missionResult.LevelUpReports = new List<LevelUpReport>(party.AssignExp(_totalExp));
-        _outcomeAsNum = Mathf.RoundToInt(_outcomeAsNum / (missionResult.EventResults.Count * 1f)); // I want a failure + Success to equal success. Just weighting it up a little
-        int _goldMinimum = missionResult.Dungeon.MinimumPayout;
-        switch(_outcomeAsNum)
+        _outcomeAsNum = Mathf.RoundToInt(_outcomeAsNum / (missionResult.EventResults.Count * 1f));// I want a failure + Success to equal success. Just weighting it up a little
+        switch (_outcomeAsNum)
         {
             case 1:
-                missionResult.Outcome = OutcomeTypes.Catastrophe;
-                _goldMinimum = (int)(_goldMinimum * GameStateQueries.GetOutcomeGoldModifier(OutcomeTypes.Catastrophe));
-                break;
+                return OutcomeTypes.Catastrophe;
             case 2:
-                missionResult.Outcome = OutcomeTypes.Failure;
-                _goldMinimum = (int)(_goldMinimum * GameStateQueries.GetOutcomeGoldModifier(OutcomeTypes.Failure));
-                break;
+                return OutcomeTypes.Failure;
             case 3:
-                missionResult.Outcome = OutcomeTypes.Success;
-                _goldMinimum = (int)(_goldMinimum * GameStateQueries.GetOutcomeGoldModifier(OutcomeTypes.Success));
-                break;
+                return OutcomeTypes.Success;
             case 4:
-                missionResult.Outcome = OutcomeTypes.Triumph;
-                _goldMinimum = (int)(_goldMinimum * GameStateQueries.GetOutcomeGoldModifier(OutcomeTypes.Triumph));
-                break;
+                return OutcomeTypes.Triumph;
         }
-
-        if(missionResult.GoldGained < _goldMinimum ) //enforcing a minimum gold return to make sure you dont lose from drawing bad events when you were successful
-        {
-            missionResult.GoldGained = _goldMinimum;
-        }
-        party.GoHome();
-        Debug.Log("==== Mission Completed ====");
-        return missionResult;
+        return OutcomeTypes.Error;
     }
-    private float CalculateEffectiveWeight(SO_Event e, DungeonModifiers modifier)
+    private void SendPartyHome()
     {
-        switch(e.EventType)
+        int _totalExp = 0;
+        foreach( var e in missionResult.EventResults)
         {
-            case EventType.Combat:
-                return e.Weight * modifier.CombatWeight;
-            case EventType.Treasure:
-                return e.Weight * modifier.TreasureWeight;
-            case EventType.Trap:
-                return e.Weight * modifier.TrapWeight;
-            case EventType.Hazard:
-                return e.Weight * modifier.HazardWeight;
-            default:
-                return e.Weight;
+            _totalExp += e.ExpGained;
         }
+        missionResult.LevelUpReports = new List<LevelUpReport>(missionResult.Party.AssignExp(_totalExp));
+        missionResult.Party.GoHome();
     }
+
 }
 
 

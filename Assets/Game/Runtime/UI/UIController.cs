@@ -26,6 +26,7 @@ public class UIController : MonoBehaviour
     public Stack<VisualElement> FocusedElements = new();
     private DungeonInstance currentDungeon;
     private Character currentCharacter;
+    private Party currentParty;
     private List<MissionResult> currentMissionList = new();
     private int missionReportIndex = 0;
     private System.Action onConfirm;
@@ -34,6 +35,8 @@ public class UIController : MonoBehaviour
     {
         currentCharacter = null;
         currentDungeon = null;
+        currentParty = null;
+
         if (root == null)
         {
             root = GetComponent<UIDocument>().rootVisualElement;
@@ -78,9 +81,8 @@ public class UIController : MonoBehaviour
                      btn.clicked += () => gameController.Restart();
                     break;
                 case "SendPartyButton":
-                //will need to implement party selection screens later
-                    Debug.Log("Send Party!");
-                    btn.clicked += () => gameController.DungeonStart(currentDungeon);
+                    //will need to implement party selection screens later
+                    btn.clicked += () => gameController.DungeonStart(currentDungeon, currentParty);
                     break;
                 case "ConfirmButton":
                      btn.clicked += () => CloseFocusedElement();
@@ -130,7 +132,7 @@ public class UIController : MonoBehaviour
         guildListView.OnCharacterSelected += CharacterSelected;
     }
     
-    public void LoadMapScreen(int gold, int day)
+    public void LoadMapScreen(int gold, int week)
     {
         mainMenu.style.display = DisplayStyle.None;
         mapScreen.style.display = DisplayStyle.Flex;
@@ -138,8 +140,8 @@ public class UIController : MonoBehaviour
 
         VisualElement _header = root.Q<VisualElement>("InfoHeader");
 
-        Button _day = _header.Q<Button>("DayButton");
-        _day.text = day.ToString();
+        Button _week = _header.Q<Button>("WeekButton");
+        _week.text = "Week# " + gameController.State.WeekCount.ToString();
 
         Label _gold = _header.Q<Label>("GoldNumber");
         _gold.text = gold.ToString();
@@ -151,7 +153,6 @@ public class UIController : MonoBehaviour
     #region Buttons
     private void OnMenuClicked(string name)
     {
-        Debug.Log(name + "clicked!");
         switch(name)
         {
             case "PlayButton":
@@ -163,6 +164,7 @@ public class UIController : MonoBehaviour
                 gameController.QuitGame();
                 break;
         }
+        currentParty = gameController.State.Parties[0]; // Will need to change this when party selection is added.
     } 
     private void OnMapClicked(string name)
     {
@@ -224,8 +226,8 @@ public class UIController : MonoBehaviour
     } 
     private void OnNextButtonClicked()
     {
-        Debug.Log("====== NEXT DAY =======");
-        gameController.ReadyForNextDay();
+        Debug.Log("====== NEXT Week =======");
+        gameController.ReadyForNextWeek();
     }
     private void OnConfirmClicked()
     {
@@ -302,7 +304,7 @@ public class UIController : MonoBehaviour
             case "GoldButton":
                 DisplayMainInfoPanel("GoldLedgerLayer");
                 break;
-            case "DayButton":
+            case "WeekButton":
                 currentMissionList = new List<MissionResult>(gameController.State.MissionLog);
                 missionReportIndex = 0;
                 DisplayMainInfoPanel("MissionLogLayer");
@@ -386,11 +388,9 @@ public class UIController : MonoBehaviour
         var _container = _detailsBoard.Q<VisualElement>("DungeonDetails");
         _container.style.display = DisplayStyle.Flex;
         _detailsBoard.Q<VisualElement>("CharacterDetails").style.display = DisplayStyle.None;
-
-        //will change when adding party selection screen
-        GameStateQueries.GetParty(gameController.State).PrepareParty();
         
         detailPanel.PopulateDungeonDetails(dungeon, _container, GameStateQueries.GetParty(gameController.State).GetSafetyRating(dungeon));
+        _detailsBoard.Q<Button>("SendPartyButton").SetEnabled(GameStateQueries.GetUnassignedParties(gameController.State).Count > 0);
         if (FocusedElements.Count == 0 || FocusedElements.Peek() != _detailsBoard)
         {
             FocusedElements.Push(_detailsBoard);
@@ -422,8 +422,7 @@ public class UIController : MonoBehaviour
         }
     }
 
-    //will need to pass lists of missions in the future when multiple parties is implemented.
-    public void EndOfDay(List<MissionResult> missions)
+    public void EndOfWeek(List<MissionResult> missions)
     {
         UpdateHeaderInfo();
         if (missions.Count > 0)
@@ -437,7 +436,7 @@ public class UIController : MonoBehaviour
     {
         VisualElement _header = root.Q<VisualElement>("InfoHeader");
 
-        _header.Q<Button>("DayButton").text = "Day# " + gameController.State.DayCount.ToString();
+        _header.Q<Button>("WeekButton").text = "Week# " + gameController.State.WeekCount.ToString();
         _header.Q<Label>("GoldNumber").text = gameController.State.CurrentGold.ToString();
         _header.Q<Button>("GuildRankButton").text = gameController.State.CurrentGuildRank.ToString();
 
@@ -516,7 +515,7 @@ public class UIController : MonoBehaviour
     {
         ShowDialogBox(
             "The party has not been assigned a mission! Are you sure you want to proceed?",
-            confirm: () => gameController.EndDay()
+            confirm: () => gameController.EndWeek()
         );
     }
 
@@ -525,8 +524,8 @@ public class UIController : MonoBehaviour
     public void ShowAllPartiesAssigned()
     {
         ShowDialogBox(
-            "All Parties have been assigned Missions. Would you like to end the day now?",
-            confirm: () => gameController.EndDay()
+            "All Parties have been assigned Missions. Would you like to end the week now?",
+            confirm: () => gameController.EndWeek()
         );
     }
 

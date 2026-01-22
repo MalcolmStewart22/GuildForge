@@ -7,5 +7,6 @@ Success,
 Fled,
 Failure,
 Catastrophe,
+Error,
 
 }

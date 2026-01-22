@@ -150,7 +150,7 @@ public class Character
                 break;
         }
         CalculateActualStats();
-        
+
         float hpRatio = 1f * CurrentHP / HPMax;
         HPMax = Mathf.RoundToInt(1.5f * Actual.endurance);
         CurrentHP = Mathf.RoundToInt(HPMax * hpRatio);
@@ -177,27 +177,19 @@ public class Character
         IsAlive = false;
     }
 
-    public void HealthCheck(float tooLow, float ready, float restHeal)
+    public bool RestCheck(float tooLow)
     {
-        if (IsResting)
+        if (CurrentHP < (HPMax * tooLow))
         {
-            Heal(restHeal);
-            if(CurrentHP > (HPMax * ready))
-            {
-                IsResting = false;
-            }
+            IsResting = true;
+            return true;
         }
-        else
-        {
-            if (CurrentHP < (HPMax * tooLow))
-            {
-                IsResting = true;
-            }
-        }
+        IsResting = false;
+        return false;
     }
     public void Heal(float amount)
     {
-        CurrentHP += Mathf.Clamp(Mathf.RoundToInt(HPMax * amount),0,HPMax);
+        CurrentHP += Mathf.Clamp(Mathf.RoundToInt(HPMax * amount * (1 * (Actual.healing / 200f))),0,HPMax);
     }
 
 }

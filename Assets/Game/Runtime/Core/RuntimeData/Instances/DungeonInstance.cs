@@ -15,6 +15,7 @@ public class DungeonInstance
     public int NumberOfEvents;
     public int MinimumPayout;
     public DungeonModifiers CalculatedModifier = new();
+    public bool IsOpccupied = false;
 
 
 

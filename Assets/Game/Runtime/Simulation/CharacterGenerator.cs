@@ -3,15 +3,16 @@ using UnityEngine;
 public class CharacterGenerator
 {
     System.Random rng = new System.Random();
-    public Character GenerateCharacter(int _id, SO_NameSyllableSet syllableSet, SO_TraitLibrary library)
+    public SO_TraitLibrary library;
+    public Character GenerateCharacter(int _id)
     {
         Debug.Log("Creating a Character");
         Character _curCharacter = new Character();
         _curCharacter.CharacterID = _id;
-        _curCharacter.Name = GenerateName(syllableSet);
+        _curCharacter.Name = GenerateName(GameStateQueries.GetCurrentSyllableSet());
         
         //temp solution until recruitment is added
-        switch(_curCharacter.CharacterID)
+        switch(_curCharacter.CharacterID % 4)
         {
             case 0:
                 _curCharacter.Job = CharacterJob.Damage;

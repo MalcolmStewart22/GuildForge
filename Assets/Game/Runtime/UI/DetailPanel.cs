@@ -45,7 +45,7 @@ public class DetailPanel : MonoBehaviour
         var _health = container.Q<ProgressBar>("HealthBar");
         if(character.IsResting)
         {
-            _health.title = character.CurrentHP.ToString() + "/" + character.HPMax.ToString() + " (Resting)";
+            _health.title = character.CurrentHP.ToString() + "/" + character.HPMax.ToString() + " (Injured)";
         }
         else
         {

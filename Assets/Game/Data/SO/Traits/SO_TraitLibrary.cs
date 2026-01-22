@@ -5,4 +5,9 @@ using UnityEngine;
 public class SO_TraitLibrary : ScriptableObject
 {
     public List<SO_Trait> AllTraits = new();
+
+    public SO_TraitLibrary(SO_TraitLibrary library)
+    {
+        AllTraits = new List<SO_Trait>(library.AllTraits);
+    }
 }

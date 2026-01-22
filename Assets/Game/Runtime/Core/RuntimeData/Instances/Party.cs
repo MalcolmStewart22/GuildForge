@@ -2,21 +2,73 @@ using System.Collections.Generic;
 using UnityEditor.Rendering;
 using UnityEngine;
 
+
+[System.Serializable]
+public enum PartyAction
+{
+    Dungeon,
+    Rest,
+    Unassigned,
+}
 [System.Serializable]
 public class Party
 {
+    //Party Info
     public int ID;
+    public string PartyName;
     public List<Character> PartyMembers = new();
-    public List<Character> ActiveMembers = new();
-    public bool IsOnMission = false;
-    public DungeonInstance CurrentMission;
     public StatBlock PartyStats = new();
     public TraitsModifiers TraitEffects = new();
+    // Party Decisions
+    public DungeonInstance CurrentMission;
+    public PartyAction AssignedAction = PartyAction.Unassigned;
 
+
+    public void GoHome()
+    {
+        CurrentMission = null;
+        AssignedAction = PartyAction.Unassigned;
+    }
+    public void UpdateParty()
+    {
+        CalculatePartyStats();
+        CalculatePartyTraitEffects();
+    }
+    public void PrepareParty(DungeonInstance dungeon)
+    {
+        AssignedAction = PartyAction.Dungeon;
+        CurrentMission = dungeon;
+    }
+    public void HealthCheck(HPLevers config )
+    {
+        if(AssignedAction == PartyAction.Rest)
+        {
+            AssignedAction = PartyAction.Unassigned;
+        }
+        else
+        {
+            foreach (var character in PartyMembers)
+            {
+                if(character.RestCheck(config.HPRefusalThreshold))
+                {
+                    AssignedAction = PartyAction.Rest;
+                }
+            }
+        }
+    }
+    public int GetWages()
+    {
+        int _wages = 0;
+        foreach (var character in PartyMembers)
+        {
+            _wages += GameStateQueries.GetWage(character.Rank);
+        }
+        return _wages;
+    }
 
     private void CalculatePartyStats()
     {
-        foreach (Character c in ActiveMembers)
+        foreach (Character c in PartyMembers)
         {
             PartyStats.might += c.Actual.might;
             PartyStats.finesse += c.Actual.finesse;
@@ -27,48 +79,32 @@ public class Party
             PartyStats.resolve += c.Actual.resolve;
         }
 
-        PartyStats.might = PartyStats.might / ActiveMembers.Count;
-        PartyStats.finesse = PartyStats.finesse / ActiveMembers.Count;
-        PartyStats.endurance = PartyStats.endurance / ActiveMembers.Count;
-        PartyStats.healing = PartyStats.healing / ActiveMembers.Count;
-        PartyStats.arcana = PartyStats.arcana / ActiveMembers.Count;
-        PartyStats.control = PartyStats.control / ActiveMembers.Count;
-        PartyStats.resolve = PartyStats.resolve / ActiveMembers.Count;
-        
-        CalucaltePartyTraitEffects();
+        PartyStats.might = PartyStats.might / PartyMembers.Count;
+        PartyStats.finesse = PartyStats.finesse / PartyMembers.Count;
+        PartyStats.endurance = PartyStats.endurance / PartyMembers.Count;
+        PartyStats.healing = PartyStats.healing / PartyMembers.Count;
+        PartyStats.arcana = PartyStats.arcana / PartyMembers.Count;
+        PartyStats.control = PartyStats.control / PartyMembers.Count;
+        PartyStats.resolve = PartyStats.resolve / PartyMembers.Count;
     }
-    private void CalucaltePartyTraitEffects()
+    private void CalculatePartyTraitEffects()
     {
-        foreach(var c in ActiveMembers)
+        foreach(var c in PartyMembers)
         {
             TraitEffects = TraitEffects.CombineModifiers(TraitEffects, c.TotalTraitEffects);
         }
     }
-    public void PrepareParty()
-    {
-        ActiveMembers.Clear();
-
-        foreach (Character c in PartyMembers)
-        {
-            if (c.IsResting == false && c.IsAlive)
-            {
-                ActiveMembers.Add(c);
-            }
-        }
-        CalculatePartyStats();
-    }
-
+    
     //will finish Caught DamageProfile later, for now party handles traps as a team
     public List<Character> AssignDamage(DamageProfile targets, int damage, List<Character> explicitTargets = null)
     {
-        Debug.Log("Handed" + damage + " damage!");
         List<Character> _tookDamage = new();
         damage = Mathf.RoundToInt(damage * (1 - (PartyStats.healing / 200f))); //healing caps at 50% damage reduction
         Debug.Log("Assigning " + damage + " damage!");
         if(targets == DamageProfile.TankFocused)
         {
             bool _hasTank = false;
-            foreach (var c in ActiveMembers)
+            foreach (var c in PartyMembers)
             {
                 if (c.Job == CharacterJob.Tank)
                 {
@@ -89,7 +125,7 @@ public class Party
         else if (targets == DamageProfile.DamageFocused)
         {
             bool _hasDPS = false;
-            foreach (var c in ActiveMembers)
+            foreach (var c in PartyMembers)
             {
                 if (c.Job == CharacterJob.Damage)
                 {
@@ -110,7 +146,7 @@ public class Party
         else if (targets == DamageProfile.SupportFocused)
         {
             bool _hasSup = false;
-            foreach (var c in ActiveMembers)
+            foreach (var c in PartyMembers)
             {
                 if (c.Job == CharacterJob.Support)
                 {
@@ -147,7 +183,7 @@ public class Party
         }
         if (targets == DamageProfile.Everyone)
         {
-            foreach (var c in ActiveMembers)
+            foreach (var c in PartyMembers)
             {
                     c.TakeDamage(damage);
                     _tookDamage.Add(c);
@@ -160,7 +196,7 @@ public class Party
     public List<LevelUpReport> AssignExp(int exp)
     {
         List<LevelUpReport> _report = new();
-        foreach(var c in ActiveMembers)
+        foreach(var c in PartyMembers)
         {
             LevelUpReport _r = new LevelUpReport
             {
@@ -169,28 +205,23 @@ public class Party
             };
             _report.Add(_r);
         }
+        UpdateParty();
         return _report;
     }
 
     public void StatusCheck()
     {
-        List<Character> temp = new List<Character>(ActiveMembers);
+        List<Character> temp = new List<Character>(PartyMembers);
         foreach (var c in temp)
         {
             if(!c.IsAlive)
             {
-                ActiveMembers.Remove(c);
+                PartyMembers.Remove(c);
             }
-
         }
+        UpdateParty();
     }
 
-    public void GoHome()
-    {
-        CurrentMission = null;
-        IsOnMission = false;
-        ActiveMembers.Clear();
-    }
     public string GetSafetyRating(DungeonInstance dungeon)
     {
         DungeonLevers _levers = GameStateQueries.GetDungeonLevers(dungeon.Rank);

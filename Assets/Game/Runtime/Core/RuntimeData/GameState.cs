@@ -5,7 +5,7 @@ using UnityEngine;
 public class GameState
 {
     public int CurrentGold;
-    public int DayCount = 1;
+    public int WeekCount = 1;
     public int MissionCount = 0;
     public GuildRank CurrentGuildRank;
     public List<Character> Characters = new();

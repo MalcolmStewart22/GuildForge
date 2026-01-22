@@ -276,4 +276,14 @@ public static class GameStateQueries
         }
         return Config.CharacterRankE.Wage;
     }
+
+    public static SO_NameSyllableSet GetCurrentSyllableSet()
+    {
+        return Config.SyllableSet;
+    }
+
+    public static List<Party> GetUnassignedParties(GameState gameState)
+    {
+        return gameState.Parties.Where(p => p.AssignedAction == PartyAction.Unassigned).ToList();
+    }
 }

@@ -18,16 +18,11 @@ public class SO_GameConfig : ScriptableObject
     public int startingGold = 20;
     public float IncomeModifier = 1f;
     public float ExpenseModifier = 1f;
-    public int RestingCost = 1;
     [Range(0,1f)]
     public float ExpectedMissionRatio = .75f; // What percentage of days sending out a party
 
     [Header("HP Levers")] 
-    public float HPRefusalThreshold = 0.3f;
-    public float HPReadyForActionThreshold = 0.7f;
-    public float BaseRestHeal = .4f;
-    public float BaseNoMissionHeal = .2f;
-    public float retreatHpThreshold = 0;
+    public HPLevers HPConfig;
 
     [Header("Character Rank Levers")] 
     public CharacterRankLevers CharacterRankE;
@@ -103,4 +98,13 @@ public class DungeonLevers
         SafeStatDelta = baseDelta.SafeStatDelta; 
     }
 
+}
+
+[System.Serializable]
+public class HPLevers
+{
+    public float HPRefusalThreshold = 0.3f;
+    public float HPReadyForActionThreshold = 0.7f;
+    public float BaseRestHeal = .3f;
+    public float retreatHpThreshold = 0;
 }

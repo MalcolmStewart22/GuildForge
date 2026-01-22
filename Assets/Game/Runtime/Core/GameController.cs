@@ -18,9 +18,13 @@ public class GameController : MonoBehaviour
     private InputController input;
 
 
+
     public GameState State => gameState;
     private DungeonResolver dungeonResolver;
     private EventResolver eventResolver;
+    private CharacterGenerator characterGenerator;
+    private DungeonGenerator dungeonGenerator;
+    private PartyGenerator partyGenerator;
 
     private void Start()
     {
@@ -32,36 +36,44 @@ public class GameController : MonoBehaviour
     public void StartGame()
     {
         Debug.Log("Starting Game");
-        CharacterGenerator _cg = new CharacterGenerator();
-        DungeonGenerator _dg = new DungeonGenerator();
+        
+        dungeonGenerator = new();
+        characterGenerator = new();
         dungeonResolver = new();
         eventResolver = new();
-
-        Debug.Log("======= Character Creation ========");
-        for (int i = 0; i < Config.MaxPartySize; i++)
-        {
-            gameState.Characters.Add(_cg.GenerateCharacter(gameState.Characters.Count, Config.SyllableSet, TraitLibrary));
-        }
-        //temp for MVP
-        gameState.Recruited = new List<Character>(gameState.Characters);
-        Party _party = new();
-        _party.PartyMembers = new List<Character>(gameState.Recruited);
-        gameState.Parties.Add(_party);
-
-        Debug.Log("======= Dungeon Creation ========");
-        for (int i = 0; i < Config.NumberOfDungeons; i++)
-        {
-            gameState.Dungeons.Add(_dg.GenerateDungeon(gameState.Dungeons.Count,TagLibrary));
-        }
-
+        partyGenerator = new();
+        
+        CreateParty();
+        CreateDungeons();
         Debug.Log("======= Data Creation Finished ========");
 
         gameState.CurrentGold = Config.startingGold;
-        gameState.Ledger.Add(new LedgerLine(gameState.DayCount, gameState.CurrentGold, gameState.CurrentGold, "Guild Open"));
-        ui.LoadMapScreen(gameState.CurrentGold, gameState.DayCount);
+        gameState.Ledger.Add(new LedgerLine(gameState.WeekCount, gameState.CurrentGold, gameState.CurrentGold, "Guild Open"));
+        ui.LoadMapScreen(gameState.CurrentGold, gameState.WeekCount);
         ui.DisplayMapButtons(gameState.Dungeons);
 
         Debug.Log("======= Game Start ========");
+    }
+
+    private void CreateParty()
+    {
+        characterGenerator.library = new SO_TraitLibrary(TraitLibrary);
+        Party _party = partyGenerator.GenerateParty(characterGenerator, Config.MaxPartySize, gameState.Characters.Count, gameState.Parties.Count);
+        gameState.Parties.Add(_party);
+
+        foreach (Character c in _party.PartyMembers)
+        {
+            gameState.Characters.Add(c);
+            gameState.Recruited.Add(c);
+        }
+    }
+    private void CreateDungeons() //Change once Mission systems implemented
+    {
+        Debug.Log("======= Dungeon Creation ========");
+        for (int i = 0; i < Config.NumberOfDungeons; i++)
+        {
+            gameState.Dungeons.Add(dungeonGenerator.GenerateDungeon(gameState.Dungeons.Count,TagLibrary));
+        }
     }
     public void Restart()
     {
@@ -93,30 +105,28 @@ public class GameController : MonoBehaviour
     public void PayGold(int amount, string reason)
     {
         gameState.CurrentGold -= amount;
-        gameState.Ledger.Add(new LedgerLine(gameState.DayCount, gameState.CurrentGold, 0 - amount, reason));
+        gameState.Ledger.Add(new LedgerLine(gameState.WeekCount, gameState.CurrentGold, 0 - amount, reason));
     }
     public void AddGold(int amount, string reason)
     {
         gameState.CurrentGold += amount;
-        gameState.Ledger.Add(new LedgerLine(gameState.DayCount, gameState.CurrentGold, amount, reason));
+        gameState.Ledger.Add(new LedgerLine(gameState.WeekCount, gameState.CurrentGold, amount, reason));
     }
-    public void DungeonStart(DungeonInstance dungeon)
+    public void DungeonStart(DungeonInstance dungeon, Party party)
     {
         //will need to implement party selection
-        if (gameState.Parties[0].IsOnMission == false)
+        if (party.AssignedAction == PartyAction.Unassigned)
         {
-            gameState.Parties[0].IsOnMission = true;
-            gameState.Parties[0].CurrentMission = dungeon;
-            gameState.Parties[0].PrepareParty();
+            party.PrepareParty(dungeon);
         }
         ui.CloseFocusedElement();
         ui.CloseFocusedElement();
 
         //remove after adding In Town Actions
         bool _AllPartiesAssigned = true;
-        foreach(var party in gameState.Parties)
+        foreach(var p in gameState.Parties)
         {
-            if(party.IsOnMission == false)
+            if(p.AssignedAction == PartyAction.Unassigned)
             {
                 _AllPartiesAssigned = false;
                 break;
@@ -128,12 +138,12 @@ public class GameController : MonoBehaviour
         }
     }
 
-    public void ReadyForNextDay()
+    public void ReadyForNextWeek()
     {
         bool _isAPartyAssigned = false;
         foreach(var party in gameState.Parties)
         {
-            if(party.IsOnMission == true)
+            if(party.AssignedAction == PartyAction.Dungeon)
             {
                 _isAPartyAssigned = true;
                 break;
@@ -141,21 +151,49 @@ public class GameController : MonoBehaviour
         }
         if(_isAPartyAssigned)
         {
-            EndDay();
+            EndWeek();
         }
         else
         {
             ui.ShowNoPartyAssignedWarning();
         }
     }  
+
+    public void EndWeek()
+    {
+        while (ui.FocusedElements.Count > 0)
+        {
+            ui.CloseFocusedElement();
+        }
+
+        List<MissionResult> _weeksMissions = new List<MissionResult>(RunDungeons());            
+
+        foreach (Party p in gameState.Parties)
+        {
+            PayGold(p.GetWages(), $"Wages for {p.PartyName}");
+            p.HealthCheck(Config.HPConfig);
+        }
+        
+        if(IsTheGameOver())
+        {
+            Debug.Log("Game Over!");
+            ui.GameOver(); 
+        }
+        else
+        {
+            gameState.WeekCount += 1;
+            ui.EndOfWeek( _weeksMissions); 
+        }
+    }
+
     private List<MissionResult> RunDungeons()
     {
         List<MissionResult> _results = new();
         foreach(var party in gameState.Parties)
         {
-            if(party.IsOnMission == true)
+            if(party.AssignedAction == PartyAction.Dungeon)
             {
-                MissionResult newMission = dungeonResolver.EnterDungeon(party.CurrentMission, party, EventLibrary, eventResolver, Config.OutcomeOptions, gameState.DayCount);
+                MissionResult newMission = dungeonResolver.EnterDungeon(party.CurrentMission, party, EventLibrary, eventResolver, Config.OutcomeOptions, gameState.WeekCount);
                 gameState.MissionLog.Add(newMission);
                 _results.Add(newMission);
                 AddGold(newMission.GoldGained, "Dungeon Income");
@@ -164,57 +202,17 @@ public class GameController : MonoBehaviour
             {
                 foreach (Character c in party.PartyMembers)
                 {
-                    c.Heal(Config.BaseNoMissionHeal);
+                    c.Heal(Config.HPConfig.BaseRestHeal);
                 }
             }
         }
         return _results;
     }
 
-    public void EndDay()
+    private bool IsTheGameOver()
     {
-        while (ui.FocusedElements.Count > 0)
-        {
-            ui.CloseFocusedElement();
-        }
+        bool _outOfMoney = gameState.CurrentGold < 0; //will need to change this to the recruitment cost once its implemented.
 
-        List<MissionResult> _todaysMissions = new List<MissionResult>(RunDungeons());            
-
-        foreach (var character in gameState.Characters)
-        {
-            int _wage = 0;
-            //add rank costs later
-            if(character.IsAlive)
-            {
-                if(character.IsResting)
-                {                
-                    _wage = GameStateQueries.GetWage(character.Rank) + Config.RestingCost;
-                }
-                else
-                {
-                    _wage = GameStateQueries.GetWage(character.Rank);
-                }
-            }
-            character.HealthCheck(Config.HPRefusalThreshold, Config.HPReadyForActionThreshold, Config.BaseRestHeal);
-            PayGold(_wage, $"Wages for {character.Name}");
-            
-        }
-        // will need to update logic when we add recruitment
-        if(gameState.CurrentGold < 0 || IsEveryoneDead())
-        {
-            Debug.Log("Game Over!");
-            ui.GameOver();
-            
-        }
-        else
-        {
-            gameState.DayCount += 1;
-            ui.EndOfDay( _todaysMissions); 
-        }
-    }
-
-    private bool IsEveryoneDead()
-    {
         foreach(var c in gameState.Characters)
         {
             if(!c.IsAlive)
@@ -223,6 +221,6 @@ public class GameController : MonoBehaviour
             }
         }
 
-        return gameState.Recruited.Count == 0;
+        return _outOfMoney && gameState.Recruited.Count == 0;
     }
 }
