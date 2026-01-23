@@ -37,33 +37,33 @@ public class PartyListView : MonoBehaviour
         listView.bindItem = (element, index) =>
         {
             var c = currentLevelUps[index];
-            element.Q<Label>("Name").text = c.Character.Name;
-            if(c.Character.IsResting)
+            element.Q<Label>("Name").text = c.CharacterName;
+            if(c.IsResting)
             {
-                element.Q<Label>("CurrentHP").text = "Current HP: " + c.Character.CurrentHP.ToString() + "/" + c.Character.HPMax.ToString() + " (INJURED)";
+                element.Q<Label>("CurrentHP").text = "Current HP: " + c.CurrentHP.ToString() + "/" + c.MaxHP.ToString() + " (INJURED)";
 
             }
             else
             {
-                element.Q<Label>("CurrentHP").text = "Current HP: " + c.Character.CurrentHP.ToString() + "/" + c.Character.HPMax.ToString();
+                element.Q<Label>("CurrentHP").text = "Current HP: " + c.CurrentHP.ToString() + "/" + c.MaxHP.ToString();
 
             }
             
             if(c.LeveledUp)
             {
-                element.Q<Label>("LeveldUp").text = "LEVELED UP! Reached level " + c.Character.Level;
+                element.Q<Label>("LeveldUp").text = "LEVELED UP! Reached level " + c.Level;
             }
-            else if(c.Character.Level == GameStateQueries.GetLevelCap(c.Character.Rank))
+            else if(c.Level == GameStateQueries.GetLevelCap(c.Rank))
             {
                 if(c.LeveledUp)
                 {
                     element.Q<Label>("LeveldUp").text = "LEVELED UP! Now at Max Level!";
                 }
-                element.Q<Label>("LeveldUp").text = "AT MAAX LEVEL!";
+                element.Q<Label>("LeveldUp").text = "AT MAX LEVEL!";
             }
             else
             {
-                element.Q<Label>("LeveldUp").text = "Current EXP: " + c.Character.EXP.ToString() + "/100";
+                element.Q<Label>("LeveldUp").text = "Current EXP: " + c.EXP.ToString() + "/100";
             }
             
         };

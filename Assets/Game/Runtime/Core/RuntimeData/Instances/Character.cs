@@ -21,6 +21,7 @@ public class Character
     public TraitsModifiers TotalTraitEffects = new();
     public bool IsAlive = true;
     public bool IsResting = false;
+    public int LastDamage;
 
 
     public void CalculateActualStats()
@@ -75,6 +76,7 @@ public class Character
     public void MagicHeal()
     {
         CurrentHP = HPMax;
+        IsResting = false;
     }
 
     public bool GainExp(int exp)
@@ -163,8 +165,9 @@ public class Character
         {
             _mod *= t.Effects.DamageModifier;
         }
-        CurrentHP -= Mathf.RoundToInt(damage * (1 - (Actual.endurance / 200f)) * _mod); //endurance caps at 50% damage reduction
-        Debug.Log(Name + " took " + (Mathf.RoundToInt(damage * (Actual.endurance/200) * _mod)) + " damage!" );
+        LastDamage = Mathf.RoundToInt(damage * (1 - (Actual.endurance / 200f)) * _mod); //endurance caps at 50% damage reduction
+        CurrentHP -= LastDamage;
+        Debug.Log($"{Name} took {LastDamage} damage!" );
         if (CurrentHP <= 0)
         {
             CharacterDeath();
@@ -189,7 +192,7 @@ public class Character
     }
     public void Heal(float amount)
     {
-        CurrentHP += Mathf.Clamp(Mathf.RoundToInt(HPMax * amount * (1 * (Actual.healing / 200f))),0,HPMax);
+        CurrentHP += Mathf.Clamp(Mathf.RoundToInt(HPMax * amount * (Actual.healing / 200f)),0,HPMax);
     }
 
 }

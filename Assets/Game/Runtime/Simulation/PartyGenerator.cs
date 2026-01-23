@@ -12,6 +12,7 @@ public class PartyGenerator
             party.PartyMembers.Add(generator.GenerateCharacter(currentID + i));
         }
 
+        party.Profile = PartyProfileType.Default;
         party.ID = partyID;
         party.PartyName = "test";
         party.CurrentMission = null;

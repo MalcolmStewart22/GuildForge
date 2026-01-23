@@ -39,7 +39,7 @@ public class EventResolver
         eventResult.TookDamage = new List<Character>(party.AssignDamage(e.damageProfile, eventResult.DamageDone));
         eventResult.ExpGained = Mathf.RoundToInt(e.PotentialExp * eventOutcome.EXPModifier);
         eventResult.GoldGained = Mathf.RoundToInt(e.PotentialGold * eventOutcome.GoldGainedModifier);
-        party.StatusCheck();
+        party.CurrentLoot += eventResult.GoldGained;
         Debug.Log(e.Name + " Completed");
         return eventResult;
     }

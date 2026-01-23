@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
-using Unity.VisualScripting;
 using System;
 
 public static class GameStateQueries
@@ -285,5 +284,69 @@ public static class GameStateQueries
     public static List<Party> GetUnassignedParties(GameState gameState)
     {
         return gameState.Parties.Where(p => p.AssignedAction == PartyAction.Unassigned).ToList();
+    }
+
+    public static PartyRunPressure CalculateCurrentPressure(Party party)
+    {
+        PartyPressureWeight weights = GetPressureWeights(party.Profile);
+        PartyRunPressure _result = new();
+        //DeathPressure
+        List<Character> temp = new List<Character>(party.PartyMembers);
+        foreach (var c in temp)
+        {
+            if(!c.IsAlive)
+            {
+                _result.DeathPressure = 1 * weights.DeathPressureModifier;
+            }
+        }
+    
+        // hp pressure & Spike Pressure
+        foreach(Character c in party.PartyMembers)
+        {
+            float currentHPPercent = (float)c.CurrentHP / c.HPMax;
+            _result.HPPressure += Mathf.Clamp01((1 - currentHPPercent) / (1 - Config.HPConfig.RetreatHPFloor)) * weights.HPPressureModifier; 
+
+            _result.SpikePressure += Mathf.Clamp01(c.LastDamage / (Config.HPConfig.SpikeHPFloor * c.HPMax)) * weights.SpikePressureModifier;
+        }
+        _result.HPPressure = _result.HPPressure / party.PartyMembers.Count;
+        _result.SpikePressure = _result.SpikePressure / party.PartyMembers.Count;
+        
+        //LootPressure
+        int _min = GetDungeonMinimumPayout(party.CurrentMission.Rank);
+        _result.LootPressure = Mathf.Clamp01((float)party.CurrentLoot / (_min * 2)) * weights.LootPressureModifier;
+
+        return _result;
+    }
+    public static bool CalculateRetreatOrders(PartyRunPressure pressure)
+    {
+        if(pressure.HPPressure > Config.PressureThresholds.HPThreshold)
+        {
+            return true;
+        }
+        else if(pressure.SpikePressure > Config.PressureThresholds.SpikeThreshold)
+        {
+            return true;
+        }
+        else if(pressure.DeathPressure > Config.PressureThresholds.DeathThreshold)
+        {
+            return true;
+        }
+        else if(pressure.LootPressure > Config.PressureThresholds.LootThreshold)
+        {
+            return true;
+        }
+        else if(pressure.HPPressure + pressure.SpikePressure + pressure.DeathPressure + pressure.LootPressure > Config.PressureThresholds.TotalThreshold)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    public static PartyPressureWeight GetPressureWeights(PartyProfileType profile)
+    {
+        return Config.PartyProfiles.FirstOrDefault(p => p.ProfileType == profile).Weights;
     }
 }

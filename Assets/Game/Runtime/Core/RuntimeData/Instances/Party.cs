@@ -17,17 +17,25 @@ public class Party
     public int ID;
     public string PartyName;
     public List<Character> PartyMembers = new();
+    public List<Character> LivingMembers = new();
     public StatBlock PartyStats = new();
     public TraitsModifiers TraitEffects = new();
     // Party Decisions
     public DungeonInstance CurrentMission;
     public PartyAction AssignedAction = PartyAction.Unassigned;
+    public PartyProfileType Profile;
+    public PartyRunPressure CurrentPressure;
+    public int CurrentLoot = 0;
 
 
-    public void GoHome()
+    public int GoHome()
     {
         CurrentMission = null;
         AssignedAction = PartyAction.Unassigned;
+
+        int _result = CurrentLoot;
+        CurrentLoot = 0;
+        return _result;
     }
     public void UpdateParty()
     {
@@ -47,12 +55,21 @@ public class Party
         }
         else
         {
-            foreach (var character in PartyMembers)
+            List<Character> _temp = new List<Character>(PartyMembers);
+            foreach (var character in _temp)
             {
-                if(character.RestCheck(config.HPRefusalThreshold))
+                if(character.IsAlive)
                 {
-                    AssignedAction = PartyAction.Rest;
+                    if(character.RestCheck(config.HPRefusalThreshold))
+                    {
+                        AssignedAction = PartyAction.Rest;
+                    }
                 }
+                else
+                {
+                    PartyMembers.Remove(character);
+                }
+                
             }
         }
     }
@@ -68,7 +85,7 @@ public class Party
 
     private void CalculatePartyStats()
     {
-        foreach (Character c in PartyMembers)
+        foreach (Character c in LivingMembers)
         {
             PartyStats.might += c.Actual.might;
             PartyStats.finesse += c.Actual.finesse;
@@ -79,17 +96,17 @@ public class Party
             PartyStats.resolve += c.Actual.resolve;
         }
 
-        PartyStats.might = PartyStats.might / PartyMembers.Count;
-        PartyStats.finesse = PartyStats.finesse / PartyMembers.Count;
-        PartyStats.endurance = PartyStats.endurance / PartyMembers.Count;
-        PartyStats.healing = PartyStats.healing / PartyMembers.Count;
-        PartyStats.arcana = PartyStats.arcana / PartyMembers.Count;
-        PartyStats.control = PartyStats.control / PartyMembers.Count;
-        PartyStats.resolve = PartyStats.resolve / PartyMembers.Count;
+        PartyStats.might = PartyStats.might / LivingMembers.Count;
+        PartyStats.finesse = PartyStats.finesse / LivingMembers.Count;
+        PartyStats.endurance = PartyStats.endurance / LivingMembers.Count;
+        PartyStats.healing = PartyStats.healing / LivingMembers.Count;
+        PartyStats.arcana = PartyStats.arcana / LivingMembers.Count;
+        PartyStats.control = PartyStats.control / LivingMembers.Count;
+        PartyStats.resolve = PartyStats.resolve / LivingMembers.Count;
     }
     private void CalculatePartyTraitEffects()
     {
-        foreach(var c in PartyMembers)
+        foreach(var c in LivingMembers)
         {
             TraitEffects = TraitEffects.CombineModifiers(TraitEffects, c.TotalTraitEffects);
         }
@@ -198,28 +215,29 @@ public class Party
         List<LevelUpReport> _report = new();
         foreach(var c in PartyMembers)
         {
-            LevelUpReport _r = new LevelUpReport
-            {
-                Character = c,
-                LeveledUp = c.GainExp(exp)
-            };
-            _report.Add(_r);
+            _report.Add(new LevelUpReport(c, exp));
         }
         UpdateParty();
         return _report;
     }
 
-    public void StatusCheck()
+    public bool StatusCheck() //return true if its time to flee
     {
-        List<Character> temp = new List<Character>(PartyMembers);
-        foreach (var c in temp)
+        CurrentPressure = GameStateQueries.CalculateCurrentPressure(this);
+        HeartbeatCheck();
+        UpdateParty();
+        return GameStateQueries.CalculateRetreatOrders(CurrentPressure);
+    }
+    private void HeartbeatCheck()
+    {
+        LivingMembers.Clear();
+        foreach(Character c in PartyMembers)
         {
-            if(!c.IsAlive)
+            if(c.IsAlive)
             {
-                PartyMembers.Remove(c);
+                LivingMembers.Add(c);
             }
         }
-        UpdateParty();
     }
 
     public string GetSafetyRating(DungeonInstance dungeon)

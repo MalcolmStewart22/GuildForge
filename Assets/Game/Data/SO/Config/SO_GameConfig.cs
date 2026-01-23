@@ -9,6 +9,8 @@ public class SO_GameConfig : ScriptableObject
     public int MaxPartySize = 4;
     public int NumberOfDungeons = 10;
     public List<JobStatFocus> JobStatMap = new();
+    public HPLevers HPConfig;
+
 
     [Header("Game Length Levers")] 
     public bool MissionCapActive = false;
@@ -21,17 +23,6 @@ public class SO_GameConfig : ScriptableObject
     [Range(0,1f)]
     public float ExpectedMissionRatio = .75f; // What percentage of days sending out a party
 
-    [Header("HP Levers")] 
-    public HPLevers HPConfig;
-
-    [Header("Character Rank Levers")] 
-    public CharacterRankLevers CharacterRankE;
-    public CharacterRankLevers CharacterRankD;
-    public CharacterRankLevers CharacterRankC;
-    public CharacterRankLevers CharacterRankB;
-    public CharacterRankLevers CharacterRankA;
-    public CharacterRankLevers CharacterRankS;
-
     [Header("Dungeon Levers")] 
     public int DungeonRankEMinimum;
     public int DungeonRankDMinimum;
@@ -41,14 +32,23 @@ public class SO_GameConfig : ScriptableObject
     public int DungeonRankSMinimum;
     public OutcomeBands OutcomeOptions; 
     public DungeonLevers BaseDeltas;
+    public List<PartyProfile> PartyProfiles = new();
+    public PartyPressureThreshold PressureThresholds;
 
-    [Header("Guild Rank Levers")]
+    [Header("Rank Levers")]
     public GuildRankLevers GuildRankE;
     public GuildRankLevers GuildRankD;
     public GuildRankLevers GuildRankC;
     public GuildRankLevers GuildRankB;
     public GuildRankLevers GuildRankA;
     public GuildRankLevers GuildRankS;
+
+    public CharacterRankLevers CharacterRankE;
+    public CharacterRankLevers CharacterRankD;
+    public CharacterRankLevers CharacterRankC;
+    public CharacterRankLevers CharacterRankB;
+    public CharacterRankLevers CharacterRankA;
+    public CharacterRankLevers CharacterRankS;
 
     [Header("Other Config Bits")]
     public SO_NameSyllableSet SyllableSet;
@@ -106,5 +106,6 @@ public class HPLevers
     public float HPRefusalThreshold = 0.3f;
     public float HPReadyForActionThreshold = 0.7f;
     public float BaseRestHeal = .3f;
-    public float retreatHpThreshold = 0;
+    public float RetreatHPFloor = .3f;
+    public float SpikeHPFloor = .5f;
 }

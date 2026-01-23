@@ -13,16 +13,24 @@ public class DungeonResolver
         Debug.Log("=== Mission Start====");
         
         missionResult = new MissionResult ();
-        missionResult.Party = party;
         missionResult.Dungeon = dungeon;
-        missionResult.MissionDay = day;
+        missionResult.MissionWeek = day;
 
         foreach (var e in RollEventList(library))
         {
             missionResult.EventResults.Add(eventResolver.ResolveEvent(e, party, dungeon, outcomeOptions));
+            if(party.StatusCheck())
+            {
+                missionResult.Outcome = OutcomeTypes.Fled;
+                break; //flee dungeon
+            }
         }
-
-        missionResult.Outcome = CalculateMissionOutcome();
+        
+        if(missionResult.Outcome != OutcomeTypes.Fled)
+        {
+            missionResult.Outcome = CalculateMissionOutcome();
+        }
+        
 
         int _goldMinimum = CalculateGoldMinimum(missionResult.Dungeon.MinimumPayout, missionResult.Outcome);
         if(missionResult.GoldGained < _goldMinimum ) //enforcing a minimum gold return to make sure you dont lose from drawing bad events when you were successful
@@ -30,9 +38,9 @@ public class DungeonResolver
             missionResult.GoldGained = _goldMinimum;
         }
 
-        SendPartyHome();
+        SendPartyHome(party);
 
-        Debug.Log($"==== {party.PartyName} Mission Completed ====");
+        Debug.Log($"==== {party.PartyName} Completed {dungeon.Name}====");
         return missionResult;
     }
     private List<SO_Event> RollEventList(SO_EventLibrary library)
@@ -84,7 +92,6 @@ public class DungeonResolver
                 return e.Weight;
         }
     }
-
     private int CalculateGoldMinimum(int min, OutcomeTypes outcome)
     { 
         int _result = 0;
@@ -95,6 +102,9 @@ public class DungeonResolver
                 break;
             case OutcomeTypes.Success:
                 _result = (int)(min * GameStateQueries.GetOutcomeGoldModifier(OutcomeTypes.Success));
+                break;
+            case OutcomeTypes.Fled:
+                _result = 0;
                 break;
             case OutcomeTypes.Failure:
                 _result = (int)(min * GameStateQueries.GetOutcomeGoldModifier(OutcomeTypes.Failure));
@@ -111,7 +121,6 @@ public class DungeonResolver
         int _outcomeAsNum = 0;
         foreach( var e in missionResult.EventResults)
         {
-            missionResult.GoldGained += e.GoldGained;
             switch (e.Outcome)
             {
                 case OutcomeTypes.Triumph:
@@ -145,15 +154,15 @@ public class DungeonResolver
         }
         return OutcomeTypes.Error;
     }
-    private void SendPartyHome()
+    private void SendPartyHome(Party party)
     {
         int _totalExp = 0;
         foreach( var e in missionResult.EventResults)
         {
             _totalExp += e.ExpGained;
         }
-        missionResult.LevelUpReports = new List<LevelUpReport>(missionResult.Party.AssignExp(_totalExp));
-        missionResult.Party.GoHome();
+        missionResult.LevelUpReports = new List<LevelUpReport>(party.AssignExp(_totalExp));
+        missionResult.GoldGained  = party.GoHome();
     }
 
 }

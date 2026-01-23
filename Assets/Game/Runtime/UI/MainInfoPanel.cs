@@ -14,7 +14,7 @@ public class MainInfoPanel : MonoBehaviour
         container.style.display = DisplayStyle.Flex;
         //labels
         Label _week = container.Q<Label>("WeekCount");
-        _week.text = mission.MissionDay.ToString();
+        _week.text = mission.MissionWeek.ToString();
         Label _dungeonName = container.Q<Label>("DungeonName");
         _dungeonName.text = mission.Dungeon.Name;
         Label _outcome = container.Q<Label>("Outcome");

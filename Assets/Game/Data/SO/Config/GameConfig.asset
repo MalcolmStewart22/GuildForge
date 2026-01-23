@@ -27,60 +27,18 @@ MonoBehaviour:
   - Job: 3
     Primary: 5
     Secondary: 1
+  HPConfig:
+    HPRefusalThreshold: 0.3
+    HPReadyForActionThreshold: 0.7
+    BaseRestHeal: 0.3
+    RetreatHPFloor: 0.3
+    SpikeHPFloor: 0.5
   MissionCapActive: 0
   MissionCap: 10
   startingGold: 20
   IncomeModifier: 1
   ExpenseModifier: 1
-  RestingCost: 1
   ExpectedMissionRatio: 0.75
-  HPRefusalThreshold: 0.3
-  HPReadyForActionThreshold: 0.7
-  BaseRestHeal: 0.2
-  BaseNoMissionHeal: 0.2
-  retreatHpThreshold: 0
-  CharacterRankE:
-    LevelCap: 10
-    PromotionCost: 10
-    Wage: 2
-    RequiredLevel: 5
-    PrimaryStatRequirement: 20
-    SecondaryStatRequirement: 10
-  CharacterRankD:
-    LevelCap: 20
-    PromotionCost: 20
-    Wage: 3
-    RequiredLevel: 15
-    PrimaryStatRequirement: 30
-    SecondaryStatRequirement: 20
-  CharacterRankC:
-    LevelCap: 30
-    PromotionCost: 30
-    Wage: 4
-    RequiredLevel: 25
-    PrimaryStatRequirement: 40
-    SecondaryStatRequirement: 30
-  CharacterRankB:
-    LevelCap: 40
-    PromotionCost: 40
-    Wage: 5
-    RequiredLevel: 35
-    PrimaryStatRequirement: 50
-    SecondaryStatRequirement: 40
-  CharacterRankA:
-    LevelCap: 50
-    PromotionCost: 50
-    Wage: 6
-    RequiredLevel: 45
-    PrimaryStatRequirement: 60
-    SecondaryStatRequirement: 50
-  CharacterRankS:
-    LevelCap: 60
-    PromotionCost: 60
-    Wage: 7
-    RequiredLevel: 55
-    PrimaryStatRequirement: 70
-    SecondaryStatRequirement: 60
   DungeonRankEMinimum: 10
   DungeonRankDMinimum: 20
   DungeonRankCMinimum: 30
@@ -118,6 +76,41 @@ MonoBehaviour:
     DangerousStatDelta: 0
     RiskyStatDelta: 10
     SafeStatDelta: 20
+  PartyProfiles:
+  - ProfileType: 0
+    ProfileName: Default
+    Weights:
+      HPPressureModifier: 1
+      SpikePressureModifier: 1
+      DeathPressureModifier: 1
+      LootPressureModifier: 1
+  - ProfileType: 1
+    ProfileName: Cautious
+    Weights:
+      HPPressureModifier: 0
+      SpikePressureModifier: 0
+      DeathPressureModifier: 0
+      LootPressureModifier: 0
+  - ProfileType: 2
+    ProfileName: Greedy
+    Weights:
+      HPPressureModifier: 0
+      SpikePressureModifier: 0
+      DeathPressureModifier: 0
+      LootPressureModifier: 0
+  - ProfileType: 3
+    ProfileName: Stubborn
+    Weights:
+      HPPressureModifier: 0
+      SpikePressureModifier: 0
+      DeathPressureModifier: 0
+      LootPressureModifier: 0
+  PressureThresholds:
+    HPThreshold: 1
+    SpikeThreshold: 1
+    DeathThreshold: 1
+    LootThreshold: 1
+    TotalThreshold: 3
   GuildRankE:
     CharactersRequiredToRankUp: 3
     MaxNumberOfParties: 1
@@ -125,21 +118,63 @@ MonoBehaviour:
   GuildRankD:
     CharactersRequiredToRankUp: 5
     MaxNumberOfParties: 2
-    PromotionCost: 50
+    PromotionCost: 90
   GuildRankC:
-    CharactersRequiredToRankUp: 8
+    CharactersRequiredToRankUp: 7
     MaxNumberOfParties: 3
-    PromotionCost: 70
+    PromotionCost: 270
   GuildRankB:
     CharactersRequiredToRankUp: 10
     MaxNumberOfParties: 4
-    PromotionCost: 80
+    PromotionCost: 800
   GuildRankA:
-    CharactersRequiredToRankUp: 12
+    CharactersRequiredToRankUp: 13
     MaxNumberOfParties: 5
-    PromotionCost: 90
+    PromotionCost: 2400
   GuildRankS:
     CharactersRequiredToRankUp: 0
     MaxNumberOfParties: 6
     PromotionCost: 0
+  CharacterRankE:
+    LevelCap: 10
+    PromotionCost: 10
+    Wage: 2
+    RequiredLevel: 5
+    PrimaryStatRequirement: 20
+    SecondaryStatRequirement: 10
+  CharacterRankD:
+    LevelCap: 20
+    PromotionCost: 22
+    Wage: 3
+    RequiredLevel: 15
+    PrimaryStatRequirement: 30
+    SecondaryStatRequirement: 20
+  CharacterRankC:
+    LevelCap: 30
+    PromotionCost: 50
+    Wage: 4
+    RequiredLevel: 25
+    PrimaryStatRequirement: 40
+    SecondaryStatRequirement: 30
+  CharacterRankB:
+    LevelCap: 40
+    PromotionCost: 110
+    Wage: 6
+    RequiredLevel: 35
+    PrimaryStatRequirement: 50
+    SecondaryStatRequirement: 40
+  CharacterRankA:
+    LevelCap: 50
+    PromotionCost: 250
+    Wage: 9
+    RequiredLevel: 45
+    PrimaryStatRequirement: 60
+    SecondaryStatRequirement: 50
+  CharacterRankS:
+    LevelCap: 60
+    PromotionCost: 0
+    Wage: 13
+    RequiredLevel: 0
+    PrimaryStatRequirement: 0
+    SecondaryStatRequirement: 0
   SyllableSet: {fileID: 11400000, guid: f6604fd868b51a144aa0b48be4488cb5, type: 2}

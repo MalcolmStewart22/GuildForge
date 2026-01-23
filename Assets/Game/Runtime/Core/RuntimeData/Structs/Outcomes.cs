@@ -16,6 +16,7 @@ public class Outcomes
         {
             GoldGainedModifier = GoldGainedModifier,
             DamageModifier = DamageModifier,
+            EXPModifier = EXPModifier,
             Weight = Weight,
         };
     }
