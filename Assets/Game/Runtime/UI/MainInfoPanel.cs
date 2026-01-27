@@ -4,7 +4,7 @@ using UnityEngine.UIElements;
 public class MainInfoPanel : MonoBehaviour
 {
     [SerializeField]
-     PartyListView partyListView;
+     CharacterReportListView characterReportListView;
     [SerializeField]
      EventActionListView eventActionListView;
 
@@ -41,7 +41,7 @@ public class MainInfoPanel : MonoBehaviour
         eventActionListView.ShowEvents(mission.EventResults);
 
         // Party
-        partyListView.ShowParty(mission.LevelUpReports);
+        characterReportListView.ShowParty(mission.LevelUpReports);
     }
 
     public void ShowGuildRankInfo(VisualElement container, GuildRankEvaluation rankEval)

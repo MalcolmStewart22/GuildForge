@@ -87,24 +87,24 @@ MonoBehaviour:
   - ProfileType: 1
     ProfileName: Cautious
     Weights:
-      HPPressureModifier: 0
-      SpikePressureModifier: 0
-      DeathPressureModifier: 0
-      LootPressureModifier: 0
+      HPPressureModifier: 1.2
+      SpikePressureModifier: 1.2
+      DeathPressureModifier: 1
+      LootPressureModifier: 1.2
   - ProfileType: 2
     ProfileName: Greedy
     Weights:
-      HPPressureModifier: 0
-      SpikePressureModifier: 0
-      DeathPressureModifier: 0
-      LootPressureModifier: 0
+      HPPressureModifier: 1
+      SpikePressureModifier: 1
+      DeathPressureModifier: 1
+      LootPressureModifier: 1.5
   - ProfileType: 3
     ProfileName: Stubborn
     Weights:
-      HPPressureModifier: 0
+      HPPressureModifier: 0.7
       SpikePressureModifier: 0
-      DeathPressureModifier: 0
-      LootPressureModifier: 0
+      DeathPressureModifier: 1
+      LootPressureModifier: 0.6
   PressureThresholds:
     HPThreshold: 1
     SpikeThreshold: 1
@@ -178,3 +178,4 @@ MonoBehaviour:
     PrimaryStatRequirement: 0
     SecondaryStatRequirement: 0
   SyllableSet: {fileID: 11400000, guid: f6604fd868b51a144aa0b48be4488cb5, type: 2}
+  PartyNameSet: {fileID: 11400000, guid: 510b0e3f5e386a04b81d61b5720e2e27, type: 2}

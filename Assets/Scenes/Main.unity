@@ -463,7 +463,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GameController
   gameState:
     CurrentGold: 20
-    DayCount: 1
+    WeekCount: 1
     MissionCount: 0
     CurrentGuildRank: 0
     Characters:
@@ -511,6 +511,7 @@ MonoBehaviour:
         EXPModifier: 1
       IsAlive: 1
       IsResting: 0
+      LastDamage: 0
     - CharacterID: 1
       Name: Elen
       Age: 0
@@ -555,6 +556,7 @@ MonoBehaviour:
         EXPModifier: 1
       IsAlive: 1
       IsResting: 0
+      LastDamage: 0
     - CharacterID: 2
       Name: Garen
       Age: 0
@@ -599,6 +601,7 @@ MonoBehaviour:
         EXPModifier: 1
       IsAlive: 1
       IsResting: 0
+      LastDamage: 0
     - CharacterID: 3
       Name: Belaria
       Age: 0
@@ -643,6 +646,7 @@ MonoBehaviour:
         EXPModifier: 1
       IsAlive: 1
       IsResting: 0
+      LastDamage: 0
     Recruited:
     - CharacterID: 0
       Name: Ala
@@ -688,6 +692,7 @@ MonoBehaviour:
         EXPModifier: 1
       IsAlive: 1
       IsResting: 0
+      LastDamage: 0
     - CharacterID: 1
       Name: Elen
       Age: 0
@@ -732,6 +737,7 @@ MonoBehaviour:
         EXPModifier: 1
       IsAlive: 1
       IsResting: 0
+      LastDamage: 0
     - CharacterID: 2
       Name: Garen
       Age: 0
@@ -776,6 +782,7 @@ MonoBehaviour:
         EXPModifier: 1
       IsAlive: 1
       IsResting: 0
+      LastDamage: 0
     - CharacterID: 3
       Name: Belaria
       Age: 0
@@ -820,6 +827,7 @@ MonoBehaviour:
         EXPModifier: 1
       IsAlive: 1
       IsResting: 0
+      LastDamage: 0
     Parties:
     - ID: 0
       PartyName: 
@@ -868,6 +876,7 @@ MonoBehaviour:
           EXPModifier: 1
         IsAlive: 1
         IsResting: 0
+        LastDamage: 0
       - CharacterID: 1
         Name: Elen
         Age: 0
@@ -912,6 +921,7 @@ MonoBehaviour:
           EXPModifier: 1
         IsAlive: 1
         IsResting: 0
+        LastDamage: 0
       - CharacterID: 2
         Name: Garen
         Age: 0
@@ -956,6 +966,7 @@ MonoBehaviour:
           EXPModifier: 1
         IsAlive: 1
         IsResting: 0
+        LastDamage: 0
       - CharacterID: 3
         Name: Belaria
         Age: 0
@@ -1000,6 +1011,8 @@ MonoBehaviour:
           EXPModifier: 1
         IsAlive: 1
         IsResting: 0
+        LastDamage: 0
+      LivingMembers: []
       PartyStats:
         might: 12
         finesse: 12
@@ -1043,6 +1056,13 @@ MonoBehaviour:
           TreasureWeight: 1
         IsOpccupied: 0
       AssignedAction: 0
+      Profile: 0
+      CurrentPressure:
+        HPPressure: 0
+        SpikePressure: 0
+        DeathPressure: 0
+        LootPressure: 0
+      CurrentLoot: 0
     Dungeons:
     - ID: 0
       Name: Abandoned Keep in Volcanic
@@ -1271,13 +1291,14 @@ GameObject:
   - component: {fileID: 959317423}
   - component: {fileID: 959317422}
   - component: {fileID: 959317424}
+  - component: {fileID: 959317427}
+  - component: {fileID: 959317429}
   - component: {fileID: 959317425}
   - component: {fileID: 959317426}
-  - component: {fileID: 959317427}
   - component: {fileID: 959317428}
-  - component: {fileID: 959317429}
   - component: {fileID: 959317430}
   - component: {fileID: 959317431}
+  - component: {fileID: 959317432}
   m_Layer: 5
   m_Name: UI
   m_TagString: Untagged
@@ -1337,7 +1358,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UIController
   gameController: {fileID: 913104260}
   dungeonListView: {fileID: 959317425}
-  guildListView: {fileID: 959317426}
+  partyListView: {fileID: 959317426}
+  characterListView: {fileID: 959317432}
   detailPanel: {fileID: 959317427}
   mainInfoPanel: {fileID: 959317429}
 --- !u!114 &959317425
@@ -1377,6 +1399,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DetailPanel
   traitsListView: {fileID: 959317428}
+  characterListView: {fileID: 959317432}
 --- !u!114 &959317428
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1401,7 +1424,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c176c8240b0ec4b45985a546f429c955, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AfterActionReport
-  partyListView: {fileID: 959317431}
+  characterReportListView: {fileID: 959317431}
   eventActionListView: {fileID: 959317430}
 --- !u!114 &959317430
 MonoBehaviour:
@@ -1427,6 +1450,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea61d4554e322764795d22717e6d2703, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PartyListView
+--- !u!114 &959317432
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 959317421}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a250080de5672114890f7c6b7469772a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CharacterListView
 --- !u!1 &1025785454
 GameObject:
   m_ObjectHideFlags: 0

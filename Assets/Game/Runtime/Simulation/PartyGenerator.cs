@@ -1,8 +1,8 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PartyGenerator
 {
+   
     public Party GenerateParty(CharacterGenerator generator, int partySize, int currentID, int partyID)
     {
         Debug.Log("======= Party Creation ========");
@@ -14,10 +14,12 @@ public class PartyGenerator
 
         party.Profile = PartyProfileType.Default;
         party.ID = partyID;
-        party.PartyName = "test";
+        party.PartyName = GameStateQueries.GenerateName("Party");
         party.CurrentMission = null;
         party.AssignedAction = PartyAction.Unassigned;
         party.UpdateParty();
         return party;
     }
 }
+
+

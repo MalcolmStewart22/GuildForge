@@ -1,22 +1,19 @@
 using System.Collections.Generic;
-using System.Linq;
-using NUnit.Framework.Internal.Filters;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class GuildListView : MonoBehaviour
+public class CharacterListView : MonoBehaviour
 {
     [SerializeField] 
     private ListView listView;
-    private List<Character> roster = new();
+    private List<Character> partyRoster = new();
     public event System.Action<Character> OnCharacterSelected;
 
 
     void Awake()
     {
         var root = GetComponent<UIDocument>().rootVisualElement;
-        listView = root.Q<ListView>("GuildRosterListView");
+        listView = root.Q<ListView>("CharacterListView");
 
         listView.makeItem = () =>
         {
@@ -45,7 +42,7 @@ public class GuildListView : MonoBehaviour
 
         listView.bindItem = (element, index) =>
         {
-            var character = roster[index];
+            var character = partyRoster[index];
             element.Q<Label>("Name").text = character.Name;
             element.Q<Label>("Rank").text = $"Rank {character.Rank}";
             element.Q<Label>("Class").text = character.Job.ToString();
@@ -53,11 +50,6 @@ public class GuildListView : MonoBehaviour
             {
                 element.Q<Label>("Status").text ="Resting";
                 element.Q<Label>("Status").style.color = Color.yellow;
-            }
-            else if(!character.IsAlive)
-            {
-                element.Q<Label>("Status").text ="Deceased";
-                element.Q<Label>("Status").style.color = Color.red;
             }
             else
             {
@@ -78,8 +70,8 @@ public class GuildListView : MonoBehaviour
     public void ShowRoster(List<Character> newRoster)
     {
         listView.ClearSelection();
-        roster = newRoster ?? new List<Character>();
-        listView.itemsSource = roster;
+        partyRoster = newRoster ?? new List<Character>();
+        listView.itemsSource = partyRoster;
         listView.Rebuild();
     }
 

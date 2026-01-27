@@ -39,6 +39,7 @@ public class Party
     }
     public void UpdateParty()
     {
+        HeartbeatCheck();
         CalculatePartyStats();
         CalculatePartyTraitEffects();
     }
@@ -224,7 +225,6 @@ public class Party
     public bool StatusCheck() //return true if its time to flee
     {
         CurrentPressure = GameStateQueries.CalculateCurrentPressure(this);
-        HeartbeatCheck();
         UpdateParty();
         return GameStateQueries.CalculateRetreatOrders(CurrentPressure);
     }

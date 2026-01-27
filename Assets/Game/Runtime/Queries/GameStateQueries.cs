@@ -34,7 +34,36 @@ public static class GameStateQueries
         }
         return null;
     }
+    public static List<string> GetProfiles()
+    {
+        List<string> _result = new();
+        foreach(PartyProfile p in Config.PartyProfiles)
+        {
+            _result.Add(p.ProfileType.ToString());
+        }
+        return _result;
+    }
+    public static PartyProfileType GetProfileType(string name)
+    {
+        PartyProfileType _result = PartyProfileType.Default;
 
+        switch(name)
+        {
+            case "Default":
+                _result = PartyProfileType.Default;
+                break;
+            case "Greedy":
+                _result = PartyProfileType.Default;
+                break;
+            case "Cautious":
+                _result = PartyProfileType.Default;
+                break;
+            case "Reckless":
+                _result = PartyProfileType.Default;
+                break;
+        }
+        return _result;
+    }
     public static float GetOutcomeGoldModifier(OutcomeTypes outcome)
     {
         switch (outcome)
@@ -276,10 +305,32 @@ public static class GameStateQueries
         return Config.CharacterRankE.Wage;
     }
 
-    public static SO_NameSyllableSet GetCurrentSyllableSet()
+    public static string GenerateName(string item)
     {
-        return Config.SyllableSet;
+        System.Random rng = new System.Random();
+        string name = "ReplaceMe";
+        switch(item)
+        {
+            case "Character":
+                string _prefix = Config.SyllableSet.PrefixSyllable[rng.Next(Config.SyllableSet.PrefixSyllable.Count)];
+                string _suffix = Config.SyllableSet.SuffixSyllable[rng.Next(Config.SyllableSet.SuffixSyllable.Count)];
+                string _middle = "";
+
+                if(rng.NextDouble() < .5)
+                {
+                    _middle = Config.SyllableSet.MiddleSyllable[rng.Next(Config.SyllableSet.MiddleSyllable.Count)];
+                }
+                name = _prefix + _middle + _suffix;
+                break;
+            case "Party":
+                string _adj = Config.PartyNameSet.AdjectiveList[rng.Next(Config.PartyNameSet.AdjectiveList.Count)];
+                string _noun = Config.PartyNameSet.NounList[rng.Next(Config.PartyNameSet.NounList.Count)];
+                name = $"The {_adj} {_noun}";
+                break;
+        }
+        return name;
     }
+
 
     public static List<Party> GetUnassignedParties(GameState gameState)
     {

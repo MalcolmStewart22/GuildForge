@@ -5,6 +5,9 @@ public class DetailPanel : MonoBehaviour
 {
     [SerializeField]
      TraitsListView traitsListView;
+    [SerializeField]
+     CharacterListView characterListView;
+     private Party currentParty; 
     public void PopulateDungeonDetails(DungeonInstance dungeon, VisualElement container, string safety)
     {
         var _dungeonName = container.Q<Label>("DungeonName");
@@ -116,5 +119,26 @@ public class DetailPanel : MonoBehaviour
             container.Q<Button>("HealButton").SetEnabled(true);
         }
 
+    }
+
+
+    public void PopulatePartyList(VisualElement container, Party party)
+    {
+        currentParty = party;
+
+        DropdownField _profileDropdown = container.Q<DropdownField>("PartyProfiles");
+        _profileDropdown.choices = GameStateQueries.GetProfiles();
+        _profileDropdown.value = party.Profile.ToString();
+        _profileDropdown.RegisterValueChangedCallback(OnProfileDropdownChanged);
+
+        container.Q<Label>("PartyName").text = party.PartyName;
+
+        characterListView.ShowRoster(party.PartyMembers);
+
+    }
+
+    private void OnProfileDropdownChanged(ChangeEvent<string> evt)
+    {
+        currentParty.Profile = GameStateQueries.GetProfileType(evt.newValue);
     }
 }

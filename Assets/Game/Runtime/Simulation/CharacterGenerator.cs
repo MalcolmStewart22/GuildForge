@@ -9,7 +9,7 @@ public class CharacterGenerator
         Debug.Log("Creating a Character");
         Character _curCharacter = new Character();
         _curCharacter.CharacterID = _id;
-        _curCharacter.Name = GenerateName(GameStateQueries.GetCurrentSyllableSet());
+        _curCharacter.Name = GameStateQueries.GenerateName("Character");
         
         //temp solution until recruitment is added
         switch(_curCharacter.CharacterID % 4)
@@ -58,19 +58,6 @@ public class CharacterGenerator
         
         Debug.Log(_curCharacter.Name + " Created!");
         return _curCharacter;
-    }
-
-    private string GenerateName(SO_NameSyllableSet set)
-    {
-        string _prefix = set.PrefixSyllable[rng.Next(set.PrefixSyllable.Count)];
-        string _suffix = set.SuffixSyllable[rng.Next(set.SuffixSyllable.Count)];
-        string _middle = "";
-
-        if(rng.NextDouble() < .5)
-        {
-            _middle = set.MiddleSyllable[rng.Next(set.MiddleSyllable.Count)];
-        }
-        return (_prefix + _middle + _suffix);
     }
 
     private int RollStat()

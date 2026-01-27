@@ -52,6 +52,7 @@ public class SO_GameConfig : ScriptableObject
 
     [Header("Other Config Bits")]
     public SO_NameSyllableSet SyllableSet;
+    public SO_PartyNameSet PartyNameSet;
 
 }
 

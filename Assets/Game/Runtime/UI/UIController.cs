@@ -12,7 +12,9 @@ public class UIController : MonoBehaviour
     [SerializeField]
     private DungeonListView dungeonListView;
     [SerializeField]
-    private GuildListView guildListView;
+    private PartyListView partyListView;
+    [SerializeField]
+    private CharacterListView characterListView;
     [SerializeField]
     private DetailPanel detailPanel;
     [SerializeField]
@@ -129,7 +131,8 @@ public class UIController : MonoBehaviour
     private void SetupUIEvents()
     {
         dungeonListView.OnDungeonSelected += DungeonSelected;
-        guildListView.OnCharacterSelected += CharacterSelected;
+        partyListView.OnPartySelected += PartySelected;
+        characterListView.OnCharacterSelected += CharacterSelected;
     }
     
     public void LoadMapScreen(int gold, int week)
@@ -184,8 +187,7 @@ public class UIController : MonoBehaviour
         {
             _guildView.style.display = DisplayStyle.Flex;
             _dungeonView.style.display = DisplayStyle.None;
-            List<Character> roster = gameController.State.Recruited;
-            guildListView.ShowRoster(roster);
+            partyListView.ShowRoster(gameController.State.Parties);
         }
         else
         {
@@ -383,11 +385,11 @@ public class UIController : MonoBehaviour
     {
         Debug.Log("Dungeon Selected");
         currentDungeon = dungeon;
-        var _detailsBoard = root.Q<VisualElement>("DetailsBoard");
+        var _detailsBoard = root.Q<VisualElement>("DetailsLayer");
         _detailsBoard.style.display = DisplayStyle.Flex;
-        var _container = _detailsBoard.Q<VisualElement>("DungeonDetails");
+        var _container = _detailsBoard.Q<VisualElement>("DungeonLayer");
         _container.style.display = DisplayStyle.Flex;
-        _detailsBoard.Q<VisualElement>("CharacterDetails").style.display = DisplayStyle.None;
+        _detailsBoard.Q<VisualElement>("CharacterLayer").style.display = DisplayStyle.None;
         
         detailPanel.PopulateDungeonDetails(dungeon, _container, GameStateQueries.GetParty(gameController.State).GetSafetyRating(dungeon));
         _detailsBoard.Q<Button>("SendPartyButton").SetEnabled(GameStateQueries.GetUnassignedParties(gameController.State).Count > 0);
@@ -397,15 +399,26 @@ public class UIController : MonoBehaviour
         }
     }
 
-    private void CharacterSelected(Character character)
+    private void PartySelected(Party party)
+    {
+        Debug.Log("Party Selected");
+        currentParty = party;
+        var _detailsBoard = root.Q<VisualElement>("DetailsLayer");
+        _detailsBoard.style.display = DisplayStyle.Flex;
+        var _container = _detailsBoard.Q<VisualElement>("CharacterLayer");
+        _container.style.display = DisplayStyle.Flex;
+        _detailsBoard.Q<VisualElement>("DungeonLayer").style.display = DisplayStyle.None;
+
+        detailPanel.PopulatePartyList(_container.Q<VisualElement>("PartyDetails"), party);
+    }
+        private void CharacterSelected(Character character)
     {
         Debug.Log("Character Selected");
         currentCharacter = character;
-        var _detailsBoard = root.Q<VisualElement>("DetailsBoard");
+        var _detailsBoard = root.Q<VisualElement>("DetailsLayer");
         _detailsBoard.style.display = DisplayStyle.Flex;
         var _container = _detailsBoard.Q<VisualElement>("CharacterDetails");
         _container.style.display = DisplayStyle.Flex;
-        _detailsBoard.Q<VisualElement>("DungeonDetails").style.display = DisplayStyle.None;
 
         detailPanel.PopulateCharacterDetails(character, _container, gameController.State.CurrentGold);
         if (FocusedElements.Count == 0 || FocusedElements.Peek() != _detailsBoard)
