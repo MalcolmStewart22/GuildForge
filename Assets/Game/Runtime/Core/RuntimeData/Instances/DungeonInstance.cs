@@ -26,23 +26,26 @@ public class DungeonInstance
         {
             case EventType.Combat:
                 DungeonModifiers _combatMod = new();
-                _combatMod = _combatMod.CombineModifiers(_combatMod, Biome.Effects);
+                _combatMod.CombineModifiers(Biome.Effects);
                 foreach(var enemy in Enemies)
                 {
-                    _combatMod = _combatMod.CombineModifiers(_combatMod, enemy.Effects);
+                    _combatMod.CombineModifiers(enemy.Effects);
                 }
                 return (int)(statMinimum * _combatMod.MightWeight);
             case EventType.Trap:
                 DungeonModifiers _trapMod = new();
-                _trapMod = _trapMod.CombineModifiers(Location.Effects, Biome.Effects);
+                _trapMod.CombineModifiers(Biome.Effects);
+                _trapMod.CombineModifiers(Location.Effects);
                 return (int)(statMinimum * _trapMod.ControlWeight);
             case EventType.Hazard:
                 DungeonModifiers _hazardMod = new();
-                _hazardMod = _hazardMod.CombineModifiers(Location.Effects, Biome.Effects);
+                _hazardMod.CombineModifiers( Biome.Effects);
+                _hazardMod.CombineModifiers(Location.Effects);
                 return (int)(statMinimum * _hazardMod.FinesseWeight);
             case EventType.Treasure:
                 DungeonModifiers _treasureMod = new();
-                _treasureMod = _treasureMod.CombineModifiers(Location.Effects, Biome.Effects);
+                _treasureMod.CombineModifiers( Biome.Effects);
+                _treasureMod.CombineModifiers(Location.Effects);
                 return (int)(statMinimum * _treasureMod.ArcanaWeight);
         }
         return statMinimum;

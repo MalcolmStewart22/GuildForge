@@ -15,10 +15,11 @@ public class EventResolver
 
 
     public EventResult ResolveEvent(SO_Event e, Party party, DungeonInstance dungeon, OutcomeBands outcomeOptions)
-    {
+    {        
+        Debug.Log($"{e.Name} Start");
         eventResult = new();
         eventResult.DungeonEvent = e;
-    
+
         switch(e.EventType)
         {
             case EventType.Combat:

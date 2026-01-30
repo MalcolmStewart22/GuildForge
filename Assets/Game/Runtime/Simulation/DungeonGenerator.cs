@@ -141,10 +141,11 @@ public class DungeonGenerator
         _d.Name = _d.Location.Name + " in " + _d.Biome.Name;
         #endregion
         
-        _d.CalculatedModifier = _d.CalculatedModifier.CombineModifiers (_d.Biome.Effects, _d.Location.Effects);
+        _d.CalculatedModifier.CombineModifiers(_d.Biome.Effects);
+        _d.CalculatedModifier.CombineModifiers(_d.Location.Effects);
         foreach (var tag in _d.Enemies)
         {
-            _d.CalculatedModifier = _d.CalculatedModifier.CombineModifiers(_d.CalculatedModifier, tag.Effects);
+            _d.CalculatedModifier.CombineModifiers(tag.Effects);
         }
 
         Debug.Log(_d.Name + " Created!");

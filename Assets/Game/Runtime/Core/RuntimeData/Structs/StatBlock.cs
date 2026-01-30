@@ -42,4 +42,25 @@ public class StatBlock
             case StatType.Resolve: resolve += amount; break;
         }
     }
+
+    public void CombineStats(StatBlock increase)
+    {
+        might += increase.might;
+        finesse += increase.finesse;
+        endurance += increase.endurance;
+        healing += increase.healing;
+        arcana += increase.arcana;
+        control += increase.control;
+        resolve += increase.resolve;
+    }
+    public void GeneralIncrease(int amount)
+    {
+        might += amount;
+        finesse += amount;
+        endurance += amount;
+        healing += amount;
+        arcana += amount;
+        control += amount;
+        resolve += amount;
+    }
 }

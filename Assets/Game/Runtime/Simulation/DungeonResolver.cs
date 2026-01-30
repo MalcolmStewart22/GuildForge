@@ -11,10 +11,12 @@ public class DungeonResolver
             EventResolver eventResolver, OutcomeBands outcomeOptions, int day)
     {
         Debug.Log("=== Mission Start====");
-        
+        Debug.Log($"{dungeon}");
+
         missionResult = new MissionResult ();
         missionResult.Dungeon = dungeon;
         missionResult.MissionWeek = day;
+
 
         foreach (var e in RollEventList(library))
         {
@@ -50,8 +52,6 @@ public class DungeonResolver
         float _totalWeight = 0;
         foreach (var e in library.AllEvents)
         {
-            Debug.Log($"{e.Name}");
-            Debug.Log($"{missionResult.Dungeon.Name}");
             _totalWeight += CalculateEffectiveWeight(e, missionResult.Dungeon.CalculatedModifier);            
         }
         

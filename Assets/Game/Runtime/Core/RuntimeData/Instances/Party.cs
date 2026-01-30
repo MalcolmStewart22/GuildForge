@@ -24,7 +24,8 @@ public class Party
     public DungeonInstance CurrentMission;
     public PartyAction AssignedAction = PartyAction.Unassigned;
     public PartyProfileType Profile;
-    public PartyRunPressure CurrentPressure;
+    public PartyTraining TrainingInfo = new();
+    public PartyRunPressure CurrentPressure = new();
     public int CurrentLoot = 0;
 
 
@@ -83,7 +84,6 @@ public class Party
         }
         return _wages;
     }
-
     private void CalculatePartyStats()
     {
         foreach (Character c in LivingMembers)
@@ -118,99 +118,102 @@ public class Party
     {
         List<Character> _tookDamage = new();
         damage = Mathf.RoundToInt(damage * (1 - (PartyStats.healing / 200f))); //healing caps at 50% damage reduction
-        Debug.Log("Assigning " + damage + " damage!");
-        if(targets == DamageProfile.TankFocused)
+        if(damage > 0)
         {
-            bool _hasTank = false;
-            foreach (var c in PartyMembers)
+           Debug.Log("Assigning damage!");
+            if(targets == DamageProfile.TankFocused)
             {
-                if (c.Job == CharacterJob.Tank)
+                bool _hasTank = false;
+                foreach (var c in PartyMembers)
                 {
-                    _hasTank = true;
-                    c.TakeDamage(damage);
-                    _tookDamage.Add(c);
+                    if (c.Job == CharacterJob.Tank)
+                    {
+                        _hasTank = true;
+                        c.TakeDamage(damage);
+                        _tookDamage.Add(c);
+                    }
+                }
+                if(_hasTank == false)
+                {
+                    targets = DamageProfile.Everyone;
+                }
+                else
+                {
+                    return _tookDamage;
                 }
             }
-            if(_hasTank == false)
+            else if (targets == DamageProfile.DamageFocused)
             {
-                targets = DamageProfile.Everyone;
-            }
-            else
-            {
-                return _tookDamage;
-            }
-        }
-        else if (targets == DamageProfile.DamageFocused)
-        {
-            bool _hasDPS = false;
-            foreach (var c in PartyMembers)
-            {
-                if (c.Job == CharacterJob.Damage)
+                bool _hasDPS = false;
+                foreach (var c in PartyMembers)
                 {
-                    _hasDPS = true;
-                    c.TakeDamage(damage);
-                    _tookDamage.Add(c);
+                    if (c.Job == CharacterJob.Damage)
+                    {
+                        _hasDPS = true;
+                        c.TakeDamage(damage);
+                        _tookDamage.Add(c);
+                    }
+                }
+                if(_hasDPS == false)
+                {
+                    targets = DamageProfile.Everyone;
+                }
+                else
+                {
+                    return _tookDamage;
                 }
             }
-            if(_hasDPS == false)
+            else if (targets == DamageProfile.SupportFocused)
             {
-                targets = DamageProfile.Everyone;
-            }
-            else
-            {
-                return _tookDamage;
-            }
-        }
-        else if (targets == DamageProfile.SupportFocused)
-        {
-            bool _hasSup = false;
-            foreach (var c in PartyMembers)
-            {
-                if (c.Job == CharacterJob.Support)
+                bool _hasSup = false;
+                foreach (var c in PartyMembers)
                 {
-                    _hasSup = true;
-                    c.TakeDamage(damage);
-                    _tookDamage.Add(c);
+                    if (c.Job == CharacterJob.Support)
+                    {
+                        _hasSup = true;
+                        c.TakeDamage(damage);
+                        _tookDamage.Add(c);
+                    }
+                }
+                if(_hasSup == false)
+                {
+                    targets = DamageProfile.Everyone;
+                }
+                else
+                {
+                    return _tookDamage;
                 }
             }
-            if(_hasSup == false)
+            else if (targets == DamageProfile.Caught)
             {
-                targets = DamageProfile.Everyone;
-            }
-            else
-            {
-                return _tookDamage;
-            }
-        }
-        else if (targets == DamageProfile.Caught)
-        {
-            if(explicitTargets != null)
-            {
-                foreach (var c in explicitTargets)
+                if(explicitTargets != null)
                 {
-                    c.TakeDamage(damage);
-                    _tookDamage.Add(c);
+                    foreach (var c in explicitTargets)
+                    {
+                        c.TakeDamage(damage);
+                        _tookDamage.Add(c);
+                    }
+                    return _tookDamage;
                 }
-                return _tookDamage;
-            }
-            else
-            {
-                Debug.LogWarning("Attempted to damage Caught Party Memebers but list was empty!");
-            }
+                else
+                {
+                    Debug.LogWarning("Attempted to damage Caught Party Memebers but list was empty!");
+                }
 
-        }
-        if (targets == DamageProfile.Everyone)
-        {
-            foreach (var c in PartyMembers)
-            {
-                    c.TakeDamage(damage);
-                    _tookDamage.Add(c);
             }
-            return _tookDamage;
+            if (targets == DamageProfile.Everyone)
+            {
+                foreach (var c in PartyMembers)
+                {
+                        c.TakeDamage(damage);
+                        _tookDamage.Add(c);
+                }
+                return _tookDamage;
+            } 
         }
-        return null;
+        
+        return _tookDamage;
     }
-
     public List<LevelUpReport> AssignExp(int exp)
     {
         List<LevelUpReport> _report = new();
@@ -221,7 +224,6 @@ public class Party
         UpdateParty();
         return _report;
     }
-
     public bool StatusCheck() //return true if its time to flee
     {
         CurrentPressure = GameStateQueries.CalculateCurrentPressure(this);
@@ -239,7 +241,6 @@ public class Party
             }
         }
     }
-
     public string GetSafetyRating(DungeonInstance dungeon)
     {
         DungeonLevers _levers = GameStateQueries.GetDungeonLevers(dungeon.Rank);
@@ -265,6 +266,15 @@ public class Party
         else
         {
             return "Perfectly Safe";
+        }
+    }
+
+    public void Train()
+    {
+        TrainingPoint _training = new TrainingPoint(TrainingInfo);
+        foreach (Character c in PartyMembers)
+        {
+            c.TrainingPoints.AddNewTrainingPoints(_training);
         }
     }
 }

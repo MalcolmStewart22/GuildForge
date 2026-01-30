@@ -15,6 +15,7 @@ public class Character
     public int EXP = 0;
     public int HPMax;
     public int CurrentHP;
+    public TrainingPoint TrainingPoints = new();
     public StatBlock Base = new();
     public StatBlock Actual = new();
     public List<SO_Trait> Traits = new();
@@ -112,46 +113,9 @@ public class Character
         EXP = EXP - 100;
         Level += 1;
 
-        switch (Job)
-        {
-            case CharacterJob.Damage:
-                Base.might += 3;
-                Base.finesse += 1;
-                Base.endurance += 2;
-                Base.healing += 1;
-                Base.arcana += 2;
-                Base.control += 1;
-                Base.resolve += 1;
-                break;
-            case CharacterJob.Tank:
-                Base.might += 2;
-                Base.finesse += 1;
-                Base.endurance += 3;
-                Base.healing += 1;
-                Base.arcana += 1;
-                Base.control += 1;
-                Base.resolve += 2;
-                break;
-            case CharacterJob.Support:
-                Base.might += 1;
-                Base.finesse += 1;
-                Base.endurance += 2;
-                Base.healing += 3;
-                Base.arcana += 2;
-                Base.control += 1;
-                Base.resolve += 1;
-                break;
-            case CharacterJob.Control:
-                Base.might += 1;
-                Base.finesse += 2;
-                Base.endurance += 2;
-                Base.healing += 1;
-                Base.arcana += 1;
-                Base.control += 3;
-                Base.resolve += 1;
-                break;
-        }
+        Base.CombineStats(GameStateQueries.CalculateLevelUpIncrease(Job, TrainingPoints, Level % 2 == 0));
         CalculateActualStats();
+        TrainingPoints.Reset();
 
         float hpRatio = 1f * CurrentHP / HPMax;
         HPMax = Mathf.RoundToInt(1.5f * Actual.endurance);
@@ -167,7 +131,10 @@ public class Character
         }
         LastDamage = Mathf.RoundToInt(damage * (1 - (Actual.endurance / 200f)) * _mod); //endurance caps at 50% damage reduction
         CurrentHP -= LastDamage;
-        Debug.Log($"{Name} took {LastDamage} damage!" );
+        if(LastDamage > 0) 
+        {
+            Debug.Log($"{Name} took {LastDamage} damage!" );
+        }    
         if (CurrentHP <= 0)
         {
             CharacterDeath();

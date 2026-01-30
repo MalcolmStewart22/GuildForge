@@ -8,8 +8,9 @@ public class SO_GameConfig : ScriptableObject
     [Header("Game")] 
     public int MaxPartySize = 4;
     public int NumberOfDungeons = 10;
-    public List<JobStatFocus> JobStatMap = new();
+    public List<JobStat> JobStatMap = new();
     public HPLevers HPConfig;
+    public LevelUpIncrease BaseLevelIncrease = new();
 
 
     [Header("Game Length Levers")] 
@@ -76,11 +77,14 @@ public class GuildRankLevers
 }
 
 [System.Serializable]
-public class JobStatFocus
+public class JobStat
 {
     public CharacterJob Job;
     public StatType Primary;
     public StatType Secondary;
+    public StatType CombatStat;
+    public StatType Survival;
+
 }
 
 [System.Serializable]
@@ -109,4 +113,11 @@ public class HPLevers
     public float BaseRestHeal = .3f;
     public float RetreatHPFloor = .3f;
     public float SpikeHPFloor = .5f;
+}
+[System.Serializable]
+public class LevelUpIncrease
+{
+    public int PrimaryIncrease = 3;
+    public int SecondaryIncrease = 2;
+    public int TrainingIncrease = 1;
 }

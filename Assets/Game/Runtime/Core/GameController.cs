@@ -171,7 +171,6 @@ public class GameController : MonoBehaviour
         foreach (Party p in gameState.Parties)
         {
             PayGold(p.GetWages(), $"Wages for {p.PartyName}");
-            p.HealthCheck(Config.HPConfig);
         }
         
         if(IsTheGameOver())
@@ -205,6 +204,8 @@ public class GameController : MonoBehaviour
                     c.Heal(Config.HPConfig.BaseRestHeal);
                 }
             }
+            party.HealthCheck(Config.HPConfig);
+            party.Train();
         }
         return _results;
     }

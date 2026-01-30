@@ -5,35 +5,14 @@ using System;
 
 public static class GameStateQueries
 {
+    #region Setup
     private static SO_GameConfig Config;
-
     public static void Setup(SO_GameConfig config)
     {
         Config = config;
     }
-    public static List<DungeonInstance> GetFilteredDungeonList(string buttonName, GameState gameState)
-    {
-        switch(buttonName)
-        {
-            case "DesertButton":
-                return gameState.Dungeons.Where(d => d.Biome.Name == "Desert").ToList();
-            case "PlainsButton":
-                return gameState.Dungeons.Where(d => d.Biome.Name == "Plains").ToList();
-            case "MountainButton":
-                return gameState.Dungeons.Where(d => d.Biome.Name == "Mountains").ToList();
-            case "FrozenWastesButton":
-                return gameState.Dungeons.Where(d => d.Biome.Name == "Frozen Wastes").ToList();
-            case "ForestButton":
-                return gameState.Dungeons.Where(d => d.Biome.Name == "Forest").ToList();
-            case "SwampButton":
-                return gameState.Dungeons.Where(d => d.Biome.Name == "Swamp").ToList();
-            case "SubterraneanButton":
-                return gameState.Dungeons.Where(d => d.Biome.Name == "Subterranean").ToList();
-            case "VolcanicButton":
-                return gameState.Dungeons.Where(d => d.Biome.Name == "Volcanic").ToList();
-        }
-        return null;
-    }
+    #endregion
+    #region Basic Getters
     public static List<string> GetProfiles()
     {
         List<string> _result = new();
@@ -82,6 +61,48 @@ public static class GameStateQueries
         
         return 1; //if the switch somehow breaks (should be impossible) dont break the game 
     }
+    public static int GetWage(CharacterRank rank)
+    {
+        switch(rank)
+        {
+            case CharacterRank.E:
+                return Config.CharacterRankE.Wage;
+            case CharacterRank.D:
+                return Config.CharacterRankD.Wage;
+            case CharacterRank.C:
+                return Config.CharacterRankC.Wage;
+            case CharacterRank.B:
+                return Config.CharacterRankB.Wage;
+            case CharacterRank.A:
+                return Config.CharacterRankA.Wage;
+            case CharacterRank.S:
+                return Config.CharacterRankS.Wage;
+        }
+        return Config.CharacterRankE.Wage;
+    }
+    public static int GetLevelCap(CharacterRank rank)
+    {
+        switch(rank)
+        {
+            case CharacterRank.E:
+                return Config.CharacterRankE.LevelCap;
+            case CharacterRank.D:
+                return Config.CharacterRankD.LevelCap;
+            case CharacterRank.C:
+                return Config.CharacterRankC.LevelCap;
+            case CharacterRank.B:
+                return Config.CharacterRankB.LevelCap;
+            case CharacterRank.A:
+                return Config.CharacterRankA.LevelCap;
+            case CharacterRank.S:
+                return Config.CharacterRankS.LevelCap;
+        }
+        return Config.CharacterRankE.Wage;
+    }
+    public static PartyPressureWeight GetPressureWeights(PartyProfileType profile)
+    {
+        return Config.PartyProfiles.FirstOrDefault(p => p.ProfileType == profile).Weights;
+    }
     public static DungeonLevers GetDungeonLevers(DungeonRank rank)
     {
         switch(rank)
@@ -101,15 +122,124 @@ public static class GameStateQueries
         }
         return null;
     }
-    public static Party GetParty(GameState gameState)
+    #endregion
+    #region Filtered Getters
+    public static List<DungeonInstance> GetFilteredDungeonList(string buttonName, GameState gameState)
     {
-        return gameState.Parties[0];
+        switch(buttonName)
+        {
+            case "DesertButton":
+                return gameState.Dungeons.Where(d => d.Biome.Name == "Desert").ToList();
+            case "PlainsButton":
+                return gameState.Dungeons.Where(d => d.Biome.Name == "Plains").ToList();
+            case "MountainButton":
+                return gameState.Dungeons.Where(d => d.Biome.Name == "Mountains").ToList();
+            case "FrozenWastesButton":
+                return gameState.Dungeons.Where(d => d.Biome.Name == "Frozen Wastes").ToList();
+            case "ForestButton":
+                return gameState.Dungeons.Where(d => d.Biome.Name == "Forest").ToList();
+            case "SwampButton":
+                return gameState.Dungeons.Where(d => d.Biome.Name == "Swamp").ToList();
+            case "SubterraneanButton":
+                return gameState.Dungeons.Where(d => d.Biome.Name == "Subterranean").ToList();
+            case "VolcanicButton":
+                return gameState.Dungeons.Where(d => d.Biome.Name == "Volcanic").ToList();
+        }
+        return null;
+    }
+    public static List<Character> GetRecruitedCharactersOfRank(CharacterRank rank, GameState gameState)
+    {
+        switch(rank)
+        {
+            case CharacterRank.E:
+                return gameState.Recruited.Where(c => c.Rank == CharacterRank.E).ToList();
+            case CharacterRank.D:
+                return gameState.Recruited.Where(c => c.Rank == CharacterRank.D).ToList();
+            case CharacterRank.C:
+                return gameState.Recruited.Where(c => c.Rank == CharacterRank.C).ToList();
+            case CharacterRank.B:
+                return gameState.Recruited.Where(c => c.Rank == CharacterRank.B).ToList();
+            case CharacterRank.A:
+                return gameState.Recruited.Where(c => c.Rank == CharacterRank.A).ToList();
+            case CharacterRank.S:
+                return gameState.Recruited.Where(c => c.Rank == CharacterRank.S).ToList();
+        }
+        return null;
+    }
+    public static List<Party> GetUnassignedParties(GameState gameState)
+    {
+        return gameState.Parties.Where(p => p.AssignedAction == PartyAction.Unassigned).ToList();
+    }
+    #endregion
+
+    #region Calculators
+    public static PartyRunPressure CalculateCurrentPressure(Party party)
+    {
+        PartyPressureWeight weights = GetPressureWeights(party.Profile);
+        PartyRunPressure _result = new();
+        //DeathPressure
+        List<Character> temp = new List<Character>(party.PartyMembers);
+        foreach (var c in temp)
+        {
+            if(!c.IsAlive)
+            {
+                _result.DeathPressure = 1 * weights.DeathPressureModifier;
+            }
+        }
+    
+        // hp pressure & Spike Pressure
+        foreach(Character c in party.PartyMembers)
+        {
+            float currentHPPercent = (float)c.CurrentHP / c.HPMax;
+            _result.HPPressure += (1 - currentHPPercent) / (1 - Config.HPConfig.RetreatHPFloor) * weights.HPPressureModifier; 
+
+            _result.SpikePressure += Mathf.Clamp01(c.LastDamage / (Config.HPConfig.SpikeHPFloor * c.HPMax)) * weights.SpikePressureModifier;
+        }
+        _result.HPPressure = _result.HPPressure / party.PartyMembers.Count;
+        _result.SpikePressure = _result.SpikePressure / party.PartyMembers.Count;
+        
+        //LootPressure
+        int _min = GetDungeonMinimumPayout(party.CurrentMission.Rank);
+        _result.LootPressure = Mathf.Clamp01((float)party.CurrentLoot / (_min * 2)) * weights.LootPressureModifier;
+
+        Debug.Log("Current Party Pressure");
+        Debug.Log("HP: " + _result.HPPressure);
+        Debug.Log("Death: " + _result.DeathPressure);
+        Debug.Log("Spike: " + _result.SpikePressure);
+        Debug.Log("Loot: " + _result.LootPressure);
+        return _result;
+    }
+    public static bool CalculateRetreatOrders(PartyRunPressure pressure)
+    {
+        if(pressure.HPPressure > Config.PressureThresholds.HPThreshold)
+        {
+            return true;
+        }
+        else if(pressure.SpikePressure > Config.PressureThresholds.SpikeThreshold)
+        {
+            return true;
+        }
+        else if(pressure.DeathPressure > Config.PressureThresholds.DeathThreshold)
+        {
+            return true;
+        }
+        else if(pressure.LootPressure > Config.PressureThresholds.LootThreshold)
+        {
+            return true;
+        }
+        else if(pressure.HPPressure + pressure.SpikePressure + pressure.DeathPressure + pressure.LootPressure > Config.PressureThresholds.TotalThreshold)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
     public static int GetDungeonMinimumPayout(DungeonRank rank)
     {
         return  (int)MathF.Round(Config.MaxPartySize * GetWage((CharacterRank)rank) * (1 / Config.ExpectedMissionRatio));
     }
-
     public static CharacterRankEvaluation GetCharacterRankEvaluation(Character character, int gold)//Cant be called on S rank character - Prevention logic will live elsewhere
     {
         CharacterRankEvaluation _result = new();
@@ -119,7 +249,7 @@ public static class GameStateQueries
             _result.CanPromote = false;
             return _result;
         }
-        JobStatFocus _focus = Config.JobStatMap.First(x => x.Job == character.Job);
+        JobStat _focus = Config.JobStatMap.First(x => x.Job == character.Job);
         _result.PrimaryStat = _focus.Primary;
         _result.SecondaryStat = _focus.Secondary;
         Debug.Log($"Focus collected: {_focus.Job} {_focus.Primary} {_focus.Secondary}");
@@ -184,7 +314,6 @@ public static class GameStateQueries
 
         return _result;   
     }
-
     public static GuildRankEvaluation GetGuildRankEvaluation(GameState gameState)
     {
         GuildRankEvaluation _result = new();
@@ -245,66 +374,31 @@ public static class GameStateQueries
 
         return _result;
     }
-    public static List<Character> GetRecruitedCharactersOfRank(CharacterRank rank, GameState gameState)
+    public static StatBlock CalculateLevelUpIncrease(CharacterJob job, TrainingPoint training, bool getGeneralIncrease)
     {
-        switch(rank)
+        StatBlock _result = new();
+        JobStat _jobMap = Config.JobStatMap.First(j => j.Job == job);
+        //Base Increase
+        _result.ModifyStat(_jobMap.Primary, Config.BaseLevelIncrease.PrimaryIncrease);
+        _result.ModifyStat(_jobMap.Secondary, Config.BaseLevelIncrease.SecondaryIncrease);
+        //Training Increase
+        _result.ModifyStat(training.Combat > training.Survival ? _jobMap.CombatStat : _jobMap.Survival, Config.BaseLevelIncrease.TrainingIncrease);
+        _result.ModifyStat(training.Conditioning > training.Study ? StatType.Endurance : _jobMap.Primary, Config.BaseLevelIncrease.TrainingIncrease);
+        _result.ModifyStat(training.Medicine > training.Reflection ? StatType.Healing : StatType.Resolve, Config.BaseLevelIncrease.TrainingIncrease);
+        //General Increase
+        if(getGeneralIncrease)
         {
-            case CharacterRank.E:
-                return gameState.Recruited.Where(c => c.Rank == CharacterRank.E).ToList();
-            case CharacterRank.D:
-                return gameState.Recruited.Where(c => c.Rank == CharacterRank.D).ToList();
-            case CharacterRank.C:
-                return gameState.Recruited.Where(c => c.Rank == CharacterRank.C).ToList();
-            case CharacterRank.B:
-                return gameState.Recruited.Where(c => c.Rank == CharacterRank.B).ToList();
-            case CharacterRank.A:
-                return gameState.Recruited.Where(c => c.Rank == CharacterRank.A).ToList();
-            case CharacterRank.S:
-                return gameState.Recruited.Where(c => c.Rank == CharacterRank.S).ToList();
+            _result.GeneralIncrease(1);
         }
-        return null;
+        return _result;
     }
+    #endregion
 
-    public static int GetWage(CharacterRank rank)
+    #region Temporary or unsorted
+    public static Party GetParty(GameState gameState)
     {
-        switch(rank)
-        {
-            case CharacterRank.E:
-                return Config.CharacterRankE.Wage;
-            case CharacterRank.D:
-                return Config.CharacterRankD.Wage;
-            case CharacterRank.C:
-                return Config.CharacterRankC.Wage;
-            case CharacterRank.B:
-                return Config.CharacterRankB.Wage;
-            case CharacterRank.A:
-                return Config.CharacterRankA.Wage;
-            case CharacterRank.S:
-                return Config.CharacterRankS.Wage;
-        }
-        return Config.CharacterRankE.Wage;
+        return gameState.Parties[0];
     }
-
-    public static int GetLevelCap(CharacterRank rank)
-    {
-        switch(rank)
-        {
-            case CharacterRank.E:
-                return Config.CharacterRankE.LevelCap;
-            case CharacterRank.D:
-                return Config.CharacterRankD.LevelCap;
-            case CharacterRank.C:
-                return Config.CharacterRankC.LevelCap;
-            case CharacterRank.B:
-                return Config.CharacterRankB.LevelCap;
-            case CharacterRank.A:
-                return Config.CharacterRankA.LevelCap;
-            case CharacterRank.S:
-                return Config.CharacterRankS.LevelCap;
-        }
-        return Config.CharacterRankE.Wage;
-    }
-
     public static string GenerateName(string item)
     {
         System.Random rng = new System.Random();
@@ -330,74 +424,10 @@ public static class GameStateQueries
         }
         return name;
     }
-
-
-    public static List<Party> GetUnassignedParties(GameState gameState)
-    {
-        return gameState.Parties.Where(p => p.AssignedAction == PartyAction.Unassigned).ToList();
-    }
-
-    public static PartyRunPressure CalculateCurrentPressure(Party party)
-    {
-        PartyPressureWeight weights = GetPressureWeights(party.Profile);
-        PartyRunPressure _result = new();
-        //DeathPressure
-        List<Character> temp = new List<Character>(party.PartyMembers);
-        foreach (var c in temp)
-        {
-            if(!c.IsAlive)
-            {
-                _result.DeathPressure = 1 * weights.DeathPressureModifier;
-            }
-        }
+    #endregion
     
-        // hp pressure & Spike Pressure
-        foreach(Character c in party.PartyMembers)
-        {
-            float currentHPPercent = (float)c.CurrentHP / c.HPMax;
-            _result.HPPressure += Mathf.Clamp01((1 - currentHPPercent) / (1 - Config.HPConfig.RetreatHPFloor)) * weights.HPPressureModifier; 
+    
 
-            _result.SpikePressure += Mathf.Clamp01(c.LastDamage / (Config.HPConfig.SpikeHPFloor * c.HPMax)) * weights.SpikePressureModifier;
-        }
-        _result.HPPressure = _result.HPPressure / party.PartyMembers.Count;
-        _result.SpikePressure = _result.SpikePressure / party.PartyMembers.Count;
-        
-        //LootPressure
-        int _min = GetDungeonMinimumPayout(party.CurrentMission.Rank);
-        _result.LootPressure = Mathf.Clamp01((float)party.CurrentLoot / (_min * 2)) * weights.LootPressureModifier;
 
-        return _result;
-    }
-    public static bool CalculateRetreatOrders(PartyRunPressure pressure)
-    {
-        if(pressure.HPPressure > Config.PressureThresholds.HPThreshold)
-        {
-            return true;
-        }
-        else if(pressure.SpikePressure > Config.PressureThresholds.SpikeThreshold)
-        {
-            return true;
-        }
-        else if(pressure.DeathPressure > Config.PressureThresholds.DeathThreshold)
-        {
-            return true;
-        }
-        else if(pressure.LootPressure > Config.PressureThresholds.LootThreshold)
-        {
-            return true;
-        }
-        else if(pressure.HPPressure + pressure.SpikePressure + pressure.DeathPressure + pressure.LootPressure > Config.PressureThresholds.TotalThreshold)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
 
-    public static PartyPressureWeight GetPressureWeights(PartyProfileType profile)
-    {
-        return Config.PartyProfiles.FirstOrDefault(p => p.ProfileType == profile).Weights;
-    }
 }
