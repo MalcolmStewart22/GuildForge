@@ -7,7 +7,13 @@ public class DetailPanel : MonoBehaviour
      TraitsListView traitsListView;
     [SerializeField]
      CharacterListView characterListView;
-     private Party currentParty; 
+     DropdownField profileDropdown;
+     Slider combatvSurvival;
+     Slider conditioningvStudy;
+     Slider medicinevReflection;
+     Button saveButton;
+     private Party currentParty;
+
     public void PopulateDungeonDetails(DungeonInstance dungeon, VisualElement container, string safety)
     {
         var _dungeonName = container.Q<Label>("DungeonName");
@@ -125,20 +131,57 @@ public class DetailPanel : MonoBehaviour
     public void PopulatePartyList(VisualElement container, Party party)
     {
         currentParty = party;
+        // profile
+        profileDropdown = container.Q<DropdownField>("PartyProfiles");
+        profileDropdown.choices = GameStateQueries.GetProfiles();
+        profileDropdown.SetValueWithoutNotify(party.Profile.ToString());
+        
+        // Training
+        combatvSurvival = container.Q<Slider>("CombatvsSurvivalSlider");
+        combatvSurvival.SetValueWithoutNotify(party.TrainingInfo.CombatvsSurvival);
+        conditioningvStudy = container.Q<Slider>("ConditioningvsStudySlider");
+        conditioningvStudy.SetValueWithoutNotify(party.TrainingInfo.ConditioningvsStudy);
+        medicinevReflection = container.Q<Slider>("MedicinevsReflectionSlider");
+        medicinevReflection.SetValueWithoutNotify(party.TrainingInfo.MedicinevsReflection);
 
-        DropdownField _profileDropdown = container.Q<DropdownField>("PartyProfiles");
-        _profileDropdown.choices = GameStateQueries.GetProfiles();
-        _profileDropdown.value = party.Profile.ToString();
-        _profileDropdown.RegisterValueChangedCallback(OnProfileDropdownChanged);
+        saveButton = container.Q<Button>("SavePartyConfig");
+        saveButton.style.display = DisplayStyle.None;
+        
+        SetupCallbacks();
 
         container.Q<Label>("PartyName").text = party.PartyName;
 
         characterListView.ShowRoster(party.PartyMembers);
-
     }
 
-    private void OnProfileDropdownChanged(ChangeEvent<string> evt)
+    #region On config changed methods and setup
+    void SetupCallbacks()
     {
-        currentParty.Profile = GameStateQueries.GetProfileType(evt.newValue);
+        profileDropdown.UnregisterValueChangedCallback(OnConfigChanged);
+        combatvSurvival.UnregisterValueChangedCallback(OnConfigChanged);
+        conditioningvStudy.UnregisterValueChangedCallback(OnConfigChanged);
+        medicinevReflection.UnregisterValueChangedCallback(OnConfigChanged);
+
+        profileDropdown.RegisterValueChangedCallback(OnConfigChanged);
+        combatvSurvival.RegisterValueChangedCallback(OnConfigChanged);
+        conditioningvStudy.RegisterValueChangedCallback(OnConfigChanged);
+        medicinevReflection.RegisterValueChangedCallback(OnConfigChanged);
+    }
+    private void OnConfigChanged(ChangeEvent<string> newProfile)
+    {
+        Debug.Log("Profile Changed!");
+        saveButton.style.display = DisplayStyle.Flex;
+    }
+    private void OnConfigChanged(ChangeEvent<float> newValue)
+    {
+        saveButton.style.display = DisplayStyle.Flex;
+    }
+    #endregion
+    public void SavePartyConfig()
+    {
+        currentParty.Profile = GameStateQueries.GetProfileType(profileDropdown.value);
+        currentParty.TrainingInfo.CombatvsSurvival = combatvSurvival.value;
+        currentParty.TrainingInfo.ConditioningvsStudy = conditioningvStudy.value;
+        currentParty.TrainingInfo.MedicinevsReflection = medicinevReflection.value;
     }
 }

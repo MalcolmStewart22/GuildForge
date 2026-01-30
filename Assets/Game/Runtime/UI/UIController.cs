@@ -77,17 +77,20 @@ public class UIController : MonoBehaviour
                     btn.clicked += () => OnNextButtonClicked();
                     break;
                 case "ResumeButton":
-                     btn.clicked += () => CloseFocusedElement();
+                    btn.clicked += () => CloseFocusedElement();
                     break;
                 case "StartOverButton":
-                     btn.clicked += () => gameController.Restart();
+                    btn.clicked += () => gameController.Restart();
                     break;
                 case "SendPartyButton":
                     //will need to implement party selection screens later
                     btn.clicked += () => gameController.DungeonStart(currentDungeon, currentParty);
                     break;
                 case "ConfirmButton":
-                     btn.clicked += () => CloseFocusedElement();
+                    btn.clicked += () => CloseFocusedElement();
+                    break;
+                case "SavePartyConfig":
+                    btn.clicked += () => detailPanel.SavePartyConfig();
                     break;
                 default:
                     btn.clicked += () => OnMenuClicked(btn.name);
@@ -255,11 +258,11 @@ public class UIController : MonoBehaviour
         {
             case "SideboardExitButton":
                 root.Q<VisualElement>("Sideboard").style.display = DisplayStyle.None;
-                root.Q<VisualElement>("DetailsBoard").style.display = DisplayStyle.None;
+                root.Q<VisualElement>("DetailsLayer").style.display = DisplayStyle.None;
                 FocusedElements.Clear();
                 break;
-            case "DetailsExitButton":
-                root.Q<VisualElement>("DetailsBoard").style.display = DisplayStyle.None;
+            default:
+                CloseFocusedElement();
                 break;
         }
     }
@@ -410,6 +413,10 @@ public class UIController : MonoBehaviour
         _detailsBoard.Q<VisualElement>("DungeonLayer").style.display = DisplayStyle.None;
 
         detailPanel.PopulatePartyList(_container.Q<VisualElement>("PartyDetails"), party);
+        if (FocusedElements.Count == 0 || FocusedElements.Peek() != _detailsBoard)
+        {
+            FocusedElements.Push(_detailsBoard);
+        }
     }
         private void CharacterSelected(Character character)
     {
@@ -421,10 +428,10 @@ public class UIController : MonoBehaviour
         _container.style.display = DisplayStyle.Flex;
 
         detailPanel.PopulateCharacterDetails(character, _container, gameController.State.CurrentGold);
-        if (FocusedElements.Count == 0 || FocusedElements.Peek() != _detailsBoard)
+        if (FocusedElements.Count == 0 || FocusedElements.Peek() != _container)
         {
-            FocusedElements.Push(_detailsBoard);
-        }   
+            FocusedElements.Push(_container);
+        }  
         if(currentCharacter.Rank == CharacterRank.S)
         {
             _detailsBoard.Q<Button>("RankUpButton").SetEnabled(false);
